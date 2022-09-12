@@ -70,7 +70,7 @@
                                 >
                                     @foreach ($option['values'] as $value)
                                         <button
-                                            class="px-6 py-4 font-medium border rounded-lg focus:outline-none focus:ring"
+                                            class="px-6 py-4 font-medium border rounded-3xl focus:outline-none"
                                             type="button"
                                             wire:click="
                                                 $set('selectedOptionValues.{{ $option['option']->id }}', {{ $value->id }})

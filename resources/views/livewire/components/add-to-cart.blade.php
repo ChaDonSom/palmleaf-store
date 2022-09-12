@@ -8,19 +8,20 @@
                 Quantity
             </label>
 
-            <input
-                class="w-16 px-1 py-4 text-sm text-center transition border border-gray-100 rounded-lg no-spinners"
+            <x-input.text
+                class="w-16 px-1 py-4 text-sm text-center transition border border-gray-100 rounded-3xl no-spinners"
                 type="number"
                 id="quantity"
                 min="1"
                 value="1"
                 wire:model="quantity"
+                onfocus="this.select()"
             />
         </div>
 
         <button
             type="submit"
-            class="w-full px-6 py-4 text-sm font-medium text-center text-white bg-indigo-600 rounded-lg hover:bg-indigo-700"
+            class="w-full px-6 py-4 text-sm font-medium text-center text-white bg-indigo-600 rounded-3xl hover:bg-indigo-700"
             wire:click.prevent="addToCart"
         >
             Add to Cart

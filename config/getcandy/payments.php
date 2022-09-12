@@ -8,5 +8,8 @@ return [
             'driver'     => 'offline',
             'authorized' => 'payment-offline',
         ],
+        'card' => [
+            'driver' => 'stripe',
+        ]
     ],
 ];

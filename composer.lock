@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "463827fa7d80810f3cfb6d49914af33f",
+    "content-hash": "98b127d637700d9cf518720b2fca0ae6",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2000,6 +2000,74 @@
             "time": "2022-05-21T17:30:32+00:00"
         },
         {
+            "name": "itsgoingd/clockwork",
+            "version": "v5.1.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/itsgoingd/clockwork.git",
+                "reference": "2cad6c75dc2b96cbfd48c0511bb035a4e328c17f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/itsgoingd/clockwork/zipball/2cad6c75dc2b96cbfd48c0511bb035a4e328c17f",
+                "reference": "2cad6c75dc2b96cbfd48c0511bb035a4e328c17f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=5.6"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Clockwork\\Support\\Laravel\\ClockworkServiceProvider"
+                    ],
+                    "aliases": {
+                        "Clockwork": "Clockwork\\Support\\Laravel\\Facade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Clockwork\\": "Clockwork/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "itsgoingd",
+                    "email": "itsgoingd@luzer.sk",
+                    "homepage": "https://twitter.com/itsgoingd"
+                }
+            ],
+            "description": "php dev tools in your browser",
+            "homepage": "https://underground.works/clockwork",
+            "keywords": [
+                "Devtools",
+                "debugging",
+                "laravel",
+                "logging",
+                "lumen",
+                "profiling",
+                "slim"
+            ],
+            "support": {
+                "issues": "https://github.com/itsgoingd/clockwork/issues",
+                "source": "https://github.com/itsgoingd/clockwork/tree/v5.1.7"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/itsgoingd",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-08-14T21:23:22+00:00"
+        },
+        {
             "name": "kalnoy/nestedset",
             "version": "v6.0.1",
             "source": {
@@ -3125,21 +3193,21 @@
         },
         {
             "name": "meilisearch/meilisearch-php",
-            "version": "v0.21.0",
+            "version": "v0.24.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/meilisearch/meilisearch-php.git",
-                "reference": "4816d0922d25dfa46f813a4a92ac9aa4ab911f0c"
+                "reference": "7f7b350480bce4bc80efc9a613a820261a96ef8b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/meilisearch/meilisearch-php/zipball/4816d0922d25dfa46f813a4a92ac9aa4ab911f0c",
-                "reference": "4816d0922d25dfa46f813a4a92ac9aa4ab911f0c",
+                "url": "https://api.github.com/repos/meilisearch/meilisearch-php/zipball/7f7b350480bce4bc80efc9a613a820261a96ef8b",
+                "reference": "7f7b350480bce4bc80efc9a613a820261a96ef8b",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "php": "^7.3 || ^8.0",
+                "php": "^7.4 || ^8.0",
                 "php-http/client-common": "^2.0",
                 "php-http/discovery": "^1.7",
                 "php-http/httplug": "^2.1"
@@ -3149,10 +3217,10 @@
                 "guzzlehttp/guzzle": "^7.1",
                 "http-interop/http-factory-guzzle": "^1.0",
                 "phpstan/extension-installer": "^1.1",
-                "phpstan/phpstan": "^0.12.87",
-                "phpstan/phpstan-deprecation-rules": "^0.12.6",
-                "phpstan/phpstan-phpunit": "^0.12.19",
-                "phpstan/phpstan-strict-rules": "^0.12.9",
+                "phpstan/phpstan": "^1.4",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "phpstan/phpstan-strict-rules": "^1.1",
                 "phpunit/phpunit": "^9.5"
             },
             "suggest": {
@@ -3175,7 +3243,7 @@
                     "email": "clementine@meilisearch.com"
                 }
             ],
-            "description": "PHP wrapper for the MeiliSearch API",
+            "description": "PHP wrapper for the Meilisearch API",
             "keywords": [
                 "api",
                 "client",
@@ -3186,9 +3254,9 @@
             ],
             "support": {
                 "issues": "https://github.com/meilisearch/meilisearch-php/issues",
-                "source": "https://github.com/meilisearch/meilisearch-php/tree/v0.21.0"
+                "source": "https://github.com/meilisearch/meilisearch-php/tree/v0.24.2"
             },
-            "time": "2022-01-12T14:53:16+00:00"
+            "time": "2022-08-16T15:18:17+00:00"
         },
         {
             "name": "monolog/monolog",
