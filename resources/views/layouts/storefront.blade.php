@@ -7,10 +7,10 @@
         name="viewport"
         content="width=device-width, initial-scale=1"
     >
-    <title>Demo Storefront</title>
+    <title>{{ config('app.name', 'Laravel') }}</title>
     <meta
         name="description"
-        content="Example of an ecommerce storefront built with GetCandy."
+        content="Hand-made memorabilia by Maria Somero"
     >
     <link
         href="{{ asset('css/app.css') }}"
