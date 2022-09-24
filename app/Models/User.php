@@ -64,4 +64,12 @@ class User extends Authenticatable
     public function customers() {
         return $this->belongsToMany(Customer::class, 'getcandy_customer_user');
     }
+
+    public function getFirstNameAttribute() {
+        return explode(" ", $this->name)[0];
+    }
+
+    public function getLastNameAttribute() {
+        return collect(explode(" ", $this->name))->slice(1)->join(" ");
+    }
 }
