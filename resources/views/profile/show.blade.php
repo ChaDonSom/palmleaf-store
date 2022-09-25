@@ -1,11 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Profile') }}
-        </h2>
     </x-slot>
 
     <div>
+        {{-- <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Profile') }}
+        </h2> --}}
         <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
             @if (Laravel\Fortify\Features::canUpdateProfileInformation())
                 @livewire('profile.update-profile-information-form')
@@ -14,14 +14,10 @@
             @endif
 
             <div class="mt-10 sm:mt-0">
-                <livewire:profile.update-shipping-address-form />
-                <x-jet-section-border />
+                <livewire:profile.addresses />
             </div>
 
-            <div class="mt-10 sm:mt-0">
-                <livewire:profile.update-billing-address-form />
-                <x-jet-section-border />
-            </div>
+            <x-jet-section-border />
 
             @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::updatePasswords()))
                 <div class="mt-10 sm:mt-0">

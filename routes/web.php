@@ -6,6 +6,7 @@ use App\Http\Livewire\CollectionPage;
 use App\Http\Livewire\Home;
 use App\Http\Livewire\ProductPage;
 use App\Http\Livewire\SearchPage;
+use GetCandy\Models\Address;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,4 +40,8 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    Route::get('/user/profile/addresses/{address}', function (Address $address) {
+        return view('profile.addresses.edit', [ 'address' => $address ]);
+    })->name('profile-edit-address');
 });
