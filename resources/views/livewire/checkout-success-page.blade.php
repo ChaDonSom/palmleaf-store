@@ -13,7 +13,7 @@
                     🥳
                 </span>
 
-                <span class="block mt-1 text-blue-500">
+                <span class="block mt-1 text-green-500">
                     Order Successful!
                 </span>
             </h1>
@@ -27,7 +27,7 @@
             </p>
 
             <a
-                class="inline-block px-8 py-3 mt-8 text-sm font-medium text-center text-white bg-blue-600 rounded-lg hover:ring-1 hover:ring-blue-600"
+                class="inline-block px-8 py-3 mt-8 text-sm font-medium text-center text-white bg-green-600 rounded-3xl hover:ring-1 hover:ring-green-600"
                 href="{{ url('/') }}"
             >
                 Back Home

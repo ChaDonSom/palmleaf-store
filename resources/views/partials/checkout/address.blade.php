@@ -24,7 +24,7 @@
 
         @if ($currentStep > $step)
             <button
-                class="px-5 py-2 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-100 hover:text-gray-700"
+                class="px-5 py-2 text-sm font-medium text-gray-600 rounded-3xl hover:bg-gray-100 hover:text-gray-700"
                 type="button"
                 wire:click.prevent="$set('currentStep', {{ $step }})"
             >
@@ -160,7 +160,7 @@
                         required
                     >
                         <select
-                            class="w-full p-3 border border-gray-200 rounded-lg sm:text-sm"
+                            class="w-full p-3 border border-gray-200 rounded-3xl sm:text-sm focus:ring-green-600"
                             wire:model.defer="{{ $type }}.country_id"
                         >
                             <option value>Select a country</option>

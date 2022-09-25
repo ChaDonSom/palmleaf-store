@@ -21,7 +21,7 @@
     @endif
     <div class="flex justify-end w-full p-4 bg-gray-100">
         <div>
-            <button type="submit" wire:key="submit_btn" class="px-5 py-3 font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-500">
+            <button type="submit" wire:key="submit_btn" class="px-5 py-3 font-medium text-white bg-green-700 rounded-3xl hover:bg-green-600">
                 Continue
             </button>
         </div>
