@@ -4,7 +4,7 @@
     </x-slot>
 
     <x-slot name="description">
-        {{ __('Update your account\'s profile information and email address.') }}
+        {{ __('Update your account\'s profile and contact information.') }}
     </x-slot>
 
     <x-slot name="form">
@@ -53,17 +53,21 @@
         @endif
 
         <!-- Name -->
-        <div class="col-span-6 sm:col-span-4">
-            <x-jet-label for="name" value="{{ __('Name') }}" />
-            <x-jet-input id="name" type="text" class="mt-1 block w-full" wire:model.defer="state.name" autocomplete="name" />
-            <x-jet-input-error for="name" class="mt-2" />
-        </div>
+        <x-input.group
+            class="col-span-6 sm:col-span-4"
+            label="{{ __('Name') }}"
+            :errors="$errors->get('phone')"
+        >
+            <x-input.text id="name" type="text" class="mt-1 block w-full" wire:model.defer="state.name" autocomplete="name" />
+        </x-input.group>
 
         <!-- Email -->
-        <div class="col-span-6 sm:col-span-4">
-            <x-jet-label for="email" value="{{ __('Email') }}" />
-            <x-jet-input id="email" type="email" class="mt-1 block w-full" wire:model.defer="state.email" />
-            <x-jet-input-error for="email" class="mt-2" />
+        <x-input.group
+            class="col-span-6 sm:col-span-4"
+            label="{{ __('Email') }}"
+            :errors="$errors->get('email')"
+        >
+            <x-input.text id="email" type="email" class="mt-1 block w-full" wire:model.defer="state.email" />
 
             @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::emailVerification()) && ! $this->user->hasVerifiedEmail())
                 <p class="text-sm mt-2">
@@ -80,7 +84,25 @@
                     </p>
                 @endif
             @endif
-        </div>
+        </x-input.group>
+
+        <!-- Phone -->
+        <x-input.group
+            class="col-span-3 sm:col-span-2"
+            label="{{ __('Phone') }}"
+            :errors="$errors->get('phone')"
+        >
+            <x-input.text id="phone" type="tel" class="mt-1 block w-full" wire:model.defer="state.phone" autocomplete="phone" />
+        </x-input.group>
+
+        <!-- Company Name -->
+        <x-input.group
+            class="col-span-6 sm:col-span-4"
+            label="{{ __('Company Name') }}"
+            :errors="$errors->get('company_name')"
+        >
+            <x-input.text id="company_name" type="text" class="mt-1 block w-full" wire:model.defer="state.company_name" autocomplete="company_name" />
+        </x-input.group>
     </x-slot>
 
     <x-slot name="actions">

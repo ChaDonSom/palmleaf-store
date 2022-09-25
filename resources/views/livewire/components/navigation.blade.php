@@ -29,12 +29,12 @@
                 @livewire('components.cart')
 
                 @if (Route::has('login'))
-                    <div class="hidden sm:block">
+                    <div class="hidden lg:block whitespace-nowrap">
                         @auth
                         @else
-                            <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
+                            <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">{{ __('Log in') }}</a>
                             @if (Route::has('register'))
-                                <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
+                                <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">{{ __('Register') }}</a>
                             @endif
                         @endauth
                     </div>
@@ -139,6 +139,19 @@
                                     </a>
                                 </li>
                             @endforeach
+
+                            @auth
+                            @else
+                                <li><hr></li>
+                                <li>
+                                    <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
+                                </li>
+                                @if (Route::has('register'))
+                                    <li>
+                                        <a href="{{ route('register') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
+                                    </li>
+                                @endif
+                            @endauth
                         </ul>
                     </div>
                 </div>
