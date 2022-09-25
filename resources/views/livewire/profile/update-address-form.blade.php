@@ -73,6 +73,12 @@
     </x-slot>
 
     <x-slot name="actions">
+        @if($address->id)
+            <x-jet-danger-button wire:loading.attr="disabled" type="button" class="mr-auto" wire:click="deleteAddress">
+                {{ __('DELETE') }}
+            </x-jet-danger-button>
+        @endif
+
         <x-jet-action-message class="mr-3" on="saved">
             {{ __('Saved.') }}
         </x-jet-action-message>

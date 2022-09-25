@@ -51,7 +51,7 @@ class UpdateAddressForm extends Component
             'address.line_three' => 'nullable',
             'address.state' => 'nullable',
             'address.delivery_instructions' => 'nullable',
-            'address.contact_email' => 'nullable|email',
+            'address.contact_email' => 'required|email',
             'address.contact_phone' => 'nullable',
             'address.shipping_default' => 'required|boolean',
             'address.billing_default' => 'required|boolean',
@@ -75,6 +75,14 @@ class UpdateAddressForm extends Component
                     'shipping_default' => false,
                 ]);
         }
+                
+        $this->address->fill($validatedData['address'])->save();
+
+        $this->emit('saved');
+    }
+
+    public function deleteAddress() {
+        $this->address->delete();
 
         $this->emit('saved');
     }
