@@ -8,6 +8,7 @@ use GetCandy\Facades\ShippingManifest;
 use GetCandy\Models\Cart;
 use GetCandy\Models\CartAddress;
 use GetCandy\Models\Country;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\ComponentConcerns\PerformsRedirects;
 
@@ -116,10 +117,16 @@ class CheckoutPage extends Component
      */
     public function mount()
     {
-        if (! $this->cart = CartSession::current()) {
+        if (!$this->cart = CartSession::current()) {
             $this->redirect('/');
 
             return;
+        }
+
+        if ($this->cart && Auth::user() && !$this->cart->user) {
+            CartSession::associate($this->cart, Auth::user(), 'merge');
+            $this->cart->user_id = Auth::user()->id;
+            $this->cart->save();
         }
 
         if ($this->payment_intent) {
@@ -136,8 +143,19 @@ class CheckoutPage extends Component
         }
 
         // Do we have a shipping address?
+        $userShippingAddress = $this->cart->user?->customers->first()->addresses()->where('shipping_default', true)->first();
+        if ($userShippingAddress) {
+            $this->cart->getManager()->setShippingAddress($userShippingAddress);
+            $this->cart->save();
+        }
         $this->shipping = $this->cart->shippingAddress ?: new CartAddress;
 
+        // What about a billing address?
+        $userBillingAddress = $this->cart->user?->customers->first()->addresses()->where('billing_default', true)->first();
+        if ($userBillingAddress) {
+            $this->cart->getManager()->setBillingAddress($userBillingAddress);
+            $this->cart->save();
+        }
         $this->billing = $this->cart->billingAddress ?: new CartAddress;
 
         $this->determineCheckoutStep();
@@ -212,7 +230,7 @@ class CheckoutPage extends Component
     {
         $shippingAddress = $this->cart->shippingAddress;
 
-        if (! $shippingAddress) {
+        if (!$shippingAddress) {
             return;
         }
 
