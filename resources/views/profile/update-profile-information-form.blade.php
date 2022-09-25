@@ -85,24 +85,6 @@
                 @endif
             @endif
         </x-input.group>
-
-        <!-- Phone -->
-        <x-input.group
-            class="col-span-3 sm:col-span-2"
-            label="{{ __('Phone') }}"
-            :errors="$errors->get('phone')"
-        >
-            <x-input.text id="phone" type="tel" class="mt-1 block w-full" wire:model.defer="state.phone" autocomplete="phone" />
-        </x-input.group>
-
-        <!-- Company Name -->
-        <x-input.group
-            class="col-span-6 sm:col-span-4"
-            label="{{ __('Company Name') }}"
-            :errors="$errors->get('company_name')"
-        >
-            <x-input.text id="company_name" type="text" class="mt-1 block w-full" wire:model.defer="state.company_name" autocomplete="company_name" />
-        </x-input.group>
     </x-slot>
 
     <x-slot name="actions">
