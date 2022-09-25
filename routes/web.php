@@ -41,7 +41,11 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 
+
+    Route::get('/user/profile/addresses/create', function () {
+        return view('profile.addresses.show', ['address' => null]);
+    })->name('profile-create-address');
     Route::get('/user/profile/addresses/{address}', function (Address $address) {
-        return view('profile.addresses.edit', [ 'address' => $address ]);
+        return view('profile.addresses.show', [ 'address' => $address ]);
     })->name('profile-edit-address');
 });

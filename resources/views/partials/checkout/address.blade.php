@@ -8,9 +8,9 @@
         </h3>
 
         @if ($type == 'shipping' && $step == $currentStep)
-            <label class="flex items-center p-2 rounded-lg cursor-pointer hover:bg-gray-50">
+            <label class="flex items-center p-2 rounded-3xl cursor-pointer hover:bg-gray-50">
                 <input
-                    class="w-5 h-5 text-green-600 border-gray-100 rounded"
+                    class="w-5 h-5 text-green-600 border-gray-100 rounded-3xl focus:ring-green-600"
                     type="checkbox"
                     value="1"
                     wire:model.defer="shippingIsBilling"
@@ -246,7 +246,7 @@
             @if ($step == $currentStep)
                 <div class="mt-6 text-right">
                     <button
-                        class="px-5 py-3 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-500"
+                        class="px-5 py-3 text-sm font-medium text-white bg-green-700 rounded-3xl hover:bg-green-600"
                         type="submit"
                         wire:key="submit_btn"
                         wire:loading.attr="disabled"

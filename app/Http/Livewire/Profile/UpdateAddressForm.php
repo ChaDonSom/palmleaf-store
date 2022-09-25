@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Profile;
 
 use GetCandy\Models\Address;
 use GetCandy\Models\Country;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class UpdateAddressForm extends Component
@@ -14,6 +15,18 @@ class UpdateAddressForm extends Component
     }
 
     public ?Address $address = null;
+
+    public function mount() {
+        $user = Auth::user();
+        if (!$this->address) $this->address = new Address([
+            'customer_id' => $user->customers->first()->id,
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'contact_email' => $user->email,
+            'shipping_default' => false,
+            'billing_default' => false,
+        ]);
+    }
 
     public function getCountriesProperty()
     {
@@ -62,8 +75,6 @@ class UpdateAddressForm extends Component
                     'shipping_default' => false,
                 ]);
         }
-
-        $this->address->fill($validatedData['address'])->save();
 
         $this->emit('saved');
     }
