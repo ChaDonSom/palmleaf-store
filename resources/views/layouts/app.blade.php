@@ -1,36 +1,40 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <!-- Fonts -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        
-        <!-- Styles -->
-        @livewireStyles
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Scripts -->
-        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-        <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-        <link rel="icon" href="{{ asset('favicon.svg') }}">
-        @livewireStyles
-    </head>
-    <body class="font-sans antialiased">
-        @livewire('components.navigation')
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-        <main>
-            {{ $slot }}
-        </main>
+    <!-- Styles -->
+    @livewireStyles
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-        <x-footer />
+    <meta name="description" content="Hand-made memorabilia by Maria Somero">
 
-        @stack('modals')
+    <!-- Scripts -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="icon" href="{{ asset('favicon.svg') }}">
+</head>
 
-        @livewireScripts
-    </body>
+<body class="font-sans antialiased">
+    @livewire('components.navigation')
+
+    <main>
+        {{ $slot }}
+    </main>
+
+    <x-footer />
+
+    @stack('modals')
+
+    @livewireScripts
+</body>
+
 </html>
