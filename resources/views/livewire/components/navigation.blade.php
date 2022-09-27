@@ -42,7 +42,7 @@
 
                 <!-- Settings Dropdown -->
                 @if (Auth::user())
-                <div class="ml-3 relative">
+                <div class="ml-3 relative hidden lg:block whitespace-nowrap">
                     <x-jet-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
@@ -127,31 +127,57 @@
                     >
                         <ul
                             x-on:click.away="mobileMenu = false"
-                            class="p-6 space-y-4 bg-white border border-gray-100 shadow-xl rounded-xl"
+                            class="py-1 bg-white border border-gray-100 shadow-xl rounded-xl"
                         >
-                            @foreach ($this->collections as $collection)
-                                <li>
-                                    <a
-                                        class="text-sm font-medium"
-                                        href="{{ route('collection.view', $collection->defaultUrl->slug) }}"
-                                    >
-                                        {{ $collection->translateAttribute('name') }}
-                                    </a>
-                                </li>
-                            @endforeach
-
                             @auth
+                                <div class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 transition">
+                                    {{ Auth::user()->name }}
+                                </div>
+                                <!-- Account Management -->
+                                <div class="block px-4 py-2 text-xs text-gray-400">
+                                    {{ __('Manage Account') }}
+                                </div>
+
+                                <x-jet-dropdown-link href="{{ route('profile.show') }}">
+                                    {{ __('Profile') }}
+                                </x-jet-dropdown-link>
+
+                                @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
+                                    <x-jet-dropdown-link href="{{ route('api-tokens.index') }}">
+                                        {{ __('API Tokens') }}
+                                    </x-jet-dropdown-link>
+                                @endif
+
+                                <!-- Authentication -->
+                                <form method="POST" action="{{ route('logout') }}" x-data>
+                                    @csrf
+
+                                    <x-jet-dropdown-link href="{{ route('logout') }}"
+                                            @click.prevent="$root.submit();">
+                                        {{ __('Log Out') }}
+                                    </x-jet-dropdown-link>
+                                </form>
                             @else
-                                <li><hr></li>
                                 <li>
-                                    <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
+                                    <x-jet-dropdown-link href="{{ route('login') }}">
+                                        {{ __('Login') }}
+                                    </x-jet-dropdown-link>
                                 </li>
                                 @if (Route::has('register'))
-                                    <li>
-                                        <a href="{{ route('register') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
-                                    </li>
+                                    <x-jet-dropdown-link href="{{ route('register') }}">
+                                        {{ __('Register') }}
+                                    </x-jet-dropdown-link>
                                 @endif
                             @endauth
+                            <li><hr></li>
+                            @foreach ($this->collections as $collection)
+                                <x-jet-dropdown-link
+                                    class="text-sm font-medium"
+                                    href="{{ route('collection.view', $collection->defaultUrl->slug) }}"
+                                >
+                                    {{ $collection->translateAttribute('name') }}
+                                </x-jet-dropdown-link>
+                            @endforeach
                         </ul>
                     </div>
                 </div>
