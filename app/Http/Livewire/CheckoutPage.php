@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Actions\Fortify\CreateNewUser;
 use GetCandy\Facades\CartSession;
 use GetCandy\Facades\Payments;
 use GetCandy\Facades\ShippingManifest;
@@ -9,6 +10,8 @@ use GetCandy\Models\Cart;
 use GetCandy\Models\CartAddress;
 use GetCandy\Models\Country;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Laravel\Fortify\Rules\Password;
 use Livewire\Component;
 use Livewire\ComponentConcerns\PerformsRedirects;
 
@@ -59,6 +62,15 @@ class CheckoutPage extends Component
     public $chosenShipping = null;
 
     /**
+     * Whether the guest wants to sign up as a new user
+     *
+     * @var boolean|null
+     */
+    public ?bool $signup = null;
+    public ?string $password = null;
+    public ?string $password_confirmation = null;
+
+    /**
      * The checkout steps.
      *
      * @var array
@@ -106,6 +118,8 @@ class CheckoutPage extends Component
             [
                 'shippingIsBilling' => 'boolean',
                 'chosenShipping' => 'required',
+                'signup' => 'boolean',
+                'password' => ['required', 'string', new Password, 'confirmed']
             ]
         );
     }
@@ -121,6 +135,12 @@ class CheckoutPage extends Component
             $this->redirect('/');
 
             return;
+        }
+
+        if (!Auth::user()) {
+            $this->steps['signup'] = 4;
+            $this->steps['payment'] = 5;
+            $this->signup = session('guest-checkout-signup', false);
         }
 
         if ($this->cart && Auth::user() && !$this->cart->user) {
@@ -208,7 +228,16 @@ class CheckoutPage extends Component
 
         if ($billingAddress) {
             $this->currentStep = $this->steps['billing_address'] + 1;
+
+            if (isset($this->steps['signup'])) {
+                if ($this->signup === null) {
+                    $this->currentStep = $this->steps['signup'];
+                } else {
+                    $this->currentStep = $this->steps['signup'] + 1;
+                }
+            }
         }
+
     }
 
     /**
@@ -283,6 +312,31 @@ class CheckoutPage extends Component
     }
 
     /**
+     * Sign up a new user, or skip if $signup is false
+     *
+     * @return void
+     */
+    public function saveUser(CreateNewUser $createNewUser)
+    {
+        if ($this->signup) {
+            session()->put('guest-checkout-signup', true);
+            $address = $this->cart->shippingAddress ?? $this->cart->billingAddress;
+            $name = $address->first_name;
+            if ($address->last_name) $name .= " {$address->last_name}";
+            $user = $createNewUser->create([
+                'name' => $name,
+                'email' => $address->contact_email,
+                'password' => $this->password,
+                'password_confirmation' => $this->password_confirmation,
+            ]);
+            Auth::login($user);
+        }
+        else session()->put('guest-checkout-signup', false);
+
+        $this->determineCheckoutStep();
+    }
+
+    /**
      * Save the selected shipping option.
      *
      * @return void
@@ -303,9 +357,19 @@ class CheckoutPage extends Component
         $payment = Payments::cart($this->cart)->withData([
             'payment_intent_client_secret' => $this->payment_intent_client_secret,
             'payment_intent' => $this->payment_intent,
-        ])->authorize();
+        ]);
+        
+        if ($this->paymentType == 'cash') {
+            $payment->setConfig([
+                'authorized' => 'payment-offline',
+            ]);
+        }
 
-        if ($payment->success) {
+        $payment->authorize();
+
+        session()->put('guest-checkout-signup', null);
+
+        if ($payment->success ?? false) {
             redirect()->route('checkout-success.view');
 
             return;

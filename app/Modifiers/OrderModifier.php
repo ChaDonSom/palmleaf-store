@@ -18,7 +18,7 @@ class OrderModifier extends GetCandyOrderModifier
 
     public function created(Order $order, Closure $next): Order
     {
-        if (Auth::user()->customers->count()) {
+        if (Auth::user()?->customers?->count()) {
             if ($customerId = Auth::user()->customers->first()?->id) {
                 $order->fill([
                     'customer_id' => $customerId
