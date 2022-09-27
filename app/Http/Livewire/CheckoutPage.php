@@ -329,6 +329,36 @@ class CheckoutPage extends Component
                 'password' => $this->password,
                 'password_confirmation' => $this->password_confirmation,
             ]);
+
+            $user->customers->first()->addresses()->create([
+                'first_name' => $this->cart->shippingAddress->first_name,
+                'last_name' => $this->cart->shippingAddress->last_name,
+                'line_one' => $this->cart->shippingAddress->line_one,
+                'line_two' => $this->cart->shippingAddress->line_two,
+                'line_three' => $this->cart->shippingAddress->line_three,
+                'city' => $this->cart->shippingAddress->city,
+                'state' => $this->cart->shippingAddress->state,
+                'postcode' => $this->cart->shippingAddress->postcode,
+                'country_id' => $this->cart->shippingAddress->country_id,
+                'contact_email' => $this->cart->shippingAddress->contact_email,
+                'contact_phone' => $this->cart->shippingAddress->contact_phone,
+                'shipping_default' => true,
+            ]);
+            $user->customers->first()->addresses()->create([
+                'first_name' => $this->cart->billingAddress->first_name,
+                'last_name' => $this->cart->billingAddress->last_name,
+                'line_one' => $this->cart->billingAddress->line_one,
+                'line_two' => $this->cart->billingAddress->line_two,
+                'line_three' => $this->cart->billingAddress->line_three,
+                'city' => $this->cart->billingAddress->city,
+                'state' => $this->cart->billingAddress->state,
+                'postcode' => $this->cart->billingAddress->postcode,
+                'country_id' => $this->cart->billingAddress->country_id,
+                'contact_email' => $this->cart->billingAddress->contact_email,
+                'contact_phone' => $this->cart->billingAddress->contact_phone,
+                'billing_default' => true,
+            ]);
+
             Auth::login($user);
         }
         else session()->put('guest-checkout-signup', false);
