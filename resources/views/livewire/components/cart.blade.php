@@ -84,7 +84,7 @@
 
                                             <div class="flex items-center mt-2">
                                                 <input
-                                                    class="w-16 p-2 text-xs transition-colors border border-gray-100 rounded-3xl hover:border-gray-200 focus:ring-green-600"
+                                                    class="w-16 p-2 text-xs transition-colors border border-gray-100 focus:border-gray-100 rounded-3xl hover:border-gray-300 focus:ring-green-600"
                                                     type="number"
                                                     wire:model="lines.{{ $index }}.quantity"
                                                 />

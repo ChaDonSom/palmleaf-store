@@ -33,7 +33,7 @@
         </x-input.group>
 
         <x-input.group class="col-span-6" label="Country" required>
-            <select class="w-full p-3 border border-gray-200 rounded-3xl sm:text-sm focus:ring-green-600" wire:model.defer="address.country_id">
+            <select class="w-full p-3 border border-gray-200 rounded-3xl sm:text-sm focus:border-green-600 focus:ring-green-600" wire:model.defer="address.country_id">
                 <option value>Select a country</option>
                 @foreach ($this->countries as $country)
                 <option value="{{ $country->id }}" wire:key="country_{{ $country->id }}">

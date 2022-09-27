@@ -50,13 +50,11 @@
 
                 @if ($showingConfirmation)
                     <div class="mt-4">
-                        <x-jet-label for="code" value="{{ __('Code') }}" />
-
-                        <x-jet-input id="code" type="text" name="code" class="block mt-1 w-1/2" inputmode="numeric" autofocus autocomplete="one-time-code"
-                            wire:model.defer="code"
-                            wire:keydown.enter="confirmTwoFactorAuthentication" />
-
-                        <x-jet-input-error for="code" class="mt-2" />
+                        <x-input.group label="{{ __('Code') }}" :errors="$errors->get('code')">
+                            <x-input.text id="code" type="text" name="code" class="block mt-1 w-1/2" inputmode="numeric" autofocus autocomplete="one-time-code"
+                                wire:model.defer="code"
+                                wire:keydown.enter="confirmTwoFactorAuthentication" />
+                        </x-input.group>
                     </div>
                 @endif
             @endif
