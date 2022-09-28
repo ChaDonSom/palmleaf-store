@@ -7,6 +7,7 @@ use App\Http\Livewire\Home;
 use App\Http\Livewire\ProductPage;
 use App\Http\Livewire\SearchPage;
 use GetCandy\Models\Address;
+use GetCandy\Models\Order;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -48,4 +49,10 @@ Route::middleware([
     Route::get('/user/profile/addresses/{address}', function (Address $address) {
         return view('profile.addresses.show', [ 'address' => $address ]);
     })->name('profile-edit-address');
+    Route::get('/user/orders', function () {
+        return view('orders');
+    })->name('orders');
+    Route::get('/user/orders/{order}', function (Order $order) {
+        return view('orders.show', ['order' => $order]);
+    })->name('orders.show');
 });
