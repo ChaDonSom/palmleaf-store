@@ -1,5 +1,7 @@
 <?php
 
+use App\Providers\PaypalProvider;
+
 return [
 
     /*
@@ -165,6 +167,7 @@ return [
         /*
          * Package Service Providers...
          */
+        PaypalProvider::class,
 
         /*
          * Application Service Providers...

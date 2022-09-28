@@ -26,6 +26,7 @@
     >
     @livewireStyles
     @stripeScripts
+    @paypalScripts
 </head>
 
 <body class="antialiased text-gray-900">
