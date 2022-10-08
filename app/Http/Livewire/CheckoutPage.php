@@ -230,7 +230,7 @@ class CheckoutPage extends Component
             $this->currentStep = $this->steps['billing_address'] + 1;
 
             if (isset($this->steps['signup'])) {
-                if ($this->signup === null) {
+                if ($this->signup = session('guest-checkout-signup', null) === null) {
                     $this->currentStep = $this->steps['signup'];
                 } else {
                     $this->currentStep = $this->steps['signup'] + 1;
