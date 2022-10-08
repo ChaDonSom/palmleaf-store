@@ -2,10 +2,11 @@
 
 namespace App\Providers;
 
+use App\Http\Livewire\PaypalPaymentForm;
 use App\PaymentTypes\PaypalPayment;
 use Illuminate\Support\ServiceProvider;
 use GetCandy\Facades\Payments;
-use GetCandy\Stripe\Components\PaymentForm;
+use GetCandy\Models\Cart;
 use GetCandy\Stripe\Managers\StripeManager;
 use Illuminate\Support\Facades\Blade;
 use Livewire\Livewire;
@@ -38,13 +39,6 @@ class PaypalProvider extends ServiceProvider
         //     return $app->make(PaypalManager::class); // A way to get the stripe client, seems like
         // });
 
-        Blade::directive('paypalScripts', function () {
-            $paypalClientId = config('paypal.' . config('paypal.mode', 'sandbox') . '.client_id');
-            return  <<<EOT
-                <script src="https://www.paypal.com/sdk/js?client-id=$paypalClientId"></script>
-            EOT;
-        });
-
         // $this->loadViewsFrom(__DIR__.'/../resources/views', 'getcandy');
 
         // $this->mergeConfigFrom(__DIR__."/../config/stripe.php", "getcandy.stripe");
@@ -58,6 +52,6 @@ class PaypalProvider extends ServiceProvider
         // ], 'getcandy.stripe.components');
 
         // Register the stripe payment component.
-        // Livewire::component('stripe.payment', PaymentForm::class);
+        Livewire::component('paypal.payment', PaypalPaymentForm::class);
     }
 }

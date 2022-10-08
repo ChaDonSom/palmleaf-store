@@ -102,9 +102,12 @@ class CheckoutPage extends Component
 
     public $payment_intent_client_secret = null;
 
+    public $paypal_order_id = null;
+
     protected $queryString = [
         'payment_intent',
         'payment_intent_client_secret',
+        'paypal_order_id',
     ];
 
     /**
@@ -159,6 +162,20 @@ class CheckoutPage extends Component
                 redirect()->route('checkout-success.view');
 
                 return;
+            }
+        }
+
+        if ($this->paypal_order_id) {
+            $payment = Payments::driver('paypal')->cart($this->cart)->withData([
+                'paypal_order_id' => $this->paypal_order_id,
+            ])->authorize();
+
+            if ($payment->success) {
+                redirect()->route('checkout-success.view');
+
+                return;
+            } else {
+                dd($payment);
             }
         }
 
@@ -384,17 +401,30 @@ class CheckoutPage extends Component
 
     public function checkout()
     {
-        $payment = Payments::cart($this->cart)->withData([
-            'payment_intent_client_secret' => $this->payment_intent_client_secret,
-            'payment_intent' => $this->payment_intent,
-        ]);
-        
-        if ($this->paymentType == 'cash') {
-            $payment->setConfig([
+        clock()->info('Running checkout');
+        $paymentData = [];
+        $paymentConfig = [];
+        if ($this->paymentType == 'stripe') {
+            $paymentData = [
+                'payment_intent_client_secret' => $this->payment_intent_client_secret,
+                'payment_intent' => $this->payment_intent,
+            ];
+        }
+        else if ($this->paymentType == 'paypal') {
+            $paymentData = [
+                'paypal_order_id' => $this->paypal_order_id,
+            ];
+        }
+        else if ($this->paymentType == 'cash') {
+            $paymentConfig = [
                 'authorized' => 'payment-offline',
-            ]);
+            ];
         }
 
+        $payment = Payments::cart($this->cart)
+            ->withData($paymentData)
+            ->setConfig($paymentConfig);
+        
         $payment->authorize();
 
         session()->put('guest-checkout-signup', null);

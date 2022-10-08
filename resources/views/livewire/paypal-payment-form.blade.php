@@ -16,49 +16,55 @@
       postal_code: '{{ $this->billing->postcode }}',
       state: '{{ $this->billing->state }}',
     }
-
-    {{-- this.paypal.confirmPayment({
-        elements,
-        confirmParams: {
-          // Make sure to change this to your payment completion page
-          return_url: '{{ $returnUrl ?: url()->current() }}',
-          payment_method_data: {
-            billing_details: {
-              name: '{{ $this->billing->first_name }} {{ $this->billing->last_name }}',
-              email: '{{ $this->billing->contact_email }}',
-              phone: '{{ $this->billing->contact_phone }}',
-              address
-            }
-          }
-        },
-      }).then(result => {
-        if (result.error) {
-          this.error = result.error.message
-          this.processing = false
-        }
-      }).catch(error => {
-        this.processing = false
-      }) --}}
   },
   init() {
-    {{-- this.paypal = Stripe('{{ config('services.stripe.public_key')}}'); --}}
-
-    {{-- elements = this.stripe.elements({
-      clientSecret: '{{ $this->clientSecret }}'
-    }); --}}
-
-    {{-- this.paymentElement = elements.create('payment', {
-      fields: {
-        billingDetails: 'never'
-      }
-    }); --}}
+    // Render the PayPal button into #paypal-button-container
     paypal.Buttons({
-        style: {
-            layout: 'vertical',
-            color:  'blue',
-            shape:  'pill',
-            label:  'paypal'
-        }
+      style: {
+        color: 'white',
+        shape: 'pill',
+      },
+      // Call your server to set up the transaction
+      createOrder: function(data, actions) {
+        return fetch('/api/paypal/order/create', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            cart_id: '{{ $this->cart->id }}'
+          })
+        }).then(function(res) {
+          //res.json();
+          return res.json();
+        }).then(function(orderData) {
+          //console.log(orderData);
+          return orderData.id;
+        });
+      },
+
+      // Call your server to finalize the transaction
+      onApprove: function(data, actions) {
+        // Authorize the transaction
+        actions.order.authorize().then(function(authorization) {
+          // Get the authorization id
+          var authorizationID = authorization.purchase_units[0].payments.authorizations[0].id
+          // Call your server to validate and capture the transaction
+          return fetch('/api/paypal/order/authorized', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              cart_id: '{{ $this->cart->id }}',
+              paypal_order_id: data.orderID,
+              paypal_authorization_id: authorizationID
+            })
+          }).then(res => {
+            location.href = '{{ $returnUrl ?: url()->current() }}?paypal_order_id=' + data.orderID
+          });
+        });
+      }
     }).render('#paypal-payment-element');
   }
 }">
