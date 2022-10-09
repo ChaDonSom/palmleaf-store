@@ -111,16 +111,12 @@ class PaypalPayment extends AbstractPayment
      */
     public function capture(Transaction $transaction, $amount = 0): PaymentCapture
     {
-        $payload = [];
-
-        if ($amount > 0) {
-            $payload['amount_to_capture'] = $amount;
-        }
-
         try {
-            $response = $this->paypal->paymentIntents->capture(
+            $response = $this->paypal->captureAuthorizedPayment(
                 $transaction->reference,
-                $payload
+                $transaction->order->reference, // Invoice id
+                $amount / 100,
+                'Payment accepted for order ' . $transaction->order->reference,
             );
         } catch (Exception $e) {
             return new PaymentCapture(
@@ -129,26 +125,23 @@ class PaypalPayment extends AbstractPayment
             );
         }
 
-        $charges = $response->charges->data;
+        $response = json_decode(json_encode($response));
 
         $transactions = [];
 
-        foreach ($charges as $charge) {
-            $card = $charge->payment_method_details->card;
-            $transactions[] = [
-                'parent_transaction_id' => $transaction->id,
-                'success' => $charge->status != 'failed',
-                'type' => 'capture',
-                'driver' => 'stripe',
-                'amount' => $charge->amount_captured,
-                'reference' => $response->id,
-                'status' => $charge->status,
-                'notes' => $charge->failure_message,
-                'card_type' => $card->brand,
-                'last_four' => $card->last4,
-                'captured_at' => $charge->amount_captured ? now() : null,
-            ];
-        }
+        $transactions[] = [
+            'parent_transaction_id' => $transaction->id,
+            'success' => $response->status == 'COMPLETED',
+            'type' => 'capture',
+            'driver' => 'paypal',
+            'amount' => $amount,
+            'reference' => $response->id,
+            'status' => $response->status,
+            'notes' => '',
+            'card_type' => 'paypal',
+            'last_four' => null,
+            'captured_at' => $response->status == 'COMPLETED' ? now() : null,
+        ];
 
         $transaction->order->transactions()->createMany($transactions);
 
@@ -166,8 +159,11 @@ class PaypalPayment extends AbstractPayment
     public function refund(Transaction $transaction, int $amount = 0, $notes = null): PaymentRefund
     {
         try {
-            $refund = $this->paypal->refunds->create(
-                ['payment_intent' => $transaction->reference, 'amount' => $amount]
+            $refund = $this->paypal->refundCapturedPayment(
+                $transaction->reference,
+                $transaction->order->reference,
+                $amount / 100,
+                $notes,
             );
         } catch (Exception $e) {
             return new PaymentRefund(
@@ -176,12 +172,21 @@ class PaypalPayment extends AbstractPayment
             );
         }
 
+        $refund = json_decode(json_encode($refund));
+
+        if ($refund?->error ?? false) {
+            return new PaymentRefund(
+                success: false,
+                message: $refund?->error?->details[0]?->description ?? $refund?->error?->message
+            );
+        }
+
         $transaction->order->transactions()->create([
-            'success' => $refund->status != 'failed',
+            'success' => $refund->status == 'COMPLETED',
             'type' => 'refund',
-            'driver' => 'stripe',
-            'amount' => $refund->amount,
-            'reference' => $refund->payment_intent,
+            'driver' => 'paypal',
+            'amount' => $amount,
+            'reference' => $refund->id,
             'status' => $refund->status,
             'notes' => $notes,
             'card_type' => $transaction->card_type,
@@ -200,10 +205,6 @@ class PaypalPayment extends AbstractPayment
      */
     private function releaseSuccess()
     {
-        clock()->info('PaypalPayment releaseSuccess paypalOrder:');
-        clock()->info($this->paypalOrder);
-        clock()->info('PaypalPayment releaseSuccess paypalPayment:');
-        clock()->info($this->paypalPayment);
         DB::transaction(function () {
             // Convert it to (object) for easy ?-> access
             $paypalOrder = json_decode(json_encode($this->paypalOrder));
