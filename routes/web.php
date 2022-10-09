@@ -6,6 +6,8 @@ use App\Http\Livewire\CollectionPage;
 use App\Http\Livewire\Home;
 use App\Http\Livewire\ProductPage;
 use App\Http\Livewire\SearchPage;
+use GetCandy\Models\Address;
+use GetCandy\Models\Order;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,3 +32,27 @@ Route::get('search', SearchPage::class)->name('search.view');
 Route::get('checkout', CheckoutPage::class)->name('checkout.view');
 
 Route::get('checkout/success', CheckoutSuccessPage::class)->name('checkout-success.view');
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified'
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+
+    Route::get('/user/profile/addresses/create', function () {
+        return view('profile.addresses.show', ['address' => null]);
+    })->name('profile-create-address');
+    Route::get('/user/profile/addresses/{address}', function (Address $address) {
+        return view('profile.addresses.show', [ 'address' => $address ]);
+    })->name('profile-edit-address');
+    Route::get('/user/orders', function () {
+        return view('orders');
+    })->name('orders');
+    Route::get('/user/orders/{order}', function (Order $order) {
+        return view('orders.show', ['order' => $order]);
+    })->name('orders.show');
+});

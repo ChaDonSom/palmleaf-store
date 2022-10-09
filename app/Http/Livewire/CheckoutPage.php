@@ -2,12 +2,16 @@
 
 namespace App\Http\Livewire;
 
+use App\Actions\Fortify\CreateNewUser;
 use Lunar\Facades\CartSession;
 use Lunar\Facades\Payments;
 use Lunar\Facades\ShippingManifest;
 use Lunar\Models\Cart;
 use Lunar\Models\CartAddress;
 use Lunar\Models\Country;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Laravel\Fortify\Rules\Password;
 use Livewire\Component;
 use Livewire\ComponentConcerns\PerformsRedirects;
 
@@ -58,6 +62,15 @@ class CheckoutPage extends Component
     public $chosenShipping = null;
 
     /**
+     * Whether the guest wants to sign up as a new user
+     *
+     * @var boolean|null
+     */
+    public ?bool $signup = null;
+    public ?string $password = null;
+    public ?string $password_confirmation = null;
+
+    /**
      * The checkout steps.
      *
      * @var array
@@ -105,6 +118,8 @@ class CheckoutPage extends Component
             [
                 'shippingIsBilling' => 'boolean',
                 'chosenShipping' => 'required',
+                'signup' => 'boolean',
+                'password' => ['required', 'string', new Password, 'confirmed']
             ]
         );
     }
@@ -116,10 +131,22 @@ class CheckoutPage extends Component
      */
     public function mount()
     {
-        if (! $this->cart = CartSession::current()) {
+        if (!$this->cart = CartSession::current()) {
             $this->redirect('/');
 
             return;
+        }
+
+        if (!Auth::user()) {
+            $this->steps['signup'] = 4;
+            $this->steps['payment'] = 5;
+            $this->signup = session('guest-checkout-signup', false);
+        }
+
+        if ($this->cart && Auth::user() && !$this->cart->user) {
+            CartSession::associate($this->cart, Auth::user(), 'merge');
+            $this->cart->user_id = Auth::user()->id;
+            $this->cart->save();
         }
 
         if ($this->payment_intent) {
@@ -136,8 +163,19 @@ class CheckoutPage extends Component
         }
 
         // Do we have a shipping address?
+        $userShippingAddress = $this->cart->user?->customers->first()->addresses()->where('shipping_default', true)->first();
+        if ($userShippingAddress) {
+            $this->cart->getManager()->setShippingAddress($userShippingAddress);
+            $this->cart->save();
+        }
         $this->shipping = $this->cart->shippingAddress ?: new CartAddress;
 
+        // What about a billing address?
+        $userBillingAddress = $this->cart->user?->customers->first()->addresses()->where('billing_default', true)->first();
+        if ($userBillingAddress) {
+            $this->cart->getManager()->setBillingAddress($userBillingAddress);
+            $this->cart->save();
+        }
         $this->billing = $this->cart->billingAddress ?: new CartAddress;
 
         $this->determineCheckoutStep();
@@ -190,7 +228,16 @@ class CheckoutPage extends Component
 
         if ($billingAddress) {
             $this->currentStep = $this->steps['billing_address'] + 1;
+
+            if (isset($this->steps['signup'])) {
+                if ($this->signup = session('guest-checkout-signup', null) === null) {
+                    $this->currentStep = $this->steps['signup'];
+                } else {
+                    $this->currentStep = $this->steps['signup'] + 1;
+                }
+            }
         }
+
     }
 
     /**
@@ -212,7 +259,7 @@ class CheckoutPage extends Component
     {
         $shippingAddress = $this->cart->shippingAddress;
 
-        if (! $shippingAddress) {
+        if (!$shippingAddress) {
             return;
         }
 
@@ -265,6 +312,61 @@ class CheckoutPage extends Component
     }
 
     /**
+     * Sign up a new user, or skip if $signup is false
+     *
+     * @return void
+     */
+    public function saveUser(CreateNewUser $createNewUser)
+    {
+        if ($this->signup) {
+            session()->put('guest-checkout-signup', true);
+            $address = $this->cart->shippingAddress ?? $this->cart->billingAddress;
+            $name = $address->first_name;
+            if ($address->last_name) $name .= " {$address->last_name}";
+            $user = $createNewUser->create([
+                'name' => $name,
+                'email' => $address->contact_email,
+                'password' => $this->password,
+                'password_confirmation' => $this->password_confirmation,
+            ]);
+
+            $user->customers->first()->addresses()->create([
+                'first_name' => $this->cart->shippingAddress->first_name,
+                'last_name' => $this->cart->shippingAddress->last_name,
+                'line_one' => $this->cart->shippingAddress->line_one,
+                'line_two' => $this->cart->shippingAddress->line_two,
+                'line_three' => $this->cart->shippingAddress->line_three,
+                'city' => $this->cart->shippingAddress->city,
+                'state' => $this->cart->shippingAddress->state,
+                'postcode' => $this->cart->shippingAddress->postcode,
+                'country_id' => $this->cart->shippingAddress->country_id,
+                'contact_email' => $this->cart->shippingAddress->contact_email,
+                'contact_phone' => $this->cart->shippingAddress->contact_phone,
+                'shipping_default' => true,
+            ]);
+            $user->customers->first()->addresses()->create([
+                'first_name' => $this->cart->billingAddress->first_name,
+                'last_name' => $this->cart->billingAddress->last_name,
+                'line_one' => $this->cart->billingAddress->line_one,
+                'line_two' => $this->cart->billingAddress->line_two,
+                'line_three' => $this->cart->billingAddress->line_three,
+                'city' => $this->cart->billingAddress->city,
+                'state' => $this->cart->billingAddress->state,
+                'postcode' => $this->cart->billingAddress->postcode,
+                'country_id' => $this->cart->billingAddress->country_id,
+                'contact_email' => $this->cart->billingAddress->contact_email,
+                'contact_phone' => $this->cart->billingAddress->contact_phone,
+                'billing_default' => true,
+            ]);
+
+            Auth::login($user);
+        }
+        else session()->put('guest-checkout-signup', false);
+
+        $this->determineCheckoutStep();
+    }
+
+    /**
      * Save the selected shipping option.
      *
      * @return void
@@ -285,9 +387,19 @@ class CheckoutPage extends Component
         $payment = Payments::cart($this->cart)->withData([
             'payment_intent_client_secret' => $this->payment_intent_client_secret,
             'payment_intent' => $this->payment_intent,
-        ])->authorize();
+        ]);
+        
+        if ($this->paymentType == 'cash') {
+            $payment->setConfig([
+                'authorized' => 'payment-offline',
+            ]);
+        }
 
-        if ($payment->success) {
+        $payment->authorize();
+
+        session()->put('guest-checkout-signup', null);
+
+        if ($payment->success ?? false) {
             redirect()->route('checkout-success.view');
 
             return;

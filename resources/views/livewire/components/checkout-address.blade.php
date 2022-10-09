@@ -122,11 +122,11 @@
     <div class="flex justify-end w-full p-4 bg-gray-100">
         <div>
         @if($editing)
-            <button type="submit" wire:key="submit_btn" class="px-5 py-3 font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-500">
+            <button type="submit" wire:key="submit_btn" class="px-5 py-3 font-medium text-white bg-green-600 rounded-lg hover:bg-green-500">
                 Continue
             </button>
         @else
-            <button type="button" wire:key="edit_btn" wire:click.prevent="$set('editing', true)" class="px-5 py-3 font-medium bg-white border rounded-lg shadow-sm hover:bg-gray-50">
+            <button type="button" wire:key="edit_btn" wire:click.prevent="$set('editing', true)" class="px-5 py-3 font-medium bg-white border rounded-3xl shadow-sm hover:bg-gray-50">
                 Edit Details
             </button>
         @endif

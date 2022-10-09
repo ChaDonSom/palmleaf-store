@@ -9,7 +9,7 @@
 
         @if ($currentStep > $step)
             <button
-                class="px-5 py-2 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-100 hover:text-gray-700"
+                class="px-5 py-2 text-sm font-medium text-gray-600 rounded-3xl hover:bg-gray-100 hover:text-gray-700"
                 type="button"
                 wire:click.prevent="$set('currentStep', {{ $step }})"
             >
@@ -34,7 +34,7 @@
                             />
 
                             <label
-                                class="flex items-center justify-between p-4 text-sm font-medium border border-gray-100 rounded-lg shadow-sm cursor-pointer peer-checked:border-blue-500 hover:bg-gray-50 peer-checked:ring-1 peer-checked:ring-blue-500"
+                                class="flex items-center justify-between p-4 text-sm font-medium border border-gray-100 rounded-[32px] shadow-sm cursor-pointer peer-checked:border-green-600 hover:bg-gray-50 peer-checked:ring-1 peer-checked:ring-green-600"
                                 for="{{ $option->getIdentifier() }}"
                             >
                                 <p>
@@ -70,7 +70,7 @@
             @if ($step == $currentStep)
                 <div class="mt-6 text-right">
                     <button
-                        class="px-5 py-3 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-500"
+                        class="px-5 py-3 text-sm font-medium text-white bg-green-700 rounded-3xl hover:bg-green-600"
                         type="submit"
                         wire:key="shipping_submit_btn"
                     >

@@ -4,7 +4,7 @@ return [
     'default' => env('PAYMENTS_TYPE', 'offline'),
 
     'types' => [
-        'cash-in-hand' => [
+        'cash' => [
             'driver'     => 'offline',
             'authorized' => 'payment-offline',
         ],

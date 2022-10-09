@@ -1,11 +1,25 @@
+const defaultTheme = require('tailwindcss/defaultTheme');
+
+/** @type {import('tailwindcss').Config} */
 module.exports = {
     content: [
-        './resources/**/*.blade.php',
-        './resources/**/*.js',
-        './vendor/lunar/stripe-payments/resources/views/**/*.blade.php',
+        "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
+        "./vendor/laravel/jetstream/**/*.blade.php",
+        "./storage/framework/views/*.php",
+        "./resources/views/**/*.blade.php",
+        "./vendor/lunar/stripe-payments/resources/views/**/*.blade.php",
     ],
+
     theme: {
-        extend: {},
+        extend: {
+            fontFamily: {
+                sans: ["Nunito", ...defaultTheme.fontFamily.sans],
+            },
+        },
     },
-    plugins: [require('@tailwindcss/forms')],
+
+    plugins: [
+        require("@tailwindcss/forms"),
+        require("@tailwindcss/typography"),
+    ],
 };

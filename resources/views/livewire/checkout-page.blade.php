@@ -83,21 +83,28 @@
 
             <div class="space-y-6 lg:col-span-2">
                 @include('partials.checkout.address', [
-                'type' => 'shipping',
-                'step' => $steps['shipping_address'],
+                    'type' => 'shipping',
+                    'step' => $steps['shipping_address'],
                 ])
 
                 @include('partials.checkout.shipping_option', [
-                'step' => $steps['shipping_option'],
+                    'step' => $steps['shipping_option'],
                 ])
 
                 @include('partials.checkout.address', [
-                'type' => 'billing',
-                'step' => $steps['billing_address'],
+                    'type' => 'billing',
+                    'step' => $steps['billing_address'],
                 ])
 
+                @auth
+                @else
+                    @include('partials.checkout.signup', [
+                        'step' => $steps['signup']
+                    ])
+                @endauth
+
                 @include('partials.checkout.payment', [
-                'step' => $steps['payment']
+                    'step' => $steps['payment']
                 ])
             </div>
         </div>

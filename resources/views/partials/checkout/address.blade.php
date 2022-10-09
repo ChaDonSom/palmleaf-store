@@ -8,9 +8,9 @@
         </h3>
 
         @if ($type == 'shipping' && $step == $currentStep)
-            <label class="flex items-center p-2 rounded-lg cursor-pointer hover:bg-gray-50">
+            <label class="flex items-center p-2 rounded-3xl cursor-pointer hover:bg-gray-50">
                 <input
-                    class="w-5 h-5 text-green-600 border-gray-100 rounded"
+                    class="w-5 h-5 text-green-600 border-gray-100 rounded-3xl focus:ring-green-600"
                     type="checkbox"
                     value="1"
                     wire:model.defer="shippingIsBilling"
@@ -24,7 +24,7 @@
 
         @if ($currentStep > $step)
             <button
-                class="px-5 py-2 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-100 hover:text-gray-700"
+                class="px-5 py-2 text-sm font-medium text-gray-600 rounded-3xl hover:bg-gray-100 hover:text-gray-700"
                 type="button"
                 wire:click.prevent="$set('currentStep', {{ $step }})"
             >
@@ -160,7 +160,7 @@
                         required
                     >
                         <select
-                            class="w-full p-3 border border-gray-200 rounded-lg sm:text-sm"
+                            class="w-full p-3 border border-gray-200 rounded-3xl sm:text-sm focus:ring-green-600"
                             wire:model.defer="{{ $type }}.country_id"
                         >
                             <option value>Select a country</option>
@@ -246,7 +246,7 @@
             @if ($step == $currentStep)
                 <div class="mt-6 text-right">
                     <button
-                        class="px-5 py-3 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-500"
+                        class="px-5 py-3 text-sm font-medium text-white bg-green-700 rounded-3xl hover:bg-green-600"
                         type="submit"
                         wire:key="submit_btn"
                         wire:loading.attr="disabled"

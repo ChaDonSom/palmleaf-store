@@ -84,7 +84,7 @@
 
                                             <div class="flex items-center mt-2">
                                                 <input
-                                                    class="w-16 p-2 text-xs transition-colors border border-gray-100 rounded-lg hover:border-gray-200"
+                                                    class="w-16 p-2 text-xs transition-colors border border-gray-100 focus:border-gray-100 rounded-3xl hover:border-gray-300 focus:ring-green-600"
                                                     type="number"
                                                     wire:model="lines.{{ $index }}.quantity"
                                                 />
@@ -94,7 +94,7 @@
                                                 </p>
 
                                                 <button
-                                                    class="p-2 ml-auto text-gray-600 transition-colors rounded-lg hover:bg-gray-100 hover:text-gray-700"
+                                                    class="p-2 ml-auto text-red-400 transition-colors rounded-3xl hover:bg-gray-100 hover:text-red-700"
                                                     type="button"
                                                     wire:click="removeLine('{{ $line['id'] }}') }}"
                                                 >
@@ -156,7 +156,7 @@
         @if ($this->cart)
             <div class="mt-4 space-y-4 text-center">
                 <button
-                    class="block w-full p-3 text-sm font-medium text-blue-800 border border-blue-600 rounded-lg hover:ring-1 hover:ring-blue-600"
+                    class="block w-full p-3 text-sm font-medium text-green-800 border border-green-600 rounded-3xl hover:ring-1 hover:ring-green-600"
                     type="button"
                     wire:click="updateLines"
                 >
@@ -164,7 +164,7 @@
                 </button>
 
                 <a
-                    class="block w-full p-3 text-sm font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-500"
+                    class="block w-full p-3 text-sm font-medium text-center text-white bg-green-700 rounded-3xl hover:bg-green-600"
                     href="{{ route('checkout.view') }}"
                 >
                     Checkout
