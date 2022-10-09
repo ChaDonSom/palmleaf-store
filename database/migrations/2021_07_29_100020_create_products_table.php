@@ -1,6 +1,6 @@
 <?php
 
-use GetCandy\Base\Migration;
+use Lunar\Base\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
@@ -21,6 +21,7 @@ class CreateProductsTable extends Migration
             $table->string('brand')->nullable()->index();
             $table->timestamps();
             $table->softDeletes();
+            $table->timestamp('__soft_deleted')->nullable();
         });
     }
 

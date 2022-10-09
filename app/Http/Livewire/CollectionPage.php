@@ -3,8 +3,8 @@
 namespace App\Http\Livewire;
 
 use App\Traits\FetchesUrls;
-use GetCandy\Models\Collection;
-use GetCandy\Models\Url;
+use Lunar\Models\Collection;
+use Lunar\Models\Url;
 use Livewire\Component;
 use Livewire\ComponentConcerns\PerformsRedirects;
 
@@ -41,7 +41,7 @@ class CollectionPage extends Component
     /**
      * Computed property to return the collection.
      *
-     * @return \GetCandy\Models\Collection
+     * @return \Lunar\Models\Collection
      */
     public function getCollectionProperty()
     {

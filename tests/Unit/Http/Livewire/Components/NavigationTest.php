@@ -4,8 +4,8 @@ namespace Tests\Unit\Http\Livewire\Components;
 
 use App\Http\Livewire\Components\Navigation;
 use App\Http\Livewire\Home;
-use GetCandy\Models\Collection;
-use GetCandy\Models\Url;
+use Lunar\Models\Collection;
+use Lunar\Models\Url;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;

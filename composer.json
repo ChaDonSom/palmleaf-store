@@ -7,8 +7,8 @@
     "require": {
         "php": "^7.3|^8.0",
         "fruitcake/laravel-cors": "^2.0",
-        "getcandy/admin": "^2.0-beta",
-        "getcandy/stripe": "^1.0-alpha",
+        "lunarphp/lunar": "^0.1",
+        "lunarphp/stripe": "^0.1",
         "guzzlehttp/guzzle": "^7.0.1",
         "http-interop/http-factory-guzzle": "^1.2",
         "itsgoingd/clockwork": "^5.1",

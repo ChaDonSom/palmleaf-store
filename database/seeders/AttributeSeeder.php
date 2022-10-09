@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
-use GetCandy\FieldTypes\Text;
-use GetCandy\FieldTypes\TranslatedText;
-use GetCandy\Models\Attribute;
-use GetCandy\Models\AttributeGroup;
-use GetCandy\Models\Collection;
-use GetCandy\Models\CollectionGroup;
+use Lunar\FieldTypes\Text;
+use Lunar\FieldTypes\TranslatedText;
+use Lunar\Models\Attribute;
+use Lunar\Models\AttributeGroup;
+use Lunar\Models\Collection;
+use Lunar\Models\CollectionGroup;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;

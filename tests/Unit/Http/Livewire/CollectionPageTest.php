@@ -3,11 +3,11 @@
 namespace Tests\Unit\Http\Livewire;
 
 use App\Http\Livewire\CollectionPage;
-use GetCandy\Models\Collection;
-use GetCandy\Models\Currency;
-use GetCandy\Models\Price;
-use GetCandy\Models\Product;
-use GetCandy\Models\ProductVariant;
+use Lunar\Models\Collection;
+use Lunar\Models\Currency;
+use Lunar\Models\Price;
+use Lunar\Models\Product;
+use Lunar\Models\ProductVariant;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
