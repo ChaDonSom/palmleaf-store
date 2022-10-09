@@ -17,7 +17,7 @@
                     <div class="bg-white border border-gray-100 rounded-xl px-6 py-8">
                     <div class="flow-root">
                         <div class="-my-4 divide-y divide-gray-100">
-                            @foreach ($order->lines->where('purchasable_type', '!=', 'GetCandy\\DataTypes\\ShippingOption') as $line)
+                            @foreach ($order->lines->where('purchasable_type', '!=', 'Lunar\\DataTypes\\ShippingOption') as $line)
                                 <div
                                     class="flex items-center py-4"
                                     wire:key="cart_line_{{ $line->id }}"
@@ -53,7 +53,7 @@
                                 </dd>
                             </div>
 
-                            @if ($shippingLine = $order->lines()->where('purchasable_type', 'GetCandy\\DataTypes\\ShippingOption')->first())
+                            @if ($shippingLine = $order->lines()->where('purchasable_type', 'Lunar\\DataTypes\\ShippingOption')->first())
                                 <div class="flex flex-wrap py-4">
                                     <dt class="w-1/2 font-medium">
                                         {{ $shippingLine->description }}

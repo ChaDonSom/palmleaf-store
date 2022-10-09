@@ -2,8 +2,8 @@
 
 namespace App\Http\Livewire;
 
-use GetCandy\Models\Cart;
-use GetCandy\Stripe\Facades\StripeFacade;
+use Lunar\Models\Cart;
+use Lunar\Stripe\Facades\StripeFacade;
 use Livewire\Component;
 use Stripe\PaymentIntent;
 use Stripe\Stripe;

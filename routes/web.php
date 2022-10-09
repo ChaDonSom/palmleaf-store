@@ -6,8 +6,8 @@ use App\Http\Livewire\CollectionPage;
 use App\Http\Livewire\Home;
 use App\Http\Livewire\ProductPage;
 use App\Http\Livewire\SearchPage;
-use GetCandy\Models\Address;
-use GetCandy\Models\Order;
+use Lunar\Models\Address;
+use Lunar\Models\Order;
 use Illuminate\Support\Facades\Route;
 
 /*

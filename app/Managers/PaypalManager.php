@@ -3,7 +3,7 @@
 namespace App\Managers;
 
 use Exception;
-use GetCandy\Models\Cart;
+use Lunar\Models\Cart;
 use Srmklive\PayPal\Services\PayPal;
 
 class PaypalManager
@@ -92,13 +92,13 @@ class PaypalManager
      *
      * @param int $value
      * @param string $currencyCode
-     * @param \GetCandy\Models\CartAddress $shipping
+     * @param \Lunar\Models\CartAddress $shipping
      * @return object
      */
     protected function buildOrder($value, $currencyCode, $shipping)
     {
         return (object) $this->paypal->createOrder([
-            "intent" => config('getcandy.paypal.policy', 'automatic') == 'automatic' ? 'CAPTURE' : 'AUTHORIZE',
+            "intent" => config('lunar.paypal.policy', 'automatic') == 'automatic' ? 'CAPTURE' : 'AUTHORIZE',
             "purchase_units" => [
                 [
                     "amount" => [

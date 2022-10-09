@@ -34,7 +34,7 @@ class CreateNewUser implements CreatesNewUsers
         ]);
 
         $nameSplit = collect(explode(' ', $user->name));
-        $customer = \GetCandy\Models\Customer::create([
+        $customer = \Lunar\Models\Customer::create([
             // 'title' => 'Mr.',
             'first_name' => $nameSplit[0],
             'last_name' => $nameSplit->slice(1)->join(' '),

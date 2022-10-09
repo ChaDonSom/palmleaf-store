@@ -29,7 +29,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'getcandy_customer_id'
+        'lunar_customer_id'
     ];
 
     /**
@@ -63,7 +63,7 @@ class User extends Authenticatable
     ];
 
     public function customers() {
-        return $this->belongsToMany(Customer::class, 'getcandy_customer_user');
+        return $this->belongsToMany(Customer::class, 'lunar_customer_user');
     }
 
     public function getFirstNameAttribute() {

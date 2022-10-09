@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Managers\PaypalManager;
-use GetCandy\Facades\Payments;
-use GetCandy\Models\Cart;
+use Lunar\Facades\Payments;
+use Lunar\Models\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 

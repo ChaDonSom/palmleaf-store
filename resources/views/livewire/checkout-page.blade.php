@@ -1,7 +1,7 @@
 <x-slot:head>
     @php
     $paypalClientId = config('paypal.' . config('paypal.mode', 'sandbox') . '.client_id');
-    $policy = config('getcandy.paypal.policy', 'automatic');
+    $policy = config('lunar.paypal.policy', 'automatic');
     $intentIfManual = '';
     if ($policy == 'manual') {
         $intentIfManual = '&intent=authorize';

@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire;
 
-use GetCandy\Models\Order;
+use Lunar\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 

@@ -2,8 +2,8 @@
 
 namespace App\Http\Livewire\Profile;
 
-use GetCandy\Models\Address;
-use GetCandy\Models\Country;
+use Lunar\Models\Address;
+use Lunar\Models\Country;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 

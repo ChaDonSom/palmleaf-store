@@ -3,8 +3,8 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
-use GetCandy\Models\Cart;
-use GetCandy\Stripe\Facades\StripeFacade;
+use Lunar\Models\Cart;
+use Lunar\Stripe\Facades\StripeFacade;
 use Stripe\Stripe;
 
 class PaypalPaymentForm extends Component

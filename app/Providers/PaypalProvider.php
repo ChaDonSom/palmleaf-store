@@ -5,9 +5,9 @@ namespace App\Providers;
 use App\Http\Livewire\PaypalPaymentForm;
 use App\PaymentTypes\PaypalPayment;
 use Illuminate\Support\ServiceProvider;
-use GetCandy\Facades\Payments;
-use GetCandy\Models\Cart;
-use GetCandy\Stripe\Managers\StripeManager;
+use Lunar\Facades\Payments;
+use Lunar\Models\Cart;
+use Lunar\Stripe\Managers\StripeManager;
 use Illuminate\Support\Facades\Blade;
 use Livewire\Livewire;
 
@@ -39,17 +39,17 @@ class PaypalProvider extends ServiceProvider
         //     return $app->make(PaypalManager::class); // A way to get the stripe client, seems like
         // });
 
-        // $this->loadViewsFrom(__DIR__.'/../resources/views', 'getcandy');
+        // $this->loadViewsFrom(__DIR__.'/../resources/views', 'lunar');
 
-        // $this->mergeConfigFrom(__DIR__."/../config/stripe.php", "getcandy.stripe");
-
-        // $this->publishes([
-        //     __DIR__."/../config/stripe.php" => config_path("getcandy/stripe.php"),
-        // ], 'getcandy.stripe.config');
+        // $this->mergeConfigFrom(__DIR__."/../config/stripe.php", "lunar.stripe");
 
         // $this->publishes([
-        //     __DIR__.'/../resources/views' => resource_path('views/vendor/getcandy'),
-        // ], 'getcandy.stripe.components');
+        //     __DIR__."/../config/stripe.php" => config_path("lunar/stripe.php"),
+        // ], 'lunar.stripe.config');
+
+        // $this->publishes([
+        //     __DIR__.'/../resources/views' => resource_path('views/vendor/lunar'),
+        // ], 'lunar.stripe.components');
 
         // Register the stripe payment component.
         Livewire::component('paypal.payment', PaypalPaymentForm::class);

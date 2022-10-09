@@ -3,12 +3,12 @@
 namespace App\Modifiers;
 
 use Closure;
-use GetCandy\Base\OrderModifier as GetCandyOrderModifier;
-use GetCandy\Models\Cart;
-use GetCandy\Models\Order;
+use Lunar\Base\OrderModifier as LunarOrderModifier;
+use Lunar\Models\Cart;
+use Lunar\Models\Order;
 use Illuminate\Support\Facades\Auth;
 
-class OrderModifier extends GetCandyOrderModifier
+class OrderModifier extends LunarOrderModifier
 {
     public function creating(Cart $cart, Closure $next): Cart
     {
