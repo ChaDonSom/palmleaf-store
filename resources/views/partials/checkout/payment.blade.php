@@ -23,6 +23,18 @@
                 <button
                     @class([
                         'px-5 py-2 text-sm border font-medium rounded-3xl',
+                        'text-green-700 border-green-600 bg-green-50' => $paymentType === 'paypal',
+                        'text-gray-500 hover:text-gray-700' => $paymentType !== 'paypal',
+                    ])
+                    type="button"
+                    wire:click.prevent="$set('paymentType', 'paypal')"
+                >
+                    Pay with PayPal
+                </button>
+
+                <button
+                    @class([
+                        'px-5 py-2 text-sm border font-medium rounded-3xl',
                         'text-green-700 border-green-600 bg-green-50' => $paymentType === 'cash',
                         'text-gray-500 hover:text-gray-700' => $paymentType !== 'cash',
                     ])
@@ -35,6 +47,13 @@
 
             @if ($paymentType == 'card')
                 <livewire:payment-form
+                    :cart="$cart"
+                    :returnUrl="route('checkout.view')"
+                />
+            @endif
+
+            @if ($paymentType == 'paypal')
+                <livewire:paypal-payment-form
                     :cart="$cart"
                     :returnUrl="route('checkout.view')"
                 />

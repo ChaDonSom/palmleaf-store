@@ -28,7 +28,6 @@ class Navigation extends Component
      */
     public function getCollectionsProperty()
     {
-        clock()->info(Collection::with(['defaultUrl'])->get()->toTree());
         return Collection::with(['defaultUrl'])->get()->toTree();
     }
 

@@ -42,5 +42,11 @@ return [
             'mailers'       => [],
             'notifications' => [],
         ],
+        'payment-offline' => [
+            'label' => 'Cash Payment',
+            'color' => '#848a8c',
+            'mailers' => [],
+            'notificaitons' => [],
+        ],
     ],
 ];

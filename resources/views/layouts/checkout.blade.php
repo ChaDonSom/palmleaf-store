@@ -26,6 +26,7 @@
     >
     @livewireStyles
     @stripeScripts
+    {{ $head }}
 </head>
 
 <body class="antialiased text-gray-900">

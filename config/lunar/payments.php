@@ -10,6 +10,9 @@ return [
         ],
         'card' => [
             'driver' => 'stripe',
+        ],
+        'paypal' => [
+            'driver' => 'paypal',
         ]
     ],
 ];
