@@ -46,7 +46,7 @@
                 </p>
 
                 <article class="mt-4 text-gray-700">
-                    {{ $this->product->translateAttribute('description') }}
+                    {!! $this->product->translateAttribute('description') !!}
                 </article>
 
                 <form class="mt-4">
