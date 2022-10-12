@@ -1,9 +1,11 @@
 <section class="bg-white">
     <div class="max-w-screen-xl px-4 py-32 mx-auto sm:px-6 lg:px-8 lg:py-48">
         <div class="max-w-xl mx-auto text-center">
+            @env('local')
             <span class="text-xs font-medium text-center bg-orange-100 text-orange-700 px-3 py-1.5 rounded-lg">
                 This was a test order
             </span>
+            @endenv
 
             <h1 class="mt-8 text-3xl font-extrabold sm:text-5xl">
                 <span
@@ -21,9 +23,9 @@
             <p class="mt-4 font-medium sm:text-lg">
                 Your order reference number is
 
-                <strong>
-                    {{ $order->reference }}
-                </strong>
+                <a href="{{ route('orders.show', $order->id) }}">
+                    <strong>{{ $order->reference }}</strong>
+                </a>
             </p>
 
             <a
