@@ -23,8 +23,8 @@
                                     wire:key="cart_line_{{ $line->id }}"
                                 >
                                     <img
-                                        class="object-cover w-16 h-16 rounded"
-                                        src="{{ $line->purchasable->getThumbnail() }}"
+                                        class="object-cover w-16 h-16 rounded-lg"
+                                        src="{{ $line->purchasable->getThumbnail()?->original_url }}"
                                     />
 
                                     <div class="flex-1 ml-4">

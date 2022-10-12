@@ -25,9 +25,10 @@
                                 class="flex items-center py-4"
                                 wire:key="cart_line_{{ $line->id }}"
                             >
-                                <div class="object-cover w-16 h-16 rounded-lg overflow-hidden">
-                                    {{ $line->purchasable->getThumbnail() }}
-                                </div>
+                                <img
+                                    class="object-cover w-16 h-16 rounded-lg"
+                                    src="{{ $line->purchasable->getThumbnail()?->original_url }}"
+                                />
 
                                 <div class="flex-1 ml-4">
                                     <p class="text-sm font-medium max-w-[35ch]">

@@ -68,18 +68,10 @@
                                         class="flex py-4"
                                         wire:key="line_{{ $line['id'] }}"
                                     >
-                                        @if($line['thumbnail'])
-                                            @if($line['thumbnail']['original_url'] ?? false)
-                                                <img
-                                                    class="object-cover w-16 h-16 rounded-lg"
-                                                    src="{{ $line['thumbnail']['original_url'] }}"
-                                                >
-                                            @endif
-                                        @else
-                                            <div class="object-cover w-16 h-16 rounded-lg overflow-hidden">
-                                                {{ $line['thumbnail'] ?? '' }}
-                                            </div>
-                                        @endif
+                                        <img
+                                            class="object-cover w-16 h-16 rounded-lg"
+                                            src="{{ $line['thumbnail'] }}"
+                                        >
 
                                         <div class="flex-1 ml-4">
                                             <p class="max-w-[20ch] text-sm font-medium">

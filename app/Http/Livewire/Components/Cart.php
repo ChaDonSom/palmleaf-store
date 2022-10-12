@@ -96,7 +96,7 @@ class Cart extends Component
                 'identifier' => $line->purchasable->getIdentifier(),
                 'quantity' => $line->quantity,
                 'description' => $line->purchasable->getDescription(),
-                'thumbnail' => $line->purchasable->getThumbnail(),
+                'thumbnail' => $line->purchasable->getThumbnail()?->original_url,
                 'option' => $line->purchasable->getOption(),
                 'options' => $line->purchasable->getOptions()->implode(' / '),
                 'sub_total' => $line->subTotal->formatted(),
