@@ -101,7 +101,7 @@ class ProductSeeder extends AbstractSeeder
 
                 $media = $productModel->addMedia(
                     base_path("database/seeders/data/images/{$product->image}")
-                )->preservingOriginal()->toMediaCollection('products');
+                )->preservingOriginal()->toMediaCollection('images');
 
                 $media->setCustomProperty('primary', true);
                 $media->save();
