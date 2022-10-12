@@ -31,6 +31,9 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="col-span-full">
+                {{ $this->orders->links() }}
+            </div>
         </x-slot>
     </x-jet-form-section>
 </div>

@@ -14,6 +14,6 @@ class Orders extends Component
     }
 
     public function getOrdersProperty() {
-        return Auth::user()->customers->first()->orders()->paginate();
+        return Auth::user()->customers->first()->orders()->latest()->paginate();
     }
 }
