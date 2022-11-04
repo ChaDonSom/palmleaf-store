@@ -1,66 +1,36 @@
-<p align="center"><a href="https://lunar.io/" target="_blank"><img src="https://lunar.io/lunar_logo.svg" width="400" alt="Lunar"></a></p>
+# Palmleaf Store
 
-# Demo Store
+This is the code for the Palmleaf Creates store.
 
-This repository is provided as a reference to learn how to use Lunar Laravel E-Commerce package. This example is a classic e-commerce store.
+## Get started
 
-> **Warning**
-> This application is purely an example of how you can implement Lunar headless e-commerce for Laravel. It is not production ready or complete.
-
-# Requirements
-
-This demo store uses Meilisearch, for the best experience it is recommended you use this as well. If you want to use MySQL for search then you need to make sure you follow the configuration steps:
-
-https://docs.lunar.io/installation.html#search-configuration
-
-# Installation
-
-## Clone the repo
+### Clone the repo
 
 ```bash
-git clone --depth=1 https://github.com/lunar/demo-store.git
+git clone git@github.com:ChaDonSom/palmleaf-store.git
 ```
 
-This will create a shallow clone of the repo, from there you would just need to remove the `.git` folder and reinitialise it to make it your own.
+### Mysql setup
+```bash
+sudo mysql -u root
+> create database palmleaf;
+> create user 'palmleaf'@'localhost' identified by 'secret';
+> grant all privileges on palmleaf.* to 'palmleaf'@'localhost';
+```
 
-Then install composer dependencies
+(These details should match your `.env` file.)
 
+### Install
 ```bash
 composer install
-```
+npm install
 
-## Configure the Laravel app
-
-Copy the `.env.example` file to `.env` and make sure the details match to your install.
-
-All the relevant configuration files should be present in the repo.
-
-## Migrate and seed.
-
-Run the migrations
-
-```
+php artisan storage:link
 php artisan migrate
 ```
 
-Install Lunar
-
+### Start dev server
+```bash
+php artisan serve
+npm run hot
 ```
-php artisan lunar:install
-```
-
-Seed the demo data.
-
-```
-php artisan db:seed
-```
-
-Link the storage directory
-
-```
-php artisan storage:link
-```
-
----
-
-This demo store uses Livewire to handle all routing and Laravel components where they make sense.
