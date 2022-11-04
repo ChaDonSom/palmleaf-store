@@ -31,7 +31,7 @@ return [
             'mailers'       => [],
             'notifications' => [],
         ],
-        'payment-received' => [
+        'paid' => [
             'label'         => 'Payment Received',
             'color'         => '#6a67ce',
             'mailers'       => [],

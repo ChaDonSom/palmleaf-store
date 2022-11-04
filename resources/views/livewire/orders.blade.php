@@ -13,8 +13,9 @@
                 <tbody>
                     @foreach ($this->orders as $order)
                         <tr>
-                            <td>{{ $order->reference }}</td>
+                            <td class="py-1">{{ $order->reference }}</td>
                             <td
+                                class="py-1"
                                 x-data="{ date: '{{ $order->placed_at->toISOString() }}' }"
                                 x-text="() => luxon.DateTime.fromISO(date).toLocaleString(
                                     {
@@ -23,8 +24,8 @@
                                     }
                                 )"
                             ></td>
-                            <td class="text-right">{{ $order->total->formatted }}</td>
-                            <td class="text-right">
+                            <td class="py-1 text-right">{{ $order->total->formatted }}</td>
+                            <td class="py-1 text-right">
                                 <a href="{{ route('orders.show', ['order' => $order]) }}" class="underline text-sm text-gray-600 m-2">View</a>
                             </td>
                         </tr>

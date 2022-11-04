@@ -77,7 +77,7 @@ class OrderSeeder extends Seeder
 
                 $order = [
                     'channel_id' => $channel->id,
-                    'status' => 'payment-received',
+                    'status' => 'paid',
                     'sub_total' => $lines->sum('sub_total'),
                     'reference' => null,
                     'tax_total' => $lines->sum('tax_total'),
