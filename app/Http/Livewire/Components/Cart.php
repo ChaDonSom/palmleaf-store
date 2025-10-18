@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Components;
 
+use Illuminate\Support\Facades\Log;
 use Lunar\Facades\CartSession;
 use Livewire\Component;
 
@@ -12,7 +13,7 @@ class Cart extends Component
      *
      * @var array
      */
-    public array $lines;
+    public array $lines = [];
 
     public bool $linesVisible = false;
 
@@ -41,11 +42,20 @@ class Cart extends Component
     /**
      * Get the current cart instance.
      *
-     * @return \Lunar\Managers\CartManager
+     * @return \Lunar\Managers\CartManager|null
      */
     public function getCartProperty()
     {
-        return CartSession::current();
+        try {
+            return CartSession::current();
+        } catch (\Exception $e) {
+            // Log the error but don't break the page
+            Log::error('Cart calculation failed: ' . $e->getMessage(), [
+                'exception' => $e,
+                'trace' => $e->getTraceAsString()
+            ]);
+            return null;
+        }
     }
 
     /**
@@ -65,6 +75,10 @@ class Cart extends Component
      */
     public function updateLines()
     {
+        if (!$this->cart) {
+            return;
+        }
+
         $this->validate();
 
         CartSession::manager()->updateLines(
@@ -76,6 +90,10 @@ class Cart extends Component
 
     public function removeLine($id)
     {
+        if (!$this->cart) {
+            return;
+        }
+
         CartSession::manager()->removeLine($id);
         $this->mapLines();
     }
@@ -90,6 +108,11 @@ class Cart extends Component
      */
     public function mapLines()
     {
+        if (!$this->cart || !$this->cartLines) {
+            $this->lines = [];
+            return;
+        }
+
         $this->lines = $this->cartLines->map(function ($line) {
             return [
                 'id' => $line->id,
