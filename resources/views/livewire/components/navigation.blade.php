@@ -32,9 +32,9 @@
                     <div class="hidden lg:block whitespace-nowrap">
                         @auth
                         @else
-                            <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">{{ __('Log in') }}</a>
+                            <a href="{{ route('login') }}" class="text-sm text-gray-700 underline dark:text-gray-500">{{ __('Log in') }}</a>
                             @if (Route::has('register'))
-                                <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">{{ __('Register') }}</a>
+                                <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline dark:text-gray-500">{{ __('Register') }}</a>
                             @endif
                         @endauth
                     </div>
@@ -42,16 +42,16 @@
 
                 <!-- Settings Dropdown -->
                 @if (Auth::user())
-                <div class="ml-3 relative hidden lg:block whitespace-nowrap">
-                    <x-jet-dropdown align="right" width="48">
+                <div class="relative hidden ml-3 lg:block whitespace-nowrap">
+                    <jet-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                                <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
-                                    <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+                                <button class="flex text-sm transition border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300">
+                                    <img class="object-cover w-8 h-8 rounded-full" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
                                 </button>
                             @else
                                 <span class="inline-flex rounded-md">
-                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition">
+                                    <button type="button" class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition bg-white border border-transparent rounded-md hover:text-gray-700 focus:outline-none">
                                         {{ Auth::user()->name }}
 
                                         <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -68,18 +68,18 @@
                                 {{ __('Manage Account') }}
                             </div>
 
-                            <x-jet-dropdown-link href="{{ route('profile.show') }}">
+                            <jet-dropdown-link href="{{ route('profile.show') }}">
                                 {{ __('Profile') }}
-                            </x-jet-dropdown-link>
+                            </jet-dropdown-link>
 
-                            <x-jet-dropdown-link href="{{ route('orders') }}">
+                            <jet-dropdown-link href="{{ route('orders') }}">
                                 {{ __('My orders') }}
-                            </x-jet-dropdown-link>
+                            </jet-dropdown-link>
 
                             @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
-                                <x-jet-dropdown-link href="{{ route('api-tokens.index') }}">
+                                <jet-dropdown-link href="{{ route('api-tokens.index') }}">
                                     {{ __('API Tokens') }}
-                                </x-jet-dropdown-link>
+                                </jet-dropdown-link>
                             @endif
 
                             <div class="border-t border-gray-100"></div>
@@ -88,13 +88,13 @@
                             <form method="POST" action="{{ route('logout') }}" x-data>
                                 @csrf
 
-                                <x-jet-dropdown-link href="{{ route('logout') }}"
+                                <jet-dropdown-link href="{{ route('logout') }}"
                                          @click.prevent="$root.submit();">
                                     {{ __('Log Out') }}
-                                </x-jet-dropdown-link>
+                                </jet-dropdown-link>
                             </form>
                         </x-slot>
-                    </x-jet-dropdown>
+                    </jet-dropdown>
                 </div>
                 @endif
 
@@ -134,7 +134,7 @@
                             class="py-1 bg-white border border-gray-100 shadow-xl rounded-xl"
                         >
                             @auth
-                                <div class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 transition">
+                                <div class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition border border-transparent rounded-md">
                                     {{ Auth::user()->name }}
                                 </div>
                                 <!-- Account Management -->
@@ -142,49 +142,49 @@
                                     {{ __('Manage Account') }}
                                 </div>
 
-                                <x-jet-dropdown-link href="{{ route('profile.show') }}">
+                                <jet-dropdown-link href="{{ route('profile.show') }}">
                                     {{ __('Profile') }}
-                                </x-jet-dropdown-link>
+                                </jet-dropdown-link>
 
-                                <x-jet-dropdown-link href="{{ route('orders') }}">
+                                <jet-dropdown-link href="{{ route('orders') }}">
                                     {{ __('My orders') }}
-                                </x-jet-dropdown-link>
+                                </jet-dropdown-link>
 
                                 @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
-                                    <x-jet-dropdown-link href="{{ route('api-tokens.index') }}">
+                                    <jet-dropdown-link href="{{ route('api-tokens.index') }}">
                                         {{ __('API Tokens') }}
-                                    </x-jet-dropdown-link>
+                                    </jet-dropdown-link>
                                 @endif
 
                                 <!-- Authentication -->
                                 <form method="POST" action="{{ route('logout') }}" x-data>
                                     @csrf
 
-                                    <x-jet-dropdown-link href="{{ route('logout') }}"
+                                    <jet-dropdown-link href="{{ route('logout') }}"
                                             @click.prevent="$root.submit();">
                                         {{ __('Log Out') }}
-                                    </x-jet-dropdown-link>
+                                    </jet-dropdown-link>
                                 </form>
                             @else
                                 <li>
-                                    <x-jet-dropdown-link href="{{ route('login') }}">
+                                    <jet-dropdown-link href="{{ route('login') }}">
                                         {{ __('Login') }}
-                                    </x-jet-dropdown-link>
+                                    </jet-dropdown-link>
                                 </li>
                                 @if (Route::has('register'))
-                                    <x-jet-dropdown-link href="{{ route('register') }}">
+                                    <jet-dropdown-link href="{{ route('register') }}">
                                         {{ __('Register') }}
-                                    </x-jet-dropdown-link>
+                                    </jet-dropdown-link>
                                 @endif
                             @endauth
                             <li><hr></li>
                             @foreach ($this->collections as $collection)
-                                <x-jet-dropdown-link
+                                <jet-dropdown-link
                                     class="text-sm font-medium"
                                     href="{{ route('collection.view', $collection->defaultUrl->slug) }}"
                                 >
                                     {{ $collection->translateAttribute('name') }}
-                                </x-jet-dropdown-link>
+                                </jet-dropdown-link>
                             @endforeach
                         </ul>
                     </div>

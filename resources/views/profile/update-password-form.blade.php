@@ -1,4 +1,4 @@
-<x-jet-form-section submit="updatePassword">
+<jet-form-section submit="updatePassword">
     <x-slot name="title">
         {{ __('Update Password') }}
     </x-slot>
@@ -22,12 +22,12 @@
     </x-slot>
 
     <x-slot name="actions">
-        <x-jet-action-message class="mr-3" on="saved">
+        <jet-action-message class="mr-3" on="saved">
             {{ __('Saved.') }}
-        </x-jet-action-message>
+        </jet-action-message>
 
-        <x-jet-button>
+        <jet-button>
             {{ __('Save') }}
-        </x-jet-button>
+        </jet-button>
     </x-slot>
-</x-jet-form-section>
+</jet-form-section>

@@ -1,9 +1,9 @@
 <x-guest-layout>
-    <x-jet-authentication-card>
+    <jet-authentication-card>
         <x-slot name="logo">
         </x-slot>
 
-        <x-jet-validation-errors class="mb-4" />
+        <jet-validation-errors class="mb-4" />
 
         <form method="POST" action="{{ route('register') }}" class="flex flex-col gap-3">
             @csrf
@@ -26,9 +26,9 @@
 
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
                 <div class="mt-4">
-                    <x-jet-label for="terms">
+                    <jet-label for="terms">
                         <div class="flex items-center">
-                            <x-jet-checkbox name="terms" id="terms"/>
+                            <jet-checkbox name="terms" id="terms"/>
 
                             <div class="ml-2">
                                 {!! __('I agree to the :terms_of_service and :privacy_policy', [
@@ -37,7 +37,7 @@
                                 ]) !!}
                             </div>
                         </div>
-                    </x-jet-label>
+                    </jet-label>
                 </div>
             @endif
 
@@ -46,10 +46,10 @@
                     {{ __('Already registered?') }}
                 </a>
 
-                <x-jet-button class="ml-4">
+                <jet-button class="ml-4">
                     {{ __('Register') }}
-                </x-jet-button>
+                </jet-button>
             </div>
         </form>
-    </x-jet-authentication-card>
+    </jet-authentication-card>
 </x-guest-layout>

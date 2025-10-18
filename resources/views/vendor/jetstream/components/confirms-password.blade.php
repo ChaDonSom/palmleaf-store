@@ -15,7 +15,7 @@
 </span>
 
 @once
-<x-jet-dialog-modal wire:model="confirmingPassword">
+<jet-dialog-modal wire:model="confirmingPassword">
     <x-slot name="title">
         {{ $title }}
     </x-slot>
@@ -29,18 +29,18 @@
                         wire:model.defer="confirmablePassword"
                         wire:keydown.enter="confirmPassword" />
 
-            <x-jet-input-error for="confirmable_password" class="mt-2" />
+            <jet-input-error for="confirmable_password" class="mt-2" />
         </div>
     </x-slot>
 
     <x-slot name="footer">
-        <x-jet-secondary-button wire:click="stopConfirmingPassword" wire:loading.attr="disabled">
+        <jet-secondary-button wire:click="stopConfirmingPassword" wire:loading.attr="disabled">
             {{ __('Cancel') }}
-        </x-jet-secondary-button>
+        </jet-secondary-button>
 
-        <x-jet-button class="ml-3" dusk="confirm-password-button" wire:click="confirmPassword" wire:loading.attr="disabled">
+        <jet-button class="ml-3" dusk="confirm-password-button" wire:click="confirmPassword" wire:loading.attr="disabled">
             {{ $button }}
-        </x-jet-button>
+        </jet-button>
     </x-slot>
-</x-jet-dialog-modal>
+</jet-dialog-modal>
 @endonce
