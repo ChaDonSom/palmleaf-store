@@ -10,8 +10,7 @@ use Livewire\ComponentConcerns\PerformsRedirects;
 
 class CollectionPage extends Component
 {
-    use PerformsRedirects,
-        FetchesUrls;
+    use FetchesUrls;
 
     /**
      * {@inheritDoc}

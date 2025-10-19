@@ -9,7 +9,7 @@ use Livewire\ComponentConcerns\PerformsRedirects;
 
 class ProductPage extends Component
 {
-    use FetchesUrls, PerformsRedirects;
+    use FetchesUrls;
 
     /**
      * The selected option values.
@@ -118,7 +118,7 @@ class ProductPage extends Component
             return $this->variant->thumbnail;
         }
 
-        if ($primary = $this->images->first(fn ($media) => $media->getCustomProperty('primary'))) {
+        if ($primary = $this->images->first(fn($media) => $media->getCustomProperty('primary'))) {
             return $primary;
         }
 

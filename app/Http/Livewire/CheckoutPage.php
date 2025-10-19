@@ -17,7 +17,7 @@ use Livewire\ComponentConcerns\PerformsRedirects;
 
 class CheckoutPage extends Component
 {
-    use PerformsRedirects;
+    // use PerformsRedirects;
 
     /**
      * The Cart instance.
@@ -254,7 +254,6 @@ class CheckoutPage extends Component
                 }
             }
         }
-
     }
 
     /**
@@ -377,8 +376,7 @@ class CheckoutPage extends Component
             ]);
 
             Auth::login($user);
-        }
-        else session()->put('guest-checkout-signup', false);
+        } else session()->put('guest-checkout-signup', false);
 
         $this->determineCheckoutStep();
     }
@@ -390,7 +388,7 @@ class CheckoutPage extends Component
      */
     public function saveShippingOption()
     {
-        $option = $this->shippingOptions->first(fn ($option) => $option->getIdentifier() == $this->chosenShipping);
+        $option = $this->shippingOptions->first(fn($option) => $option->getIdentifier() == $this->chosenShipping);
 
         CartSession::current()->getManager()->setShippingOption($option);
 
@@ -409,13 +407,11 @@ class CheckoutPage extends Component
                 'payment_intent_client_secret' => $this->payment_intent_client_secret,
                 'payment_intent' => $this->payment_intent,
             ];
-        }
-        else if ($this->paymentType == 'paypal') {
+        } else if ($this->paymentType == 'paypal') {
             $paymentData = [
                 'paypal_order_id' => $this->paypal_order_id,
             ];
-        }
-        else if ($this->paymentType == 'cash') {
+        } else if ($this->paymentType == 'cash') {
             $paymentConfig = [
                 'authorized' => 'payment-offline',
             ];
@@ -424,7 +420,7 @@ class CheckoutPage extends Component
         $payment = Payments::cart($this->cart)
             ->withData($paymentData)
             ->setConfig($paymentConfig);
-        
+
         $payment->authorize();
 
         session()->put('guest-checkout-signup', null);

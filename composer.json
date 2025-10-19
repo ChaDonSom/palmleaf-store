@@ -2,31 +2,30 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.0",
-        "fruitcake/laravel-cors": "^2.0",
-        "lunarphp/lunar": "^0.1",
-        "lunarphp/stripe": "^0.1",
         "guzzlehttp/guzzle": "^7.0.1",
         "http-interop/http-factory-guzzle": "^1.2",
-        "illuminate/console": "*",
         "itsgoingd/clockwork": "^5.1",
-        "laravel/framework": "^9.0",
-        "laravel/jetstream": "*",
-        "laravel/sanctum": "^2.11",
+        "laravel/framework": "^11.0",
+        "laravel/jetstream": "^5.3",
+        "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.5",
-        "livewire/livewire": "^2.5",
+        "livewire/livewire": "^3.6.4",
+        "lunarphp/lunar": "^1.0",
+        "lunarphp/stripe": "^1.0",
         "meilisearch/meilisearch-php": "^0.24.2",
         "srmklive/paypal": "~3.0"
     },
     "require-dev": {
-        "spatie/laravel-ignition": "^1.0",
         "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^6.1",
         "phpunit/phpunit": "^9.5.10"
     },
     "autoload": {

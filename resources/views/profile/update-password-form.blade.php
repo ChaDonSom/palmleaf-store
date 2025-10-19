@@ -1,4 +1,4 @@
-<jet-form-section submit="updatePassword">
+<x-form-section submit="updatePassword">
     <x-slot name="title">
         {{ __('Update Password') }}
     </x-slot>
@@ -8,26 +8,32 @@
     </x-slot>
 
     <x-slot name="form">
-        <x-input.group class="col-span-6 sm:col-span-4" label="{{ __('Current Password') }}" :errors="$errors->get('current_password')">
-            <x-input.text id="current_password" type="password" class="mt-1 block w-full" wire:model.defer="state.current_password" autocomplete="current-password" />
-        </x-input.group>
+        <div class="col-span-6 sm:col-span-4">
+            <x-label for="current_password" value="{{ __('Current Password') }}" />
+            <x-input id="current_password" type="password" class="mt-1 block w-full" wire:model="state.current_password" autocomplete="current-password" />
+            <x-input-error for="current_password" class="mt-2" />
+        </div>
 
-        <x-input.group class="col-span-6 sm:col-span-4" label="{{ __('New Password') }}" :errors="$errors->get('password')">
-            <x-input.text id="password" type="password" class="mt-1 block w-full" wire:model.defer="state.password" autocomplete="new-password" />
-        </x-input.group>
+        <div class="col-span-6 sm:col-span-4">
+            <x-label for="password" value="{{ __('New Password') }}" />
+            <x-input id="password" type="password" class="mt-1 block w-full" wire:model="state.password" autocomplete="new-password" />
+            <x-input-error for="password" class="mt-2" />
+        </div>
 
-        <x-input.group class="col-span-6 sm:col-span-4" label="{{ __('Confirm Password') }}" :errors="$errors->get('password_confirmation')">
-            <x-input.text id="password_confirmation" type="password" class="mt-1 block w-full" wire:model.defer="state.password_confirmation" autocomplete="new-password" />
-        </x-input.group>
+        <div class="col-span-6 sm:col-span-4">
+            <x-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
+            <x-input id="password_confirmation" type="password" class="mt-1 block w-full" wire:model="state.password_confirmation" autocomplete="new-password" />
+            <x-input-error for="password_confirmation" class="mt-2" />
+        </div>
     </x-slot>
 
     <x-slot name="actions">
-        <jet-action-message class="mr-3" on="saved">
+        <x-action-message class="me-3" on="saved">
             {{ __('Saved.') }}
-        </jet-action-message>
+        </x-action-message>
 
-        <jet-button>
+        <x-button>
             {{ __('Save') }}
-        </jet-button>
+        </x-button>
     </x-slot>
-</jet-form-section>
+</x-form-section>

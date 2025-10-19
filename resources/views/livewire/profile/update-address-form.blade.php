@@ -1,4 +1,4 @@
-<jet-form-section submit="updateAddress" x-init="$wire.on('saved', () => history.back())">
+<x-jet-form-section submit="updateAddress" x-init="$wire.on('saved', () => history.back())">
     <x-slot name="title">
         {{ __('Edit Address') }}
     </x-slot>
@@ -74,17 +74,17 @@
 
     <x-slot name="actions">
         @if($address->id)
-            <jet-danger-button wire:loading.attr="disabled" type="button" class="mr-auto" wire:click="deleteAddress">
+            <x-jet-danger-button wire:loading.attr="disabled" type="button" class="mr-auto" wire:click="deleteAddress">
                 {{ __('DELETE') }}
-            </jet-danger-button>
+            </x-jet-danger-button>
         @endif
 
-        <jet-action-message class="mr-3" on="saved">
+        <x-jet-action-message class="mr-3" on="saved">
             {{ __('Saved.') }}
-        </jet-action-message>
+        </x-jet-action-message>
 
-        <jet-button wire:loading.attr="disabled" wire:target="photo">
+        <x-jet-button wire:loading.attr="disabled" wire:target="photo">
             {{ __('Save') }}
-        </jet-button>
+        </x-jet-button>
     </x-slot>
-</jet-form-section>
+</x-jet-form-section>

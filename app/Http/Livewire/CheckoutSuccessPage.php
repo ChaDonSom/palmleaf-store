@@ -10,7 +10,7 @@ use Livewire\ComponentConcerns\PerformsRedirects;
 
 class CheckoutSuccessPage extends Component
 {
-    use PerformsRedirects;
+    // use PerformsRedirects;
 
     public ?Cart $cart;
 

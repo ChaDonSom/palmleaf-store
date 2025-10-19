@@ -24,17 +24,17 @@
 </head>
 
 <body class="antialiased text-gray-900">
-    @livewire('components.navigation')
+    {{-- @livewire('components.navigation') --}}
 
-    <main>
+    {{-- <main>
         {{ $slot }}
-    </main>
+    </main> --}}
 
-    <x-footer />
+    {{-- <x-footer /> --}}
 
-    @stack('modals')
+    {{-- @stack('modals')
 
-    @livewireScripts
+    @livewireScripts --}}
 </body>
 
 </html>

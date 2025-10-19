@@ -1,4 +1,4 @@
-<jet-form-section submit="">
+<x-jet-form-section submit="">
     <x-slot name="title">
         {{ __('Addresses') }}
     </x-slot>
@@ -64,4 +64,4 @@
             </tbody>
         </table>
     </x-slot>
-</jet-form-section>
+</x-jet-form-section>
