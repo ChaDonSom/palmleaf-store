@@ -10,8 +10,6 @@
     "require": {
         "php": "^8.0",
         "fruitcake/laravel-cors": "^2.0",
-        "lunarphp/lunar": "^0.1",
-        "lunarphp/stripe": "^0.1",
         "guzzlehttp/guzzle": "^7.0.1",
         "http-interop/http-factory-guzzle": "^1.2",
         "illuminate/console": "*",
@@ -20,7 +18,10 @@
         "laravel/jetstream": "^2.17",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
+        "league/flysystem-aws-s3-v3": "^3.0",
         "livewire/livewire": "^2.5",
+        "lunarphp/lunar": "^0.1",
+        "lunarphp/stripe": "^0.1",
         "meilisearch/meilisearch-php": "^0.24.2",
         "srmklive/paypal": "~3.0"
     },
