@@ -71,7 +71,8 @@ class Home extends Component
         // Filter by category
         if ($this->category !== 'All') {
             $productsQuery->whereHas('collections', function ($query) {
-                $query->whereRaw("json_extract(name, '$.en') = ?", [$this->category]);
+                // Use DB-agnostic JSON query
+                $query->where('name->en', $this->category);
             });
         }
 

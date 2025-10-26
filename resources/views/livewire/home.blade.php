@@ -4,9 +4,8 @@
         <div class="mx-auto max-w-7xl px-4 py-16 md:py-24">
             <div class="mx-auto max-w-2xl rounded-3xl bg-white/70 p-8 text-center shadow-xl backdrop-blur">
                 <div class="mx-auto mb-3 inline-flex items-center gap-2 rounded-full border bg-white px-3 py-1 text-xs text-slate-600">
-                    <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                    </svg>
+                    <x-icons.sparkles />
+                    {{-- TODO: Replace with actual featured collection or new arrivals functionality --}}
                     New fall collection just dropped
                 </div>
                 <h1 class="text-4xl font-black tracking-tight md:text-5xl">
@@ -45,9 +44,7 @@
             <div class="flex items-center gap-2 md:flex-shrink-0">
                 <!-- Search -->
                 <div class="relative flex-1 md:w-64">
-                    <svg class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
+                    <x-icons.search class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                     <input 
                         type="text" 
                         wire:model.debounce.500ms="query"
@@ -120,6 +117,7 @@
                     <!-- Product Footer -->
                     <div class="flex items-center justify-between p-5 pt-0">
                         <!-- Rating Stars -->
+                        {{-- TODO: Implement actual product ratings system --}}
                         <div class="flex items-center gap-1 text-amber-500">
                             @for ($i = 0; $i < 4; $i++)
                                 <svg class="h-4 w-4 fill-current" viewBox="0 0 24 24">
@@ -167,15 +165,16 @@
     </section>
 
     <!-- Newsletter Section -->
-    <section id="about" class="bg-gradient-to-r from-emerald-50 to-sky-50">
+    <section id="about" class="bg-gradient-to-r from-emerald-50 to-sky-50 overflow-hidden">
         <div class="mx-auto max-w-7xl px-4 py-14 md:px-6">
-            <div class="grid items-center gap-8 rounded-3xl bg-white/70 p-8 shadow-xl backdrop-blur md:grid-cols-2">
+            <div class="grid items-center gap-8 rounded-3xl bg-white/70 p-4 sm:p-8 shadow-xl backdrop-blur md:grid-cols-2">
                 <div>
                     <h3 class="text-2xl font-black tracking-tight">Stay in the loop</h3>
                     <p class="mt-1 text-slate-600">Drops, restocks, and pop‑up markets—straight to your inbox.</p>
+                    {{-- TODO: Implement newsletter subscription functionality --}}
                     <form 
                         wire:submit.prevent="$emit('newsletter-subscribe')"
-                        class="mt-4 flex items-center gap-2"
+                        class="mt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-2"
                     >
                         <input 
                             type="email" 
@@ -184,14 +183,14 @@
                         />
                         <button 
                             type="submit"
-                            class="rounded-2xl bg-slate-900 px-6 py-2 text-sm font-medium text-white hover:bg-slate-800 transition"
+                            class="rounded-2xl bg-slate-900 px-6 py-2 text-sm font-medium text-white hover:bg-slate-800 transition whitespace-nowrap"
                         >
                             Subscribe
                         </button>
                     </form>
                     <p class="mt-2 text-xs text-slate-500">We respect your privacy. Unsubscribe anytime.</p>
                 </div>
-                <div class="rounded-2xl border bg-white p-6">
+                <div class="rounded-2xl border bg-white p-4 sm:p-6">
                     <div class="text-sm font-semibold text-slate-700">About Woven in Agape</div>
                     <p class="mt-2 text-sm text-slate-600">
                         We're a small, family‑run Christian apparel shop crafting garments that carry gentle truth—

@@ -8,9 +8,7 @@
         class="inline-flex items-center gap-2 rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium hover:bg-slate-50 transition"
         x-on:click="linesVisible = !linesVisible"
     >
-        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-        </svg>
+        <x-icons.shopping-cart />
         <span class="hidden md:inline">Cart</span>
         @if (count($lines) > 0)
             <span class="ml-1 inline-flex h-5 min-w-[20px] items-center justify-center rounded-full bg-slate-900 px-1.5 text-[10px] font-medium text-white">
@@ -34,9 +32,7 @@
                     type="button"
                     x-on:click="linesVisible = false"
                 >
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
+                    <x-icons.close />
                 </button>
             </div>
 
@@ -87,9 +83,7 @@
                         class="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl bg-slate-900 px-6 py-3 text-sm font-medium text-white hover:bg-slate-800 transition"
                     >
                         Checkout
-                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                        </svg>
+                        <x-icons.arrow-right />
                     </a>
                     
                     <div class="text-center text-xs text-slate-500 mt-3">
