@@ -71,7 +71,7 @@ class Home extends Component
         // Filter by category
         if ($this->category !== 'All') {
             $productsQuery->whereHas('collections', function ($query) {
-                $query->where('name->en', $this->category);
+                $query->whereRaw("json_extract(name, '$.en') = ?", [$this->category]);
             });
         }
 
