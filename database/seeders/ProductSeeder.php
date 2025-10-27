@@ -138,10 +138,12 @@ class ProductSeeder extends AbstractSeeder
                     $media->save();
                 }
 
-                // Sync collections
+                // Sync collections by slug to ensure reliable matching
                 $collectionIds = [];
-                $collections->each(function ($coll) use ($product, &$collectionIds) {
-                    if (in_array(strtolower($coll->translateAttribute('name')), $product->collections)) {
+                $desiredSlugs = collect($product->collections ?? [])->map(fn($c) => strtolower($c))->all();
+                $collections->each(function ($coll) use ($desiredSlugs, &$collectionIds) {
+                    $slug = optional($coll->defaultUrl)->slug;
+                    if ($slug && in_array(strtolower($slug), $desiredSlugs, true)) {
                         $collectionIds[] = $coll->id;
                     }
                 });

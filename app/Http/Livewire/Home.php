@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use Illuminate\Support\Facades\Log;
 use Lunar\Models\Collection;
 use Lunar\Models\Product;
 use Lunar\Models\Url;
@@ -46,7 +47,8 @@ class Home extends Component
      */
     public function getCategoriesProperty()
     {
-        $collections = Collection::all();
+        // Only show categories that have products to avoid empty pages
+        $collections = Collection::whereHas('products')->get();
         // Use base collection to avoid Eloquent unique() attempting to key by model
         $categories = $collections->toBase()->map(function ($collection) {
             return $collection->translateAttribute('name');
@@ -75,7 +77,7 @@ class Home extends Component
             $productsQuery->whereHas('collections', function ($query) use ($locale) {
                 // Lunar stores translatable attributes on the JSON column `attribute_data`
                 // Use Laravel's driver-agnostic JSON path syntax
-                $query->where("attribute_data->name->{$locale}", $this->category);
+                $query->where("attribute_data->name->value->{$locale}", $this->category);
             });
         }
 
