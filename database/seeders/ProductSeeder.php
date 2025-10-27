@@ -51,7 +51,7 @@ class ProductSeeder extends AbstractSeeder
                 $attributeData = [];
 
                 foreach ($product->attributes as $attributeHandle => $value) {
-                    $attribute = $attributes->first(fn ($att) => $att->handle == $attributeHandle);
+                    $attribute = $attributes->first(fn($att) => $att->handle == $attributeHandle);
 
                     if ($attribute->type == TranslatedText::class) {
                         $attributeData[$attributeHandle] = new TranslatedText([
@@ -65,52 +65,96 @@ class ProductSeeder extends AbstractSeeder
                     }
                 }
 
-                $productModel = Product::create([
-                    'attribute_data' => $attributeData,
-                    'product_type_id' => $productType->id,
-                    'status' => 'published',
-                    'brand' => $product->brand,
-                ]);
+                // Check if product already exists by SKU
+                $existingVariant = ProductVariant::where('sku', $product->sku)->first();
 
-                $productModel->urls()->create([
-                    'default' => true,
-                    'slug' => Str::slug($product->attributes->name),
-                    'language_id' => $language->id,
-                ]);
+                if ($existingVariant) {
+                    // Update existing product
+                    $productModel = $existingVariant->product;
+                    $productModel->update([
+                        'attribute_data' => $attributeData,
+                        'status' => 'published',
+                    ]);
 
-                // Only one variant...
-                $variant = ProductVariant::create([
-                    'product_id' => $productModel->id,
-                    'purchasable' => 'always',
-                    'shippable' => true,
-                    'stock' => 0,
-                    'backorder' => 0,
-                    'sku' => $product->sku,
-                    'tax_class_id' => $taxClass->id,
-                    'stock' => 500,
-                ]);
+                    // Update variant
+                    $existingVariant->update([
+                        'purchasable' => 'always',
+                        'shippable' => true,
+                        'stock' => 500,
+                        'backorder' => 0,
+                        'tax_class_id' => $taxClass->id,
+                    ]);
 
-                Price::create([
-                    'customer_group_id' => null,
-                    'currency_id' => $currency->id,
-                    'priceable_type' => ProductVariant::class,
-                    'priceable_id' => $variant->id,
-                    'price' => $product->price,
-                    'tier' => 1,
-                ]);
+                    $variant = $existingVariant;
+                } else {
+                    // Create new product
+                    $productModel = Product::create([
+                        'attribute_data' => $attributeData,
+                        'product_type_id' => $productType->id,
+                        'status' => 'published',
+                    ]);
 
-                $media = $productModel->addMedia(
-                    base_path("database/seeders/data/images/{$product->image}")
-                )->preservingOriginal()->toMediaCollection('images');
+                    $slug = Str::slug($product->attributes->name);
 
-                $media->setCustomProperty('primary', true);
-                $media->save();
+                    $productModel->urls()->create([
+                        'default' => true,
+                        'slug' => $slug,
+                        'language_id' => $language->id,
+                    ]);
 
-                $collections->each(function ($coll) use ($product, $productModel) {
-                    if (in_array(strtolower($coll->translateAttribute('name')), $product->collections)) {
-                        $coll->products()->attach($productModel->id);
+                    // Only one variant...
+                    $variant = ProductVariant::create([
+                        'product_id' => $productModel->id,
+                        'purchasable' => 'always',
+                        'shippable' => true,
+                        'stock' => 500,
+                        'backorder' => 0,
+                        'sku' => $product->sku,
+                        'tax_class_id' => $taxClass->id,
+                    ]);
+                }
+
+                // Update or create price
+                Price::updateOrCreate(
+                    [
+                        'priceable_type' => ProductVariant::class,
+                        'priceable_id' => $variant->id,
+                        'currency_id' => $currency->id,
+                        'tier' => 1,
+                    ],
+                    [
+                        'customer_group_id' => null,
+                        'price' => $product->price,
+                    ]
+                );
+
+                // Add media if it doesn't exist
+                if ($productModel->getMedia('images')->isEmpty()) {
+                    $media = $productModel->addMedia(
+                        base_path("database/seeders/data/images/{$product->image}")
+                    )->preservingOriginal()->toMediaCollection('images');
+
+                    $media->setCustomProperty('primary', true);
+                    $media->save();
+                }
+
+                // Sync collections by slug to ensure reliable matching
+                // $product->collections is expected to be an array of collection slugs (strings)
+                $collectionIds = [];
+                $desiredSlugs = collect($product->collections ?? [])
+                    ->filter(fn($c) => is_string($c)) // Ensure only strings are processed
+                    ->map(fn($c) => strtolower($c))
+                    ->all();
+                $collections->each(function ($coll) use ($desiredSlugs, &$collectionIds) {
+                    $slug = optional($coll->defaultUrl)->slug;
+                    if ($slug && in_array(strtolower($slug), $desiredSlugs, true)) {
+                        $collectionIds[] = $coll->id;
                     }
                 });
+
+                if (!empty($collectionIds)) {
+                    $productModel->collections()->sync($collectionIds);
+                }
 
                 if (! count($product->options ?? [])) {
                     return;
@@ -123,7 +167,7 @@ class ProductSeeder extends AbstractSeeder
 
                 foreach ($product->options ?? [] as $option) {
                     // Do we have this option already?
-                    $optionModel = $options->first(fn ($opt) => $option->name == $opt->translate('name'));
+                    $optionModel = $options->first(fn($opt) => $option->name == $opt->translate('name'));
 
                     if (! $optionModel) {
                         $optionModel = ProductOption::create([
@@ -135,7 +179,7 @@ class ProductSeeder extends AbstractSeeder
 
                     foreach ($option->values as $value) {
                         // Does this exist?
-                        $valueModel = $optionValues->first(fn ($val) => $value == $val->translate('name'));
+                        $valueModel = $optionValues->first(fn($val) => $value == $val->translate('name'));
 
                         if (! $valueModel) {
                             $valueModel = ProductOptionValue::create([
@@ -149,7 +193,11 @@ class ProductSeeder extends AbstractSeeder
                         $optionValueIds[] = $valueModel->id;
                     }
                 }
-                GenerateVariants::dispatch($productModel, $optionValueIds);
+
+                // Only generate variants if this is a new product
+                if (!$existingVariant) {
+                    GenerateVariants::dispatch($productModel, $optionValueIds);
+                }
             });
         });
     }

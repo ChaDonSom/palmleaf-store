@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Modifiers\OrderModifier;
 use App\Modifiers\ShippingModifier;
+use App\View\Composers\FooterComposer;
+use Illuminate\Support\Facades\View;
 use Lunar\Base\OrderModifiers;
 use Lunar\Base\ShippingModifiers;
 use Illuminate\Support\ServiceProvider;
@@ -34,5 +36,8 @@ class AppServiceProvider extends ServiceProvider
         $orderModifiers->add(
             OrderModifier::class
         );
+
+        // Register view composers
+        View::composer('components.footer', FooterComposer::class);
     }
 }

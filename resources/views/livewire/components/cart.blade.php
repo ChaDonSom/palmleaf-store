@@ -1,182 +1,104 @@
 <div
-    class="sm:relative"
+    class="relative"
     x-data="{
         linesVisible: @entangle('linesVisible')
     }"
 >
     <button
-        class="grid w-16 h-16 transition border-l border-gray-100 lg:border-l-transparent hover:opacity-75"
+        class="inline-flex items-center gap-2 rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium hover:bg-slate-50 transition"
         x-on:click="linesVisible = !linesVisible"
     >
-        <span class="sr-only">Cart</span>
-
-        <span class="place-self-center">
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="w-4 h-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-            >
-                <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-                />
-            </svg>
-        </span>
+        <x-icons.shopping-cart />
+        <span class="hidden md:inline">Cart</span>
+        @if (count($lines) > 0)
+            <span class="ml-1 inline-flex h-5 min-w-[20px] items-center justify-center rounded-full bg-slate-900 px-1.5 text-[10px] font-medium text-white">
+                {{ count($lines) }}
+            </span>
+        @endif
     </button>
 
     <div
-        class="absolute inset-x-0 top-auto z-50 w-screen max-w-sm px-6 py-8 mx-auto mt-4 bg-white border border-gray-100 shadow-xl sm:left-auto rounded-xl"
+        class="absolute right-0 top-auto z-50 mt-2 w-[95vw] sm:w-[480px] bg-white border border-slate-100 shadow-xl rounded-2xl"
         x-show="linesVisible"
         x-on:click.away="linesVisible = false"
         x-transition
         x-cloak
     >
-        <button
-            class="absolute text-gray-500 transition-transform top-3 right-3 hover:scale-110"
-            type="button"
-            aria-label="Close"
-            x-on:click="linesVisible = false"
-        >
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="w-4 h-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-            >
-                <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M6 18L18 6M6 6l12 12"
-                />
-            </svg>
-        </button>
+        <div class="p-4">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold">Your Cart</h3>
+                <button
+                    class="text-slate-500 transition-transform hover:scale-110"
+                    type="button"
+                    x-on:click="linesVisible = false"
+                >
+                    <x-icons.close />
+                </button>
+            </div>
 
-        <div>
             @if ($this->cart)
                 @if ($lines)
-                    <div class="flow-root">
-                        <ul class="-my-4 overflow-y-auto divide-y divide-gray-100 max-h-96">
-                            @foreach ($lines as $index => $line)
-                                <li>
-                                    <div
-                                        class="flex py-4"
-                                        wire:key="line_{{ $line['id'] }}"
+                    <div class="space-y-4 max-h-96 overflow-y-auto">
+                        @foreach ($lines as $index => $line)
+                            <div class="flex items-center gap-4" wire:key="line_{{ $line['id'] }}">
+                                <img
+                                    class="h-20 w-20 rounded-xl object-cover shadow-sm"
+                                    src="{{ $line['thumbnail'] }}"
+                                    alt="{{ $line['description'] }}"
+                                />
+                                <div class="flex-1">
+                                    <div class="font-semibold text-sm">{{ $line['description'] }}</div>
+                                    <div class="text-sm text-slate-500">{{ $line['unit_price'] }} • Qty {{ $line['quantity'] }}</div>
+                                    <div class="text-xs text-slate-400 mt-1">{{ $line['identifier'] }} / {{ $line['options'] }}</div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-semibold">{{ $line['sub_total'] }}</div>
+                                    <button
+                                        type="button"
+                                        wire:click="removeLine('{{ $line['id'] }}')"
+                                        class="mt-1 text-xs text-slate-500 hover:text-red-600 transition"
                                     >
-                                        <img
-                                            class="object-cover w-16 h-16 rounded-lg"
-                                            src="{{ $line['thumbnail'] }}"
-                                        >
+                                        Remove
+                                    </button>
+                                </div>
+                            </div>
 
-                                        <div class="flex-1 ml-4">
-                                            <p class="max-w-[20ch] text-sm font-medium">
-                                                {{ $line['description'] }}
-                                            </p>
+                            @if ($errors->get('lines.' . $index . '.quantity'))
+                                <div class="p-2 text-xs font-medium text-center text-red-700 rounded bg-red-50" role="alert">
+                                    @foreach ($errors->get('lines.' . $index . '.quantity') as $error)
+                                        {{ $error }}
+                                    @endforeach
+                                </div>
+                            @endif
+                        @endforeach
+                    </div>
 
-                                            <span class="block mt-1 text-xs text-gray-500">
-                                                {{ $line['identifier'] }} / {{ $line['options'] }}
-                                            </span>
+                    <div class="flex items-center justify-between border-t border-slate-100 pt-4 mt-4">
+                        <div class="text-sm text-slate-500">Subtotal</div>
+                        <div class="text-lg font-bold">{{ $this->cart->subTotal->formatted() }}</div>
+                    </div>
 
-                                            <div class="flex items-center mt-2">
-                                                <input
-                                                    class="w-16 p-2 text-xs transition-colors border border-gray-100 focus:border-gray-100 rounded-3xl hover:border-gray-300 focus:ring-green-600"
-                                                    type="number"
-                                                    wire:model="lines.{{ $index }}.quantity"
-                                                />
+                    <a
+                        href="{{ route('checkout.view') }}"
+                        class="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl bg-slate-900 px-6 py-3 text-sm font-medium text-white hover:bg-slate-800 transition"
+                    >
+                        Checkout
+                        <x-icons.arrow-right />
+                    </a>
 
-                                                <p class="ml-2 text-xs">
-                                                    @ {{ $line['unit_price'] }}
-                                                </p>
-
-                                                <button
-                                                    class="p-2 ml-auto text-red-400 transition-colors rounded-3xl hover:bg-gray-100 hover:text-red-700"
-                                                    type="button"
-                                                    wire:click="removeLine('{{ $line['id'] }}') }}"
-                                                >
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        class="w-4 h-4"
-                                                        fill="none"
-                                                        viewBox="0 0 24 24"
-                                                        stroke="currentColor"
-                                                    >
-                                                        <path
-                                                            stroke-linecap="round"
-                                                            stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                                        />
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    @if ($errors->get('lines.' . $index . '.quantity'))
-                                        <div
-                                            class="p-2 mb-4 text-xs font-medium text-center text-red-700 rounded bg-red-50"
-                                            role="alert"
-                                        >
-                                            @foreach ($errors->get('lines.' . $index . '.quantity') as $error)
-                                                {{ $error }}
-                                            @endforeach
-                                        </div>
-                                    @endif
-                                </li>
-                            @endforeach
-                        </ul>
+                    <div class="text-center text-xs text-slate-500 mt-3">
+                        Taxes and shipping calculated at checkout.
                     </div>
                 @else
-                    <p class="py-4 text-sm font-medium text-center text-gray-500">
-                        Your cart is empty
-                    </p>
+                    <div class="rounded-xl border border-slate-100 p-6 text-center text-slate-500">
+                        Your cart is empty.
+                    </div>
                 @endif
-
-                <dl class="flex flex-wrap pt-4 mt-6 text-sm border-t border-gray-100">
-                    <dt class="w-1/2 font-medium">
-                        Sub Total
-                    </dt>
-
-                    <dd class="w-1/2 text-right">
-                        {{ $this->cart->subTotal->formatted() }}
-                    </dd>
-                </dl>
             @else
-                <p class="py-4 text-sm font-medium text-center text-gray-500">
-                    Your cart is empty
-                </p>
+                <div class="rounded-xl border border-slate-100 p-6 text-center text-slate-500">
+                    Your cart is empty.
+                </div>
             @endif
         </div>
-
-        @if ($this->cart)
-            <div class="mt-4 space-y-4 text-center">
-                <button
-                    class="block w-full p-3 text-sm font-medium text-green-800 border border-green-600 rounded-3xl hover:ring-1 hover:ring-green-600"
-                    type="button"
-                    wire:click="updateLines"
-                >
-                    Update Cart
-                </button>
-
-                <a
-                    class="block w-full p-3 text-sm font-medium text-center text-white bg-green-700 rounded-3xl hover:bg-green-600"
-                    href="{{ route('checkout.view') }}"
-                >
-                    Checkout
-                </a>
-
-                <a
-                    class="inline-block text-sm font-medium text-gray-600 underline hover:text-gray-500"
-                    href="{{ url('/') }}"
-                >
-                    Continue Shopping
-                </a>
-            </div>
-        @endif
     </div>
 </div>
