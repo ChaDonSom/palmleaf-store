@@ -103,7 +103,7 @@
                             </a>
                         </h3>
                         <p class="mt-1 text-sm text-slate-500 line-clamp-2">
-                            {{ $product->translateAttribute('description') ?? 'Premium quality apparel' }}
+                            {!! $product->translateAttribute('description') ?? 'Premium quality apparel' !!}
                         </p>
 
                         <!-- Price -->
