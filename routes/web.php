@@ -1,11 +1,18 @@
 <?php
 
+use App\Http\Livewire\AboutPage;
 use App\Http\Livewire\CheckoutPage;
 use App\Http\Livewire\CheckoutSuccessPage;
 use App\Http\Livewire\CollectionPage;
+use App\Http\Livewire\ContactPage;
+use App\Http\Livewire\CookiesPage;
+use App\Http\Livewire\FaqPage;
 use App\Http\Livewire\Home;
 use App\Http\Livewire\ProductPage;
 use App\Http\Livewire\SearchPage;
+use App\Http\Livewire\ShippingReturnsPage;
+use App\Http\Livewire\SizeGuidePage;
+use App\Http\Livewire\WholesalePage;
 use Lunar\Models\Address;
 use Lunar\Models\Order;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +39,20 @@ Route::get('search', SearchPage::class)->name('search.view');
 Route::get('checkout', CheckoutPage::class)->name('checkout.view');
 
 Route::get('checkout/success', CheckoutSuccessPage::class)->name('checkout-success.view');
+
+Route::get('about', AboutPage::class)->name('about.view');
+
+Route::get('contact', ContactPage::class)->name('contact.view');
+
+Route::get('wholesale', WholesalePage::class)->name('wholesale.view');
+
+Route::get('shipping-returns', ShippingReturnsPage::class)->name('shipping-returns.view');
+
+Route::get('size-guide', SizeGuidePage::class)->name('size-guide.view');
+
+Route::get('faq', FaqPage::class)->name('faq.view');
+
+Route::get('cookies', CookiesPage::class)->name('cookies.view');
 
 Route::middleware([
     'auth:sanctum',
