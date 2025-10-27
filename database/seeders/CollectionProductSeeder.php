@@ -18,6 +18,7 @@ class CollectionProductSeeder extends Seeder
     {
         DB::transaction(function () {
             $collections = Collection::withCount('products')->get();
+            // Select 9 products to fill a 3x3 grid layout in the UI
             $defaultProducts = Product::orderByDesc('id')->limit(9)->pluck('id');
 
             foreach ($collections as $collection) {

@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire;
 
-use Illuminate\Support\Facades\Log;
 use Lunar\Models\Collection;
 use Lunar\Models\Product;
 use Lunar\Models\Url;
@@ -73,7 +72,12 @@ class Home extends Component
 
         // Filter by category
         if ($this->category !== 'All') {
+            // Get locale and validate it matches expected pattern (2-3 letter codes)
             $locale = app()->getLocale() ?: 'en';
+            if (!preg_match('/^[a-z]{2,3}$/i', $locale)) {
+                $locale = 'en'; // Fallback to English if locale is invalid
+            }
+            
             $productsQuery->whereHas('collections', function ($query) use ($locale) {
                 // Lunar stores translatable attributes on the JSON column `attribute_data`
                 // Use Laravel's driver-agnostic JSON path syntax

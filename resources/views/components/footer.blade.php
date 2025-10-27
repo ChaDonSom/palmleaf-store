@@ -22,7 +22,7 @@
                 <div class="font-semibold">Shop</div>
                 <ul class="mt-3 space-y-2 text-sm text-slate-600">
                     <li><a href="{{ url('/') }}" class="hover:text-slate-900">All Products</a></li>
-                    @foreach(\Lunar\Models\Collection::limit(4)->get() as $collection)
+                    @foreach($footerCollections as $collection)
                         <li>
                             <a href="{{ route('collection.view', $collection->defaultUrl->slug ?? '#') }}" class="hover:text-slate-900">
                                 {{ $collection->translateAttribute('name') }}
