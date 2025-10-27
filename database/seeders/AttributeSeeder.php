@@ -27,22 +27,28 @@ class AttributeSeeder extends AbstractSeeder
 
         DB::transaction(function () use ($attributes, $group) {
             foreach ($attributes as $attribute) {
-                Attribute::create([
-                    'attribute_group_id' => $group->id,
-                    'attribute_type' => $attribute->attribute_type,
-                    'handle' => Str::snake($attribute->name),
-                    'section' => 'main',
-                    'type' => $attribute->type,
-                    'required' => false,
-                    'searchable' => true,
-                    'filterable' => false,
-                    'system' => false,
-                    'position' => $group->attributes()->count() + 1,
-                    'name' => [
-                        'en' => $attribute->name,
+                $handle = Str::snake($attribute->name);
+
+                Attribute::updateOrCreate(
+                    [
+                        'attribute_type' => $attribute->attribute_type,
+                        'handle' => $handle,
                     ],
-                    'configuration' => (array) $attribute->configuration,
-                ]);
+                    [
+                        'attribute_group_id' => $group->id,
+                        'section' => 'main',
+                        'type' => $attribute->type,
+                        'required' => false,
+                        'searchable' => true,
+                        'filterable' => false,
+                        'system' => false,
+                        'position' => $group->attributes()->count() + 1,
+                        'name' => [
+                            'en' => $attribute->name,
+                        ],
+                        'configuration' => (array) $attribute->configuration,
+                    ]
+                );
             }
         });
     }
