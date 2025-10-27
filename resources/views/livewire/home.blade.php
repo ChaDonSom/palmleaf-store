@@ -33,7 +33,7 @@
             <div class="flex flex-wrap gap-2 w-full">
                 @foreach ($this->categories as $cat)
                     <button
-                        wire:click="$set('category', '{{ $cat }}')"
+                        wire:click="$set('category', @js($cat))"
                         class="rounded-full border px-4 py-2 text-sm transition {{ $category === $cat ? 'border-slate-900 bg-slate-900 text-white' : 'bg-white text-slate-900 hover:border-slate-400' }}"
                     >
                         {{ $cat }}

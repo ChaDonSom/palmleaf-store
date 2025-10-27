@@ -47,10 +47,11 @@ class Home extends Component
     public function getCategoriesProperty()
     {
         $collections = Collection::all();
-        $categories = $collections->map(function ($collection) {
+        // Use base collection to avoid Eloquent unique() attempting to key by model
+        $categories = $collections->toBase()->map(function ($collection) {
             return $collection->translateAttribute('name');
         })->prepend('All')->unique()->values()->toArray();
-        
+
         return $categories;
     }
 
@@ -70,9 +71,11 @@ class Home extends Component
 
         // Filter by category
         if ($this->category !== 'All') {
-            $productsQuery->whereHas('collections', function ($query) {
-                // Use DB-agnostic JSON query
-                $query->where('name->en', $this->category);
+            $locale = app()->getLocale() ?: 'en';
+            $productsQuery->whereHas('collections', function ($query) use ($locale) {
+                // Lunar stores translatable attributes on the JSON column `attribute_data`
+                // Use Laravel's driver-agnostic JSON path syntax
+                $query->where("attribute_data->name->{$locale}", $this->category);
             });
         }
 
