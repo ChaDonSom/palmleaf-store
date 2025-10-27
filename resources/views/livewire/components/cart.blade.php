@@ -78,14 +78,14 @@
                         <div class="text-lg font-bold">{{ $this->cart->subTotal->formatted() }}</div>
                     </div>
 
-                    <a 
+                    <a
                         href="{{ route('checkout.view') }}"
                         class="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl bg-slate-900 px-6 py-3 text-sm font-medium text-white hover:bg-slate-800 transition"
                     >
                         Checkout
                         <x-icons.arrow-right />
                     </a>
-                    
+
                     <div class="text-center text-xs text-slate-500 mt-3">
                         Taxes and shipping calculated at checkout.
                     </div>

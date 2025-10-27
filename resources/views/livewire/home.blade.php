@@ -32,7 +32,7 @@
             <!-- Category Tabs -->
             <div class="flex flex-wrap gap-2 w-full">
                 @foreach ($this->categories as $cat)
-                    <button 
+                    <button
                         wire:click="$set('category', '{{ $cat }}')"
                         class="rounded-full border px-4 py-2 text-sm transition {{ $category === $cat ? 'border-slate-900 bg-slate-900 text-white' : 'bg-white text-slate-900 hover:border-slate-400' }}"
                     >
@@ -45,8 +45,8 @@
                 <!-- Search -->
                 <div class="relative flex-1 md:w-64">
                     <x-icons.search class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                    <input 
-                        type="text" 
+                    <input
+                        type="text"
                         wire:model.debounce.500ms="query"
                         placeholder="Search products"
                         class="w-full rounded-full border border-slate-300 pl-9 pr-4 py-2 text-sm focus:border-slate-900 focus:ring-1 focus:ring-slate-900"
@@ -54,7 +54,7 @@
                 </div>
 
                 <!-- Sort Dropdown -->
-                <select 
+                <select
                     wire:model="sort"
                     class="rounded-full border border-slate-300 px-4 py-2 text-sm focus:border-slate-900 focus:ring-1 focus:ring-slate-900"
                 >
@@ -75,8 +75,8 @@
                     <div class="relative p-0">
                         <a href="{{ route('product.view', $product->defaultUrl->slug) }}">
                             @if ($product->thumbnail)
-                                <img 
-                                    src="{{ $product->thumbnail->getUrl('large') }}" 
+                                <img
+                                    src="{{ $product->thumbnail->getUrl('large') }}"
                                     alt="{{ $product->translateAttribute('name') }}"
                                     class="h-64 w-full object-cover transition-transform duration-500 group-hover:scale-105"
                                 />
@@ -130,7 +130,7 @@
                         </div>
 
                         <!-- View Button -->
-                        <a 
+                        <a
                             href="{{ route('product.view', $product->defaultUrl->slug) }}"
                             class="inline-flex items-center gap-2 rounded-full bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 transition"
                         >
@@ -172,16 +172,16 @@
                     <h3 class="text-2xl font-black tracking-tight">Stay in the loop</h3>
                     <p class="mt-1 text-slate-600">Drops, restocks, and pop‑up markets—straight to your inbox.</p>
                     {{-- TODO: Implement newsletter subscription functionality --}}
-                    <form 
+                    <form
                         wire:submit.prevent="$emit('newsletter-subscribe')"
                         class="mt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-2"
                     >
-                        <input 
-                            type="email" 
+                        <input
+                            type="email"
                             placeholder="you@email.com"
                             class="flex-1 rounded-2xl border border-slate-300 px-4 py-2 focus:border-slate-900 focus:ring-1 focus:ring-slate-900"
                         />
-                        <button 
+                        <button
                             type="submit"
                             class="rounded-2xl bg-slate-900 px-6 py-2 text-sm font-medium text-white hover:bg-slate-800 transition whitespace-nowrap"
                         >
