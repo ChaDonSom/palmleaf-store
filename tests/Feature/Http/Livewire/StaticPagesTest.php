@@ -58,7 +58,8 @@ class StaticPagesTest extends TestCase
         $this->get(route('shipping-returns.view'))
             ->assertStatus(200)
             ->assertSeeLivewire('shipping-returns-page')
-            ->assertSee('Shipping', false);
+            ->assertSee('Shipping')
+            ->assertSee('Returns');
     }
 
     /**
