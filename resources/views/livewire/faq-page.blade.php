@@ -17,10 +17,6 @@
                             <h3 class="font-semibold text-slate-900">Can I modify or cancel my order?</h3>
                             <p class="mt-2 text-slate-600">Please contact us immediately if you need to modify or cancel your order. Once an order has been processed and shipped, we cannot make changes.</p>
                         </div>
-                        <div>
-                            <h3 class="font-semibold text-slate-900">Do you offer gift cards?</h3>
-                            <p class="mt-2 text-slate-600">Yes! Gift cards are available in various denominations and make the perfect gift for any occasion.</p>
-                        </div>
                     </div>
                 </div>
 
@@ -29,11 +25,11 @@
                     <div class="mt-4 space-y-4">
                         <div>
                             <h3 class="font-semibold text-slate-900">How long will it take to receive my order?</h3>
-                            <p class="mt-2 text-slate-600">Orders typically ship within 1-2 business days. Standard shipping takes 5-7 business days, while expedited options are available for faster delivery.</p>
+                            <p class="mt-2 text-slate-600">Orders typically ship within 2-3 business weeks. Standard shipping takes 5-7 business days, while expedited options are available for faster delivery.</p>
                         </div>
                         <div>
                             <h3 class="font-semibold text-slate-900">Do you ship internationally?</h3>
-                            <p class="mt-2 text-slate-600">Currently, we only ship within the United States. We're working on expanding to international shipping soon!</p>
+                            <p class="mt-2 text-slate-600">Currently, we only ship within the United States. If you're interested in international shipping, please let us know!</p>
                         </div>
                         <div>
                             <h3 class="font-semibold text-slate-900">How can I track my order?</h3>

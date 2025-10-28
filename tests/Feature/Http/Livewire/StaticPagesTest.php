@@ -36,19 +36,6 @@ class StaticPagesTest extends TestCase
     }
 
     /**
-     * Test wholesale page loads successfully.
-     *
-     * @return void
-     */
-    public function test_wholesale_page_loads()
-    {
-        $this->get(route('wholesale.view'))
-            ->assertStatus(200)
-            ->assertSeeLivewire('wholesale-page')
-            ->assertSee('Wholesale');
-    }
-
-    /**
      * Test shipping returns page loads successfully.
      *
      * @return void

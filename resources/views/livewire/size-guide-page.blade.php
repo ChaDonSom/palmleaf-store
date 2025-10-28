@@ -112,9 +112,7 @@
                     <h2 class="text-2xl font-bold text-slate-900">Still Not Sure?</h2>
                     <p class="mt-4 text-slate-600">
                         If you're between sizes or have questions about fit, feel free to contact us at 
-                        <a href="mailto:hello@{{ strtolower(str_replace(' ', '', config('app.name'))) }}.com" class="text-slate-900 underline hover:text-slate-700">
-                            hello@{{ strtolower(str_replace(' ', '', config('app.name'))) }}.com
-                        </a>
+                        <a href="mailto:hello@palmleafcreates.com" class="text-slate-900 underline hover:text-slate-700">hello@palmleafcreates.com</a>
                         and we'll help you find the perfect size!
                     </p>
                 </div>

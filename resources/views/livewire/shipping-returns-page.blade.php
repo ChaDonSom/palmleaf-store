@@ -11,7 +11,7 @@
                     <div class="mt-4 space-y-4 text-slate-600">
                         <div>
                             <h3 class="font-semibold text-slate-900">Processing Time</h3>
-                            <p class="mt-1">Orders are typically processed within 1-2 business days (Monday-Friday, excluding holidays).</p>
+                            <p class="mt-1">Orders are typically processed within 2-3 business weeks (Monday-Friday, excluding holidays).</p>
                         </div>
                         <div>
                             <h3 class="font-semibold text-slate-900">Shipping Methods</h3>
@@ -50,7 +50,7 @@
                         <div>
                             <h3 class="font-semibold text-slate-900">How to Return</h3>
                             <ol class="mt-1 list-inside list-decimal space-y-1">
-                                <li>Contact us at returns@{{ strtolower(str_replace(' ', '', config('app.name'))) }}.com to initiate a return</li>
+                                <li>Contact us at <a href="mailto:returns@palmleafcreates.com" class="text-slate-900 underline hover:text-slate-700">returns@palmleafcreates.com</a> to initiate a return</li>
                                 <li>We'll provide you with a return authorization and instructions</li>
                                 <li>Ship the item back using a trackable shipping method</li>
                                 <li>Refunds are processed within 5-7 business days of receiving your return</li>
@@ -74,9 +74,7 @@
                     <h2 class="text-2xl font-bold text-slate-900">Questions?</h2>
                     <p class="mt-4 text-slate-600">
                         If you have any questions about shipping or returns, please don't hesitate to contact us at 
-                        <a href="mailto:hello@{{ strtolower(str_replace(' ', '', config('app.name'))) }}.com" class="text-slate-900 underline hover:text-slate-700">
-                            hello@{{ strtolower(str_replace(' ', '', config('app.name'))) }}.com
-                        </a>
+                        <a href="mailto:hello@palmleafcreates.com" class="text-slate-900 underline hover:text-slate-700">hello@palmleafcreates.com</a>
                     </p>
                 </div>
 

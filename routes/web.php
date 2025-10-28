@@ -12,7 +12,6 @@ use App\Http\Livewire\ProductPage;
 use App\Http\Livewire\SearchPage;
 use App\Http\Livewire\ShippingReturnsPage;
 use App\Http\Livewire\SizeGuidePage;
-use App\Http\Livewire\WholesalePage;
 use Lunar\Models\Address;
 use Lunar\Models\Order;
 use Illuminate\Support\Facades\Route;
@@ -43,8 +42,6 @@ Route::get('checkout/success', CheckoutSuccessPage::class)->name('checkout-succe
 Route::get('about', AboutPage::class)->name('about.view');
 
 Route::get('contact', ContactPage::class)->name('contact.view');
-
-Route::get('wholesale', WholesalePage::class)->name('wholesale.view');
 
 Route::get('shipping-returns', ShippingReturnsPage::class)->name('shipping-returns.view');
 

@@ -20,9 +20,7 @@
                             </p>
                             <p>
                                 <strong class="text-slate-900">Email:</strong><br />
-                                <a href="mailto:hello@{{ strtolower(str_replace(' ', '', config('app.name'))) }}.com" class="text-slate-900 underline hover:text-slate-700">
-                                    hello@{{ strtolower(str_replace(' ', '', config('app.name'))) }}.com
-                                </a>
+                                <a href="mailto:hello@palmleafcreates.com" class="text-slate-900 underline hover:text-slate-700">hello@palmleafcreates.com</a>
                             </p>
                         </div>
                     </div>

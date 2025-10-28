@@ -36,7 +36,6 @@
                 <ul class="mt-3 space-y-2 text-sm text-slate-600">
                     <li><a href="{{ route('about.view') }}" class="hover:text-slate-900">About</a></li>
                     <li><a href="{{ route('contact.view') }}" class="hover:text-slate-900">Contact</a></li>
-                    <li><a href="{{ route('wholesale.view') }}" class="hover:text-slate-900">Wholesale</a></li>
                 </ul>
             </div>
             <div>
