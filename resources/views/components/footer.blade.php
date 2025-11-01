@@ -34,26 +34,25 @@
             <div>
                 <div class="font-semibold">Company</div>
                 <ul class="mt-3 space-y-2 text-sm text-slate-600">
-                    <li><a href="#about" class="hover:text-slate-900">About</a></li>
-                    <li><a href="#" class="hover:text-slate-900">Contact</a></li>
-                    <li><a href="#" class="hover:text-slate-900">Wholesale</a></li>
+                    <li><a href="{{ route('about.view') }}" class="hover:text-slate-900">About</a></li>
+                    <li><a href="{{ route('contact.view') }}" class="hover:text-slate-900">Contact</a></li>
                 </ul>
             </div>
             <div>
                 <div class="font-semibold">Support</div>
                 <ul class="mt-3 space-y-2 text-sm text-slate-600">
-                    <li><a href="#" class="hover:text-slate-900">Shipping & Returns</a></li>
-                    <li><a href="#" class="hover:text-slate-900">Size Guide</a></li>
-                    <li><a href="#" class="hover:text-slate-900">FAQ</a></li>
+                    <li><a href="{{ route('shipping-returns.view') }}" class="hover:text-slate-900">Shipping & Returns</a></li>
+                    <li><a href="{{ route('size-guide.view') }}" class="hover:text-slate-900">Size Guide</a></li>
+                    <li><a href="{{ route('faq.view') }}" class="hover:text-slate-900">FAQ</a></li>
                 </ul>
             </div>
         </div>
         <div class="mt-10 flex flex-col items-center justify-between gap-3 border-t pt-6 text-xs text-slate-500 md:flex-row">
             <div>© {{ now()->year }} {{ config('app.name') }}. All rights reserved.</div>
             <div class="flex items-center gap-3">
-                <a href="#" class="hover:text-slate-900">Terms</a>
-                <a href="#" class="hover:text-slate-900">Privacy</a>
-                <a href="#" class="hover:text-slate-900">Cookies</a>
+                <a href="{{ route('terms.show') }}" class="hover:text-slate-900">Terms</a>
+                <a href="{{ route('policy.show') }}" class="hover:text-slate-900">Privacy</a>
+                <a href="{{ route('cookies.view') }}" class="hover:text-slate-900">Cookies</a>
             </div>
         </div>
     </div>
