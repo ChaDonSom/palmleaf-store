@@ -29,6 +29,24 @@ class CheckoutPageTest extends TestCase
     use RefreshDatabase;
 
     /**
+     * Create a shipping option for testing.
+     *
+     * @param Cart $cart
+     * @param string $identifier
+     * @return ShippingOption
+     */
+    private function createShippingOption(Cart $cart, string $identifier = 'BASDEL'): ShippingOption
+    {
+        return new ShippingOption(
+            name: 'Basic Delivery',
+            description: 'Basic Delivery',
+            identifier: $identifier,
+            price: new Price(500, $cart->currency, 1),
+            taxClass: TaxClass::getDefault()
+        );
+    }
+
+    /**
      * Test the component mounts correctly.
      *
      * @return void
@@ -74,8 +92,8 @@ class CheckoutPageTest extends TestCase
 
         $cart = Cart::factory()->create();
 
-        // Stub shipping options BEFORE assigning shipping to avoid manager constructing
-        // real ShippingOption instances during address assignment.
+        // Stub shipping options to avoid constructing real ShippingOption objects
+        // (which require full shipping config) for this specific test.
         ShippingManifest::shouldReceive('getOptions')->andReturn(collect());
 
         $cart->getManager()->setShippingAddress(CartAddress::factory()->create([
@@ -86,10 +104,6 @@ class CheckoutPageTest extends TestCase
         CartSession::shouldReceive('current')->andReturn(
             $cart->getManager()->getCart()
         );
-
-        // Stub shipping options to avoid constructing real ShippingOption objects
-        // (which require full shipping config) for this specific test.
-        ShippingManifest::shouldReceive('getOptions')->andReturn(collect());
 
         Livewire::test(CheckoutPage::class)
             ->assertViewIs('livewire.checkout-page')
@@ -121,13 +135,7 @@ class CheckoutPageTest extends TestCase
         );
 
         // Provide a real ShippingOption that matches the shipping_option identifier
-        $option = new ShippingOption(
-            name: 'Basic Delivery',
-            description: 'Basic Delivery',
-            identifier: 'BASDEL',
-            price: new Price(500, $cart->currency, 1),
-            taxClass: TaxClass::getDefault()
-        );
+        $option = $this->createShippingOption($cart);
         ShippingManifest::shouldReceive('getOptions')->andReturn(collect([$option]));
 
         CartSession::shouldReceive('current')->andReturn(
@@ -170,13 +178,7 @@ class CheckoutPageTest extends TestCase
         );
 
         // Provide a real ShippingOption that matches the shipping_option identifier
-        $option = new ShippingOption(
-            name: 'Basic Delivery',
-            description: 'Basic Delivery',
-            identifier: 'BASDEL',
-            price: new Price(500, $cart->currency, 1),
-            taxClass: TaxClass::getDefault()
-        );
+        $option = $this->createShippingOption($cart);
         ShippingManifest::shouldReceive('getOptions')->andReturn(collect([$option]));
 
         CartSession::shouldReceive('current')->andReturn(
