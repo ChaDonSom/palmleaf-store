@@ -81,9 +81,7 @@
                         <h2 class="text-2xl font-bold text-slate-900">Contact Us</h2>
                         <p class="mt-4">
                             If you have any questions about our use of cookies, please contact us at 
-                            <a href="mailto:privacy@{{ strtolower(str_replace(' ', '', config('app.name'))) }}.com" class="text-slate-900 underline hover:text-slate-700">
-                                privacy@{{ strtolower(str_replace(' ', '', config('app.name'))) }}.com
-                            </a>
+                            <a href="mailto:privacy@palmleafcreates.com" class="text-slate-900 underline hover:text-slate-700">privacy@palmleafcreates.com</a>
                         </p>
                     </div>
                 </div>
