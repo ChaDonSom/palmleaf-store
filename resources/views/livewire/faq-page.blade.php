@@ -88,7 +88,7 @@
                     <h2 class="text-xl font-bold text-slate-900">Still Have Questions?</h2>
                     <p class="mt-4 text-slate-600">
                         We're here to help! Contact us at 
-                        <a href="mailto:hello@palmleafcreates.com" class="text-slate-900 underline hover:text-slate-700">hello@palmleafcreates.com</a>
+                        <a href="mailto:{{ config('mail.contact') }}" class="text-slate-900 underline hover:text-slate-700">{{ config('mail.contact') }}</a>
                         or visit our <a href="{{ route('contact.view') }}" class="text-slate-900 underline hover:text-slate-700">Contact</a> page.
                     </p>
                 </div>

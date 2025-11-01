@@ -115,4 +115,16 @@ return [
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Contact Email
+    |--------------------------------------------------------------------------
+    |
+    | This email address is used for customer-facing contact information
+    | throughout the application (contact pages, support emails, etc).
+    |
+    */
+
+    'contact' => env('CONTACT_EMAIL', 'woveninagape@gmail.com'),
+
 ];

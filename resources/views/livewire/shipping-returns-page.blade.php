@@ -50,7 +50,7 @@
                         <div>
                             <h3 class="font-semibold text-slate-900">How to Return</h3>
                             <ol class="mt-1 list-inside list-decimal space-y-1">
-                                <li>Contact us at <a href="mailto:returns@palmleafcreates.com" class="text-slate-900 underline hover:text-slate-700">returns@palmleafcreates.com</a> to initiate a return</li>
+                                <li>Contact us at <a href="mailto:{{ config('mail.contact') }}" class="text-slate-900 underline hover:text-slate-700">{{ config('mail.contact') }}</a> to initiate a return</li>
                                 <li>We'll provide you with a return authorization and instructions</li>
                                 <li>Ship the item back using a trackable shipping method</li>
                                 <li>Refunds are processed within 5-7 business days of receiving your return</li>
@@ -74,7 +74,7 @@
                     <h2 class="text-2xl font-bold text-slate-900">Questions?</h2>
                     <p class="mt-4 text-slate-600">
                         If you have any questions about shipping or returns, please don't hesitate to contact us at 
-                        <a href="mailto:hello@palmleafcreates.com" class="text-slate-900 underline hover:text-slate-700">hello@palmleafcreates.com</a>
+                        <a href="mailto:{{ config('mail.contact') }}" class="text-slate-900 underline hover:text-slate-700">{{ config('mail.contact') }}</a>
                     </p>
                 </div>
 
