@@ -118,9 +118,64 @@ The `MediaPathResolver` class generates paths based on the created_at timestamp:
 
 Lunar's `StandardMediaConversions` typically defines:
 - `small` - Thumbnail size
+- `medium` - Card size
 - `large` - Display size
 
-These are referenced in the product page Blade template.
+These are referenced throughout the application:
+- Product pages use `large` and `small`
+- Product cards and collections use `medium`
+
+### Partial Conversion Failures
+
+In some cases, you may find that certain conversions are generated successfully while others fail for the same image. For example:
+- `medium` conversion exists (shows in browser)
+- `small` and `large` conversions are missing (404 errors)
+
+**Possible Causes:**
+1. **Memory limits** - Larger conversions may exceed PHP memory limit
+2. **Image processing timeouts** - Some conversions take too long to generate
+3. **GD library limitations** - The default 'gd' driver may struggle with certain image formats or sizes
+4. **File corruption** - Original image may have issues that affect specific conversion operations
+
+**How SafeUrlGenerator Handles This:**
+The SafeUrlGenerator checks each conversion individually in the `generated_conversions` field:
+```json
+{
+  "small": false,    // Will fall back to original
+  "medium": true,    // Will use medium conversion
+  "large": false     // Will fall back to original
+}
+```
+
+This ensures users see images even when some conversions are missing.
+
+**To Fix Partial Conversion Failures:**
+
+1. **Increase PHP memory limit** (in `.env` or `php.ini`):
+```bash
+# .env
+PHP_MEMORY_LIMIT=256M
+```
+
+2. **Switch to imagick** if available (better performance and capabilities):
+```bash
+# .env
+IMAGE_DRIVER=imagick
+```
+
+3. **Regenerate failed conversions**:
+```bash
+# Regenerate all conversions
+php artisan media-library:regenerate
+
+# Or regenerate for specific models
+php artisan media-library:regenerate --ids=1,2,3
+```
+
+4. **Check for errors** in Laravel logs:
+```bash
+tail -f storage/logs/laravel.log
+```
 
 ## Monitoring
 
@@ -134,9 +189,33 @@ WHERE model_type = 'Lunar\\Models\\Product'
 LIMIT 10;
 ```
 
-The `generated_conversions` column should show:
+The `generated_conversions` column should ideally show:
 ```json
-{"small": true, "large": true}
+{"small": true, "medium": true, "large": true}
+```
+
+**Identify partial conversion failures:**
+```sql
+-- Find media with incomplete conversions
+SELECT id, file_name, generated_conversions
+FROM media 
+WHERE model_type = 'Lunar\\Models\\Product'
+AND (
+    JSON_EXTRACT(generated_conversions, '$.small') != 'true'
+    OR JSON_EXTRACT(generated_conversions, '$.medium') != 'true'
+    OR JSON_EXTRACT(generated_conversions, '$.large') != 'true'
+);
+```
+
+**Count images by conversion status:**
+```sql
+SELECT 
+    SUM(CASE WHEN JSON_EXTRACT(generated_conversions, '$.small') = 'true' THEN 1 ELSE 0 END) as small_ok,
+    SUM(CASE WHEN JSON_EXTRACT(generated_conversions, '$.medium') = 'true' THEN 1 ELSE 0 END) as medium_ok,
+    SUM(CASE WHEN JSON_EXTRACT(generated_conversions, '$.large') = 'true' THEN 1 ELSE 0 END) as large_ok,
+    COUNT(*) as total
+FROM media 
+WHERE model_type = 'Lunar\\Models\\Product';
 ```
 
 ## Rollback
