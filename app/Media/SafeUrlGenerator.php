@@ -50,8 +50,7 @@ class SafeUrlGenerator extends DefaultUrlGenerator
         
         // Also check if the file actually exists on disk/storage
         try {
-            $disk = $this->media->conversions_disk ?? $this->media->disk;
-            $storage = $this->getDisk($disk);
+            $storage = $this->getDisk();
             $path = $this->getPathRelativeToRoot();
             
             return $storage->exists($path);
@@ -59,17 +58,6 @@ class SafeUrlGenerator extends DefaultUrlGenerator
             // If we can't check, assume it doesn't exist to be safe
             return false;
         }
-    }
-
-    /**
-     * Get the storage disk instance.
-     *
-     * @param string $diskName
-     * @return \Illuminate\Contracts\Filesystem\Filesystem
-     */
-    private function getDisk(string $diskName): \Illuminate\Contracts\Filesystem\Filesystem
-    {
-        return app('filesystem')->disk($diskName);
     }
 
     /**
