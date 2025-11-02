@@ -1,0 +1,37 @@
+# Copilot Setup Steps for Palmleaf Store
+# This file defines the environment setup steps for GitHub Copilot Coding Agent
+
+steps:
+  - name: Install PHP dependencies
+    command: composer install --no-interaction --prefer-dist --optimize-autoloader
+    description: Install all PHP dependencies via Composer
+
+  - name: Install Node.js dependencies
+    command: npm install
+    description: Install all Node.js dependencies via npm
+
+  - name: Setup environment file
+    command: |
+      if [ ! -f .env ]; then
+        cp .env.example .env
+      fi
+    description: Create .env file from .env.example if it doesn't exist
+
+  - name: Generate application key
+    command: php artisan key:generate --ansi
+    description: Generate Laravel application key
+
+  - name: Create storage link
+    command: php artisan storage:link
+    description: Create symbolic link from public/storage to storage/app/public
+
+  - name: Build frontend assets
+    command: npm run dev
+    description: Compile frontend assets for development
+
+notes:
+  - The project requires PHP 8.0 or higher
+  - MySQL database needs to be set up separately with appropriate credentials in .env
+  - Database migrations should be run manually based on environment (php artisan migrate)
+  - For testing, ensure test database is configured in .env or phpunit.xml
+  - Some environment variables (payment gateways, S3, etc.) may need manual configuration
