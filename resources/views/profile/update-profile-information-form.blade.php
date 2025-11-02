@@ -1,4 +1,4 @@
-<x-jet-form-section submit="updateProfileInformation">
+<x-form-section submit="updateProfileInformation">
     <x-slot name="title">
         {{ __('Profile Information') }}
     </x-slot>
@@ -24,7 +24,7 @@
                                     reader.readAsDataURL($refs.photo.files[0]);
                             " />
 
-                <x-jet-label for="photo" value="{{ __('Photo') }}" />
+                <x-label for="photo" value="{{ __('Photo') }}" />
 
                 <!-- Current Profile Photo -->
                 <div class="mt-2" x-show="! photoPreview">
@@ -38,17 +38,17 @@
                     </span>
                 </div>
 
-                <x-jet-secondary-button class="mt-2 mr-2" type="button" x-on:click.prevent="$refs.photo.click()">
+                <x-secondary-button class="mt-2 mr-2" type="button" x-on:click.prevent="$refs.photo.click()">
                     {{ __('Select A New Photo') }}
-                </x-jet-secondary-button>
+                </x-secondary-button>
 
                 @if ($this->user->profile_photo_path)
-                    <x-jet-secondary-button type="button" class="mt-2" wire:click="deleteProfilePhoto">
+                    <x-secondary-button type="button" class="mt-2" wire:click="deleteProfilePhoto">
                         {{ __('Remove Photo') }}
-                    </x-jet-secondary-button>
+                    </x-secondary-button>
                 @endif
 
-                <x-jet-input-error for="photo" class="mt-2" />
+                <x-input-error for="photo" class="mt-2" />
             </div>
         @endif
 
@@ -88,12 +88,12 @@
     </x-slot>
 
     <x-slot name="actions">
-        <x-jet-action-message class="mr-3" on="saved">
+        <x-action-message class="mr-3" on="saved">
             {{ __('Saved.') }}
-        </x-jet-action-message>
+        </x-action-message>
 
-        <x-jet-button wire:loading.attr="disabled" wire:target="photo">
+        <x-button wire:loading.attr="disabled" wire:target="photo">
             {{ __('Save') }}
-        </x-jet-button>
+        </x-button>
     </x-slot>
-</x-jet-form-section>
+</x-form-section>
