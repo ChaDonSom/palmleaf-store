@@ -5,11 +5,10 @@ namespace App\Http\Livewire;
 use App\Traits\FetchesUrls;
 use Lunar\Models\Product;
 use Livewire\Component;
-use Livewire\ComponentConcerns\PerformsRedirects;
 
 class ProductPage extends Component
 {
-    use FetchesUrls, PerformsRedirects;
+    use FetchesUrls;
 
     /**
      * The selected option values.
