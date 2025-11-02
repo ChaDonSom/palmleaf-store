@@ -30,7 +30,7 @@ class SafeUrlGenerator extends DefaultUrlGenerator
     }
 
     /**
-     * Check if a conversion file actually exists on disk/storage.
+     * Check if a conversion has been generated for the media.
      *
      * @param Conversion $conversion
      * @return bool
@@ -40,24 +40,9 @@ class SafeUrlGenerator extends DefaultUrlGenerator
         $conversionName = $conversion->getName();
         $generatedConversions = $this->media->generated_conversions;
         
-        // First check the database field
-        $markedAsGenerated = isset($generatedConversions[$conversionName]) && 
-                            $generatedConversions[$conversionName] === true;
-        
-        if (!$markedAsGenerated) {
-            return false;
-        }
-        
-        // Also check if the file actually exists on disk/storage
-        try {
-            $storage = $this->getDisk();
-            $path = $this->getPathRelativeToRoot();
-            
-            return $storage->exists($path);
-        } catch (\Exception $e) {
-            // If we can't check, assume it doesn't exist to be safe
-            return false;
-        }
+        // Check the database field to see if conversion was generated
+        return isset($generatedConversions[$conversionName]) && 
+               $generatedConversions[$conversionName] === true;
     }
 
     /**
