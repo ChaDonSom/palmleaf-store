@@ -6,12 +6,10 @@ use App\Traits\FetchesUrls;
 use Lunar\Models\Collection;
 use Lunar\Models\Url;
 use Livewire\Component;
-use Livewire\ComponentConcerns\PerformsRedirects;
 
 class CollectionPage extends Component
 {
-    use PerformsRedirects,
-        FetchesUrls;
+    use FetchesUrls;
 
     /**
      * {@inheritDoc}

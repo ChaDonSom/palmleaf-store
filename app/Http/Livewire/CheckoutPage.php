@@ -13,11 +13,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Laravel\Fortify\Rules\Password;
 use Livewire\Component;
-use Livewire\ComponentConcerns\PerformsRedirects;
 
 class CheckoutPage extends Component
 {
-    use PerformsRedirects;
 
     /**
      * The Cart instance.
