@@ -34,7 +34,7 @@
                                 {{ __('Please provide a password for your new user account.') }}
                             </p>
 
-                            <x-jet-validation-errors class="col-span-12" />
+                            <x-validation-errors class="col-span-12" />
 
                             <x-input.group class="col-span-12" label="{{ __('Password') }}">
                                 <x-input.text id="password" class="block mt-1 w-full max-w-xs" type="password" name="password" required autocomplete="new-password" wire:model.defer="password" />
@@ -46,9 +46,9 @@
 
                             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
                                 <div class="col-span-3">
-                                    <x-jet-label for="terms">
+                                    <x-label for="terms">
                                         <div class="flex items-center">
-                                            <x-jet-checkbox name="terms" id="terms"/>
+                                            <x-checkbox name="terms" id="terms"/>
 
                                             <div class="ml-2">
                                                 {!! __('I agree to the :terms_of_service and :privacy_policy', [
@@ -57,14 +57,14 @@
                                                 ]) !!}
                                             </div>
                                         </div>
-                                    </x-jet-label>
+                                    </x-label>
                                 </div>
                             @endif
 
                             <div class="flex items-center justify-end col-span-12">
-                                <x-jet-button>
+                                <x-button>
                                     {{ __('Register') }}
-                                </x-jet-button>
+                                </x-button>
                             </div>
                         @endif
 

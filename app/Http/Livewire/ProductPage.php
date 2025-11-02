@@ -5,11 +5,10 @@ namespace App\Http\Livewire;
 use App\Traits\FetchesUrls;
 use Lunar\Models\Product;
 use Livewire\Component;
-use Livewire\ComponentConcerns\PerformsRedirects;
 
 class ProductPage extends Component
 {
-    use FetchesUrls, PerformsRedirects;
+    use FetchesUrls;
 
     /**
      * The selected option values.
@@ -36,6 +35,10 @@ class ProductPage extends Component
                 'element.variants.values.option',
             ]
         );
+
+        if (! $this->url) {
+            abort(404);
+        }
 
         $this->selectedOptionValues = $this->productOptions->mapWithKeys(function ($data) {
             return [$data['option']->id => $data['values']->first()->id];

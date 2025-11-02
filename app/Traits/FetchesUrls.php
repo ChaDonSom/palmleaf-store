@@ -23,9 +23,9 @@ trait FetchesUrls
      */
     public function fetchUrl($slug, $type, $eagerLoad = [])
     {
-        return Url::whereElementType($type)
-            ->whereDefault(true)
-            ->whereSlug($slug)
+        return Url::whereIn('element_type', [$type, strtolower(class_basename($type))])
+            ->where('default', true)
+            ->where('slug', $slug)
             ->with($eagerLoad)->first();
     }
 }

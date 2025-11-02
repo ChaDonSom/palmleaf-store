@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-        <x-jet-form-section submit="">
+        <x-form-section submit="">
             <x-slot name="title">{{ __('Order') }} {{ $order->reference }}</x-slot>
             <x-slot name="description">
                 <div>
@@ -106,6 +106,6 @@
             </x-slot>
             <x-slot name="actions">
             </x-slot>
-        </x-jet-form-section>
+        </x-form-section>
     </div>
 </x-app-layout>
