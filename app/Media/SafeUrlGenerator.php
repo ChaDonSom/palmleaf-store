@@ -21,9 +21,12 @@ class SafeUrlGenerator extends DefaultUrlGenerator
             if (!isset($generatedConversions[$this->conversion]) || 
                 $generatedConversions[$this->conversion] !== true) {
                 // Conversion doesn't exist or hasn't been generated
-                // Fall back to the original media URL
+                // Fall back to the original media URL by temporarily clearing conversion
+                $originalConversion = $this->conversion;
                 $this->conversion = null;
-                return parent::getUrl();
+                $url = parent::getUrl();
+                $this->conversion = $originalConversion;
+                return $url;
             }
         }
 
