@@ -2,6 +2,7 @@
 
 namespace App\Media;
 
+use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator;
 
 class SafeUrlGenerator extends DefaultUrlGenerator
@@ -31,15 +32,16 @@ class SafeUrlGenerator extends DefaultUrlGenerator
     /**
      * Check if a conversion has been generated for the media.
      *
-     * @param string $conversion
+     * @param Conversion $conversion
      * @return bool
      */
-    private function isConversionGenerated(string $conversion): bool
+    private function isConversionGenerated(Conversion $conversion): bool
     {
+        $conversionName = $conversion->getName();
         $generatedConversions = $this->media->generated_conversions;
         
-        return isset($generatedConversions[$conversion]) && 
-               $generatedConversions[$conversion] === true;
+        return isset($generatedConversions[$conversionName]) && 
+               $generatedConversions[$conversionName] === true;
     }
 
     /**
