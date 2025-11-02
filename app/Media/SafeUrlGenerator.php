@@ -9,27 +9,52 @@ class SafeUrlGenerator extends DefaultUrlGenerator
     /**
      * Get the url to the media file.
      *
+     * If requesting a conversion that hasn't been generated yet, this method
+     * will fall back to the original media URL instead of returning a URL
+     * to a non-existent file. This prevents 404 errors and provides graceful
+     * degradation when conversions are missing or still being processed.
+     *
      * @return string
      */
     public function getUrl(): string
     {
         // If this is a conversion request, check if the conversion exists
-        if ($this->conversion) {
-            // Check if the conversion has been generated
-            $generatedConversions = $this->media->generated_conversions;
-            
-            if (!isset($generatedConversions[$this->conversion]) || 
-                $generatedConversions[$this->conversion] !== true) {
-                // Conversion doesn't exist or hasn't been generated
-                // Fall back to the original media URL by temporarily clearing conversion
-                $originalConversion = $this->conversion;
-                $this->conversion = null;
-                $url = parent::getUrl();
-                $this->conversion = $originalConversion;
-                return $url;
-            }
+        if ($this->conversion && !$this->isConversionGenerated($this->conversion)) {
+            // Conversion doesn't exist or hasn't been generated
+            // Get the original media URL as fallback
+            return $this->getOriginalUrl();
         }
 
         return parent::getUrl();
+    }
+
+    /**
+     * Check if a conversion has been generated for the media.
+     *
+     * @param string $conversion
+     * @return bool
+     */
+    private function isConversionGenerated(string $conversion): bool
+    {
+        $generatedConversions = $this->media->generated_conversions;
+        
+        return isset($generatedConversions[$conversion]) && 
+               $generatedConversions[$conversion] === true;
+    }
+
+    /**
+     * Get the URL to the original media file (not a conversion).
+     *
+     * @return string
+     */
+    private function getOriginalUrl(): string
+    {
+        // Temporarily clear conversion to get original URL
+        $originalConversion = $this->conversion;
+        $this->conversion = null;
+        $url = parent::getUrl();
+        $this->conversion = $originalConversion;
+        
+        return $url;
     }
 }
