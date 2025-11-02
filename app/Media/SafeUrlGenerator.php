@@ -20,7 +20,7 @@ class SafeUrlGenerator extends DefaultUrlGenerator
     public function getUrl(): string
     {
         // If this is a conversion request, check if the conversion exists
-        if ($this->conversion && !$this->isConversionGenerated($this->conversion)) {
+        if ($this->conversion && !$this->conversionFileExists($this->conversion)) {
             // Conversion doesn't exist or hasn't been generated
             // Get the original media URL as fallback
             return $this->getOriginalUrl();
@@ -30,18 +30,46 @@ class SafeUrlGenerator extends DefaultUrlGenerator
     }
 
     /**
-     * Check if a conversion has been generated for the media.
+     * Check if a conversion file actually exists on disk/storage.
      *
      * @param Conversion $conversion
      * @return bool
      */
-    private function isConversionGenerated(Conversion $conversion): bool
+    private function conversionFileExists(Conversion $conversion): bool
     {
         $conversionName = $conversion->getName();
         $generatedConversions = $this->media->generated_conversions;
         
-        return isset($generatedConversions[$conversionName]) && 
-               $generatedConversions[$conversionName] === true;
+        // First check the database field
+        $markedAsGenerated = isset($generatedConversions[$conversionName]) && 
+                            $generatedConversions[$conversionName] === true;
+        
+        if (!$markedAsGenerated) {
+            return false;
+        }
+        
+        // Also check if the file actually exists on disk/storage
+        try {
+            $disk = $this->media->conversions_disk ?? $this->media->disk;
+            $storage = $this->getDisk($disk);
+            $path = $this->getPathRelativeToRoot();
+            
+            return $storage->exists($path);
+        } catch (\Exception $e) {
+            // If we can't check, assume it doesn't exist to be safe
+            return false;
+        }
+    }
+
+    /**
+     * Get the storage disk instance.
+     *
+     * @param string $diskName
+     * @return \Illuminate\Contracts\Filesystem\Filesystem
+     */
+    private function getDisk(string $diskName): \Illuminate\Contracts\Filesystem\Filesystem
+    {
+        return app('filesystem')->disk($diskName);
     }
 
     /**
