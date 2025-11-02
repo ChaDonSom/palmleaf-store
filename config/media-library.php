@@ -1,6 +1,7 @@
 <?php
 
 use App\Media\MediaPathResolver;
+use App\Media\SafeUrlGenerator;
 
 return [
 
@@ -25,7 +26,7 @@ return [
     /*
      * By default all conversions will be performed on a queue.
      */
-    'queue_conversions_by_default' => env('QUEUE_CONVERSIONS_BY_DEFAULT', true),
+    'queue_conversions_by_default' => env('QUEUE_CONVERSIONS_BY_DEFAULT', false),
 
     /*
      * The fully qualified class name of the media model.
@@ -65,7 +66,7 @@ return [
      * When urls to files get generated, this class will be called. Use the default
      * if your files are stored locally above the site root or on s3.
      */
-    'url_generator' => Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator::class,
+    'url_generator' => SafeUrlGenerator::class,
 
     /*
      * Moves media on updating to keep path consistent. Enable it only with a custom
