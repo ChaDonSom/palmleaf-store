@@ -1,9 +1,9 @@
 <x-app-layout>
-    <x-jet-authentication-card>
+    <x-authentication-card>
         <x-slot name="logo">
         </x-slot>
 
-        <x-jet-validation-errors class="mb-4" />
+        <x-validation-errors class="mb-4" />
 
         @if (session('status'))
             <div class="mb-4 font-medium text-sm text-green-600">
@@ -24,7 +24,7 @@
 
             <x-input.group>
                 <label for="remember_me" class="flex items-center">
-                    <x-jet-checkbox id="remember_me" name="remember" />
+                    <x-checkbox id="remember_me" name="remember" />
                     <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
                 </label>
             </x-input.group>
@@ -36,10 +36,10 @@
                     </a>
                 @endif
 
-                <x-jet-button class="ml-4">
+                <x-button class="ml-4">
                     {{ __('Log in') }}
-                </x-jet-button>
+                </x-button>
             </div>
         </form>
-    </x-jet-authentication-card>
+    </x-authentication-card>
 </x-app-layout>
