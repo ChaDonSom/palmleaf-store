@@ -27,6 +27,12 @@ class AppServiceProvider extends ServiceProvider
             ])
         )
             ->register();
+
+        // Override Lunar's CustomerGroupRelationManager with our custom one
+        $this->app->bind(
+            \Lunar\Admin\Filament\Resources\ProductResource\RelationManagers\CustomerGroupRelationManager::class,
+            \App\Filament\Resources\ProductResource\RelationManagers\CustomerGroupRelationManager::class
+        );
     }
 
     /**
@@ -52,5 +58,21 @@ class AppServiceProvider extends ServiceProvider
 
         // Register view composers
         View::composer('components.footer', FooterComposer::class);
+
+        // Debug: Log customer group pivot data when accessed in production
+        if (app()->environment('production')) {
+            \Illuminate\Support\Facades\DB::listen(function ($query) {
+                if (
+                    str_contains($query->sql, 'customer_group_product') ||
+                    str_contains($query->sql, 'customer_groups')
+                ) {
+                    \Illuminate\Support\Facades\Log::info('CustomerGroup Query Debug', [
+                        'sql' => $query->sql,
+                        'bindings' => $query->bindings,
+                        'time' => $query->time,
+                    ]);
+                }
+            });
+        }
     }
 }
