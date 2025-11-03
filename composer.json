@@ -20,9 +20,7 @@
         "laravel/sanctum": "^3.3|^4.0",
         "laravel/tinker": "^2.8",
         "league/flysystem-aws-s3-v3": "^3.0",
-        "lunarphp/lunar": "^1.0@beta",
-        "lunarphp/stripe": "^1.0@beta",
-        "lunarphp/table-rate-shipping": "^1.0@beta",
+        "lunarphp/lunarmono": "dev-patch-1 as 1.1.0",
         "meilisearch/meilisearch-php": "^1.6",
         "predis/predis": "^2.2"
     },
@@ -60,6 +58,13 @@
             "@php artisan key:generate --ansi"
         ]
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/ChaDonSom/lunar",
+            "canonical": false
+        }
+    ],
     "extra": {
         "laravel": {
             "dont-discover": []

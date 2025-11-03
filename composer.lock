@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4eba3b439b4a82fccbfdd32244681bb3",
+    "content-hash": "fa21622e53d2d358f73795660d662903",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -846,6 +846,72 @@
                 "source": "https://github.com/cartalyst/converter/tree/v9.0.0"
             },
             "time": "2024-03-25T20:50:09+00:00"
+        },
+        {
+            "name": "clue/stream-filter",
+            "version": "v1.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/clue/stream-filter.git",
+                "reference": "049509fef80032cb3f051595029ab75b49a3c2f7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/clue/stream-filter/zipball/049509fef80032cb3f051595029ab75b49a3c2f7",
+                "reference": "049509fef80032cb3f051595029ab75b49a3c2f7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.6 || ^5.7 || ^4.8.36"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/functions_include.php"
+                ],
+                "psr-4": {
+                    "Clue\\StreamFilter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christian Lück",
+                    "email": "christian@clue.engineering"
+                }
+            ],
+            "description": "A simple and modern approach to stream filtering in PHP",
+            "homepage": "https://github.com/clue/stream-filter",
+            "keywords": [
+                "bucket brigade",
+                "callback",
+                "filter",
+                "php_user_filter",
+                "stream",
+                "stream_filter_append",
+                "stream_filter_register"
+            ],
+            "support": {
+                "issues": "https://github.com/clue/stream-filter/issues",
+                "source": "https://github.com/clue/stream-filter/tree/v1.7.0"
+            },
+            "funding": [
+                {
+                    "url": "https://clue.engineering/support",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/clue",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-12-20T15:40:13+00:00"
         },
         {
             "name": "composer/semver",
@@ -4636,182 +4702,148 @@
             "time": "2019-12-22T15:06:46+00:00"
         },
         {
-            "name": "lunarphp/core",
-            "version": "1.1.0",
+            "name": "lunarphp/lunarmono",
+            "version": "dev-patch-1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/lunarphp/core.git",
-                "reference": "f154a234aa6f9d3faf46df28a1fc476f0e4fcebf"
+                "url": "https://github.com/ChaDonSom/lunar.git",
+                "reference": "fda38fdd328da96ab7d89bd23fcc30f1ae622888"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lunarphp/core/zipball/f154a234aa6f9d3faf46df28a1fc476f0e4fcebf",
-                "reference": "f154a234aa6f9d3faf46df28a1fc476f0e4fcebf",
-                "shasum": ""
-            },
-            "require": {
-                "cartalyst/converter": "^9.0|^10",
-                "doctrine/dbal": "^3.6",
-                "ext-bcmath": "*",
-                "ext-exif": "*",
-                "ext-intl": "*",
-                "kalnoy/nestedset": "^v6.0.5",
-                "laravel/framework": "^11.0|^12.0",
-                "laravel/scout": "^10.13.1",
-                "lukascivil/treewalker": "0.9.1",
-                "php": "^8.2",
-                "spatie/laravel-activitylog": "^4.10.1",
-                "spatie/laravel-blink": "^1.7.1",
-                "spatie/laravel-medialibrary": "^11.12.7",
-                "spatie/php-structure-discoverer": "^2.3.1"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Lunar\\LunarServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "files": [
-                    "src/helpers.php"
-                ],
-                "psr-4": {
-                    "Lunar\\": "src",
-                    "Lunar\\Database\\State\\": "database/state",
-                    "Lunar\\Database\\Seeders\\": "database/seeders",
-                    "Lunar\\Database\\Factories\\": "database/factories"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Lunar",
-                    "homepage": "https://lunarphp.io/"
-                }
-            ],
-            "description": "Lunar Laravel e-commerce core functionality.",
-            "keywords": [
-                "cart",
-                "e-commerce",
-                "ecommerce",
-                "headless",
-                "laravel",
-                "lunar",
-                "shop",
-                "store"
-            ],
-            "support": {
-                "source": "https://github.com/lunarphp/core/tree/1.1.0"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/lunar",
-                    "type": "github"
-                }
-            ],
-            "time": "2025-09-30T09:55:42+00:00"
-        },
-        {
-            "name": "lunarphp/lunar",
-            "version": "1.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/lunarphp/admin.git",
-                "reference": "a160d84afa6075453952491862cbf0eb870bf099"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/lunarphp/admin/zipball/a160d84afa6075453952491862cbf0eb870bf099",
-                "reference": "a160d84afa6075453952491862cbf0eb870bf099",
+                "url": "https://api.github.com/repos/ChaDonSom/lunar/zipball/fda38fdd328da96ab7d89bd23fcc30f1ae622888",
+                "reference": "fda38fdd328da96ab7d89bd23fcc30f1ae622888",
                 "shasum": ""
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^2.3.2",
                 "awcodes/shout": "^2.0.4",
                 "barryvdh/laravel-dompdf": "^3.0",
+                "cartalyst/converter": "^9.0|^10",
+                "doctrine/dbal": "^3.6",
+                "dompdf/dompdf": "^3.1",
+                "ext-bcmath": "*",
+                "ext-exif": "*",
+                "ext-intl": "*",
                 "filament/filament": "^3.3.36",
                 "filament/spatie-laravel-media-library-plugin": "^3.3.4",
+                "guzzlehttp/guzzle": "^7.3",
+                "http-interop/http-factory-guzzle": "^1.2",
+                "kalnoy/nestedset": "^v6.0.5",
+                "laravel/framework": "^11.0|^12.0",
+                "laravel/scout": "^10.13.1",
                 "leandrocfe/filament-apex-charts": "^3.2.0",
-                "lunarphp/core": "self.version",
+                "livewire/livewire": "^3.0",
+                "lukascivil/treewalker": "0.9.1",
+                "lunarphp/lunar": "self.version",
+                "meilisearch/meilisearch-php": "^1.10",
+                "php": "^8.2",
+                "spatie/laravel-activitylog": "^4.10.1",
+                "spatie/laravel-blink": "^1.7.1",
+                "spatie/laravel-data": "^4.13.1",
+                "spatie/laravel-medialibrary": "^11.12.7",
                 "spatie/laravel-permission": "^6.12",
+                "spatie/php-structure-discoverer": "^2.3.1",
                 "stephenjude/filament-two-factor-authentication": "^2.0",
-                "technikermathe/blade-lucide-icons": "^v3.0"
+                "stripe/stripe-php": "^16.0",
+                "technikermathe/blade-lucide-icons": "^v3.0",
+                "typesense/typesense-php": "^4.9"
+            },
+            "replace": {
+                "lunarphp/core": "self.version",
+                "lunarphp/lunar": "self.version",
+                "lunarphp/meilisearch": "self.version",
+                "lunarphp/opayo": "self.version",
+                "lunarphp/paypal": "self.version",
+                "lunarphp/search": "self.version",
+                "lunarphp/stripe": "self.version",
+                "lunarphp/table-rate-shipping": "self.version"
+            },
+            "require-dev": {
+                "larastan/larastan": "^2.9|^3.0",
+                "laravel/pint": "1.17.0",
+                "mockery/mockery": "^1.6.9",
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "pestphp/pest": "^2.0|^3.0",
+                "pestphp/pest-plugin-laravel": "^2.0|^3.0",
+                "symplify/monorepo-builder": "^10.0"
             },
             "type": "library",
             "extra": {
+                "lunar": {
+                    "name": [
+                        "Table Rate Shipping",
+                        "Opayo Payments",
+                        "Search",
+                        "Meilisearch",
+                        "Paypal Payments",
+                        "Stripe Payments"
+                    ]
+                },
                 "laravel": {
                     "providers": [
-                        "Lunar\\Admin\\LunarPanelProvider"
+                        "Lunar\\Stripe\\StripePaymentsServiceProvider",
+                        "Lunar\\Paypal\\PaypalServiceProvider",
+                        "Lunar\\Meilisearch\\MeilisearchServiceProvider",
+                        "Lunar\\Search\\SearchServiceProvider",
+                        "Lunar\\Admin\\LunarPanelProvider",
+                        "Lunar\\Opayo\\OpayoServiceProvider",
+                        "Lunar\\Shipping\\ShippingServiceProvider",
+                        "Lunar\\LunarServiceProvider"
                     ]
                 }
             },
             "autoload": {
                 "files": [
-                    "src/helpers.php"
+                    "packages/admin/src/helpers.php",
+                    "packages/core/src/helpers.php",
+                    "packages/search/src/helpers.php"
                 ],
                 "psr-4": {
-                    "Lunar\\Admin\\": "src/",
-                    "Lunar\\Admin\\Database\\State\\": "database/state",
-                    "Lunar\\Admin\\Database\\Factories\\": "database/factories"
+                    "Lunar\\": "packages/core/src",
+                    "Lunar\\Admin\\": "packages/admin/src/",
+                    "Lunar\\Admin\\Database\\Factories\\": "packages/admin/database/factories",
+                    "Lunar\\Admin\\Database\\State\\": "packages/admin/database/state",
+                    "Lunar\\Database\\Factories\\": "packages/core/database/factories",
+                    "Lunar\\Database\\Seeders\\": "packages/core/database/seeders",
+                    "Lunar\\Database\\State\\": "packages/core/database/state",
+                    "Lunar\\Meilisearch\\": "packages/meilisearch/src/",
+                    "Lunar\\Opayo\\": "packages/opayo/src/",
+                    "Lunar\\Paypal\\": "packages/paypal/src/",
+                    "Lunar\\Search\\": "packages/search/src/",
+                    "Lunar\\Shipping\\": "packages/table-rate-shipping/src",
+                    "Lunar\\Shipping\\Database\\Factories\\": "packages/table-rate-shipping/database/factories",
+                    "Lunar\\Stripe\\": "packages/stripe/src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Admin panel for LunarPHP",
-            "support": {
-                "source": "https://github.com/lunarphp/admin/tree/1.1.0"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/lunar",
-                    "type": "github"
-                }
-            ],
-            "time": "2025-10-14T11:29:33+00:00"
-        },
-        {
-            "name": "lunarphp/stripe",
-            "version": "1.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/lunarphp/stripe.git",
-                "reference": "524a41adca900f48fff9ef40d8af4d9943305728"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/lunarphp/stripe/zipball/524a41adca900f48fff9ef40d8af4d9943305728",
-                "reference": "524a41adca900f48fff9ef40d8af4d9943305728",
-                "shasum": ""
-            },
-            "require": {
-                "lunarphp/core": "self.version",
-                "php": "^8.2",
-                "stripe/stripe-php": "^16.0"
-            },
-            "type": "project",
-            "extra": {
-                "lunar": {
-                    "name": "Stripe Payments"
-                },
-                "laravel": {
-                    "providers": [
-                        "Lunar\\Stripe\\StripePaymentsServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
+            "autoload-dev": {
                 "psr-4": {
-                    "Lunar\\Stripe\\": "src/"
+                    "Lunar\\Tests\\": "tests",
+                    "Lunar\\Tests\\Admin\\": "tests/admin",
+                    "Lunar\\Tests\\Core\\": "tests/core",
+                    "Lunar\\Tests\\Opayo\\": "tests/opayo",
+                    "Lunar\\Tests\\Paypal\\": "tests/paypal",
+                    "Lunar\\Tests\\Shipping\\": "tests/shipping",
+                    "Lunar\\Shipping\\Tests\\": "packages/table-rate-shipping/tests",
+                    "Lunar\\Tests\\Stripe\\": "tests/stripe",
+                    "Lunar\\Tests\\Search\\": "tests/search"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "scripts": {
+                "pint": [
+                    "pint"
+                ],
+                "test:pest": [
+                    "pest"
+                ],
+                "test:phpstan": [
+                    "phpstan analyse"
+                ],
+                "test": [
+                    "@test:pest",
+                    "@test:phpstan"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -4821,96 +4853,17 @@
                     "homepage": "https://lunarphp.io/"
                 }
             ],
-            "description": "Stripe payment driver for Lunar.",
-            "keywords": [
-                "cart",
-                "e-commerce",
-                "ecommerce",
-                "headless",
-                "laravel",
-                "lunarphp",
-                "shop",
-                "store",
-                "stripe"
-            ],
+            "description": "Lunar Monorepo",
             "support": {
-                "source": "https://github.com/lunarphp/stripe/tree/1.1.0"
+                "source": "https://github.com/ChaDonSom/lunar/tree/patch-1"
             },
             "funding": [
                 {
-                    "url": "https://github.com/lunar",
-                    "type": "github"
+                    "type": "github",
+                    "url": "https://github.com/lunarphp"
                 }
             ],
-            "time": "2025-06-30T11:19:02+00:00"
-        },
-        {
-            "name": "lunarphp/table-rate-shipping",
-            "version": "1.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/lunarphp/table-rate-shipping.git",
-                "reference": "deb907851317f41767d36d4dd949600bcac39770"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/lunarphp/table-rate-shipping/zipball/deb907851317f41767d36d4dd949600bcac39770",
-                "reference": "deb907851317f41767d36d4dd949600bcac39770",
-                "shasum": ""
-            },
-            "require": {
-                "lunarphp/lunar": "self.version",
-                "php": "^8.2"
-            },
-            "type": "library",
-            "extra": {
-                "lunar": {
-                    "name": "Table Rate Shipping"
-                },
-                "laravel": {
-                    "providers": [
-                        "Lunar\\Shipping\\ShippingServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Lunar\\Shipping\\": "src",
-                    "Lunar\\Shipping\\Database\\Factories\\": "database/factories"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Lunar",
-                    "homepage": "https://lunarphp.io/"
-                }
-            ],
-            "description": "Lunar Table Rate Shipping Addon",
-            "keywords": [
-                "cart",
-                "e-commerce",
-                "ecommerce",
-                "headless",
-                "laravel",
-                "lunar",
-                "shop",
-                "store"
-            ],
-            "support": {
-                "issues": "https://github.com/lunarphp/table-rate-shipping/issues",
-                "source": "https://github.com/lunarphp/table-rate-shipping/tree/1.1.0"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/lunar",
-                    "type": "github"
-                }
-            ],
-            "time": "2025-08-14T10:19:09+00:00"
+            "time": "2025-11-03T17:01:10+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
@@ -5776,6 +5729,84 @@
             "time": "2025-10-18T11:10:27+00:00"
         },
         {
+            "name": "nyholm/psr7",
+            "version": "1.8.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Nyholm/psr7.git",
+                "reference": "a71f2b11690f4b24d099d6b16690a90ae14fc6f3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Nyholm/psr7/zipball/a71f2b11690f4b24d099d6b16690a90ae14fc6f3",
+                "reference": "a71f2b11690f4b24d099d6b16690a90ae14fc6f3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2",
+                "psr/http-factory": "^1.0",
+                "psr/http-message": "^1.1 || ^2.0"
+            },
+            "provide": {
+                "php-http/message-factory-implementation": "1.0",
+                "psr/http-factory-implementation": "1.0",
+                "psr/http-message-implementation": "1.0"
+            },
+            "require-dev": {
+                "http-interop/http-factory-tests": "^0.9",
+                "php-http/message-factory": "^1.0",
+                "php-http/psr7-integration-tests": "^1.0",
+                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.4",
+                "symfony/error-handler": "^4.4"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.8-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Nyholm\\Psr7\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tobias Nyholm",
+                    "email": "tobias.nyholm@gmail.com"
+                },
+                {
+                    "name": "Martijn van der Ven",
+                    "email": "martijn@vanderven.se"
+                }
+            ],
+            "description": "A fast PHP7 implementation of PSR-7",
+            "homepage": "https://tnyholm.se",
+            "keywords": [
+                "psr-17",
+                "psr-7"
+            ],
+            "support": {
+                "issues": "https://github.com/Nyholm/psr7/issues",
+                "source": "https://github.com/Nyholm/psr7/tree/1.8.2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Zegnat",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nyholm",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-09-09T07:06:30+00:00"
+        },
+        {
             "name": "openspout/openspout",
             "version": "v4.32.0",
             "source": {
@@ -5938,6 +5969,75 @@
             "time": "2025-09-24T15:06:41+00:00"
         },
         {
+            "name": "php-http/client-common",
+            "version": "2.7.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-http/client-common.git",
+                "reference": "0cfe9858ab9d3b213041b947c881d5b19ceeca46"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-http/client-common/zipball/0cfe9858ab9d3b213041b947c881d5b19ceeca46",
+                "reference": "0cfe9858ab9d3b213041b947c881d5b19ceeca46",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1 || ^8.0",
+                "php-http/httplug": "^2.0",
+                "php-http/message": "^1.6",
+                "psr/http-client": "^1.0",
+                "psr/http-factory": "^1.0",
+                "psr/http-message": "^1.0 || ^2.0",
+                "symfony/options-resolver": "~4.0.15 || ~4.1.9 || ^4.2.1 || ^5.0 || ^6.0 || ^7.0",
+                "symfony/polyfill-php80": "^1.17"
+            },
+            "require-dev": {
+                "doctrine/instantiator": "^1.1",
+                "guzzlehttp/psr7": "^1.4",
+                "nyholm/psr7": "^1.2",
+                "phpspec/phpspec": "^5.1 || ^6.3 || ^7.1",
+                "phpspec/prophecy": "^1.10.2",
+                "phpunit/phpunit": "^7.5.20 || ^8.5.33 || ^9.6.7"
+            },
+            "suggest": {
+                "ext-json": "To detect JSON responses with the ContentTypePlugin",
+                "ext-libxml": "To detect XML responses with the ContentTypePlugin",
+                "php-http/cache-plugin": "PSR-6 Cache plugin",
+                "php-http/logger-plugin": "PSR-3 Logger plugin",
+                "php-http/stopwatch-plugin": "Symfony Stopwatch plugin"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Http\\Client\\Common\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Márk Sági-Kazár",
+                    "email": "mark.sagikazar@gmail.com"
+                }
+            ],
+            "description": "Common HTTP Client implementations and tools for HTTPlug",
+            "homepage": "http://httplug.io",
+            "keywords": [
+                "client",
+                "common",
+                "http",
+                "httplug"
+            ],
+            "support": {
+                "issues": "https://github.com/php-http/client-common/issues",
+                "source": "https://github.com/php-http/client-common/tree/2.7.2"
+            },
+            "time": "2024-09-24T06:21:48+00:00"
+        },
+        {
             "name": "php-http/discovery",
             "version": "1.20.0",
             "source": {
@@ -6015,6 +6115,256 @@
                 "source": "https://github.com/php-http/discovery/tree/1.20.0"
             },
             "time": "2024-10-02T11:20:13+00:00"
+        },
+        {
+            "name": "php-http/httplug",
+            "version": "2.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-http/httplug.git",
+                "reference": "5cad731844891a4c282f3f3e1b582c46839d22f4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-http/httplug/zipball/5cad731844891a4c282f3f3e1b582c46839d22f4",
+                "reference": "5cad731844891a4c282f3f3e1b582c46839d22f4",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1 || ^8.0",
+                "php-http/promise": "^1.1",
+                "psr/http-client": "^1.0",
+                "psr/http-message": "^1.0 || ^2.0"
+            },
+            "require-dev": {
+                "friends-of-phpspec/phpspec-code-coverage": "^4.1 || ^5.0 || ^6.0",
+                "phpspec/phpspec": "^5.1 || ^6.0 || ^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Http\\Client\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Eric GELOEN",
+                    "email": "geloen.eric@gmail.com"
+                },
+                {
+                    "name": "Márk Sági-Kazár",
+                    "email": "mark.sagikazar@gmail.com",
+                    "homepage": "https://sagikazarmark.hu"
+                }
+            ],
+            "description": "HTTPlug, the HTTP client abstraction for PHP",
+            "homepage": "http://httplug.io",
+            "keywords": [
+                "client",
+                "http"
+            ],
+            "support": {
+                "issues": "https://github.com/php-http/httplug/issues",
+                "source": "https://github.com/php-http/httplug/tree/2.4.1"
+            },
+            "time": "2024-09-23T11:39:58+00:00"
+        },
+        {
+            "name": "php-http/message",
+            "version": "1.16.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-http/message.git",
+                "reference": "06dd5e8562f84e641bf929bfe699ee0f5ce8080a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-http/message/zipball/06dd5e8562f84e641bf929bfe699ee0f5ce8080a",
+                "reference": "06dd5e8562f84e641bf929bfe699ee0f5ce8080a",
+                "shasum": ""
+            },
+            "require": {
+                "clue/stream-filter": "^1.5",
+                "php": "^7.2 || ^8.0",
+                "psr/http-message": "^1.1 || ^2.0"
+            },
+            "provide": {
+                "php-http/message-factory-implementation": "1.0"
+            },
+            "require-dev": {
+                "ergebnis/composer-normalize": "^2.6",
+                "ext-zlib": "*",
+                "guzzlehttp/psr7": "^1.0 || ^2.0",
+                "laminas/laminas-diactoros": "^2.0 || ^3.0",
+                "php-http/message-factory": "^1.0.2",
+                "phpspec/phpspec": "^5.1 || ^6.3 || ^7.1",
+                "slim/slim": "^3.0"
+            },
+            "suggest": {
+                "ext-zlib": "Used with compressor/decompressor streams",
+                "guzzlehttp/psr7": "Used with Guzzle PSR-7 Factories",
+                "laminas/laminas-diactoros": "Used with Diactoros Factories",
+                "slim/slim": "Used with Slim Framework PSR-7 implementation"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/filters.php"
+                ],
+                "psr-4": {
+                    "Http\\Message\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Márk Sági-Kazár",
+                    "email": "mark.sagikazar@gmail.com"
+                }
+            ],
+            "description": "HTTP Message related tools",
+            "homepage": "http://php-http.org",
+            "keywords": [
+                "http",
+                "message",
+                "psr-7"
+            ],
+            "support": {
+                "issues": "https://github.com/php-http/message/issues",
+                "source": "https://github.com/php-http/message/tree/1.16.2"
+            },
+            "time": "2024-10-02T11:34:13+00:00"
+        },
+        {
+            "name": "php-http/promise",
+            "version": "1.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-http/promise.git",
+                "reference": "fc85b1fba37c169a69a07ef0d5a8075770cc1f83"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-http/promise/zipball/fc85b1fba37c169a69a07ef0d5a8075770cc1f83",
+                "reference": "fc85b1fba37c169a69a07ef0d5a8075770cc1f83",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1 || ^8.0"
+            },
+            "require-dev": {
+                "friends-of-phpspec/phpspec-code-coverage": "^4.3.2 || ^6.3",
+                "phpspec/phpspec": "^5.1.2 || ^6.2 || ^7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Http\\Promise\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Joel Wurtz",
+                    "email": "joel.wurtz@gmail.com"
+                },
+                {
+                    "name": "Márk Sági-Kazár",
+                    "email": "mark.sagikazar@gmail.com"
+                }
+            ],
+            "description": "Promise used for asynchronous HTTP requests",
+            "homepage": "http://httplug.io",
+            "keywords": [
+                "promise"
+            ],
+            "support": {
+                "issues": "https://github.com/php-http/promise/issues",
+                "source": "https://github.com/php-http/promise/tree/1.3.1"
+            },
+            "time": "2024-03-15T13:55:21+00:00"
+        },
+        {
+            "name": "phpdocumentor/reflection",
+            "version": "6.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpDocumentor/Reflection.git",
+                "reference": "d91b3270832785602adcc24ae2d0974ba99a8ff8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpDocumentor/Reflection/zipball/d91b3270832785602adcc24ae2d0974ba99a8ff8",
+                "reference": "d91b3270832785602adcc24ae2d0974ba99a8ff8",
+                "shasum": ""
+            },
+            "require": {
+                "composer-runtime-api": "^2",
+                "nikic/php-parser": "~4.18 || ^5.0",
+                "php": "8.1.*|8.2.*|8.3.*|8.4.*",
+                "phpdocumentor/reflection-common": "^2.1",
+                "phpdocumentor/reflection-docblock": "^5",
+                "phpdocumentor/type-resolver": "^1.2",
+                "symfony/polyfill-php80": "^1.28",
+                "webmozart/assert": "^1.7"
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+                "doctrine/coding-standard": "^13.0",
+                "eliashaeussler/phpunit-attributes": "^1.7",
+                "mikey179/vfsstream": "~1.2",
+                "mockery/mockery": "~1.6.0",
+                "phpspec/prophecy-phpunit": "^2.0",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan": "^1.8",
+                "phpstan/phpstan-webmozart-assert": "^1.2",
+                "phpunit/phpunit": "^10.0",
+                "psalm/phar": "^6.0",
+                "rector/rector": "^1.0.0",
+                "squizlabs/php_codesniffer": "^3.8"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-5.x": "5.3.x-dev",
+                    "dev-6.x": "6.0.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/php-parser/Modifiers.php"
+                ],
+                "psr-4": {
+                    "phpDocumentor\\": "src/phpDocumentor"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Reflection library to do Static Analysis for PHP Projects",
+            "homepage": "http://www.phpdoc.org",
+            "keywords": [
+                "phpDocumentor",
+                "phpdoc",
+                "reflection",
+                "static analysis"
+            ],
+            "support": {
+                "issues": "https://github.com/phpDocumentor/Reflection/issues",
+                "source": "https://github.com/phpDocumentor/Reflection/tree/6.3.0"
+            },
+            "time": "2025-06-06T13:39:18+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -7783,6 +8133,89 @@
                 }
             ],
             "time": "2025-02-19T07:01:23+00:00"
+        },
+        {
+            "name": "spatie/laravel-data",
+            "version": "4.18.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-data.git",
+                "reference": "c10784f1133d540a702bd6db36ed659f4bc0606a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-data/zipball/c10784f1133d540a702bd6db36ed659f4bc0606a",
+                "reference": "c10784f1133d540a702bd6db36ed659f4bc0606a",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^10.0|^11.0|^12.0",
+                "php": "^8.1",
+                "phpdocumentor/reflection": "^6.0",
+                "spatie/laravel-package-tools": "^1.9.0",
+                "spatie/php-structure-discoverer": "^2.0"
+            },
+            "require-dev": {
+                "fakerphp/faker": "^1.14",
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "inertiajs/inertia-laravel": "^2.0",
+                "livewire/livewire": "^3.0",
+                "mockery/mockery": "^1.6",
+                "nesbot/carbon": "^2.63|^3.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "pestphp/pest": "^2.31|^3.0",
+                "pestphp/pest-plugin-laravel": "^2.0|^3.0",
+                "pestphp/pest-plugin-livewire": "^2.1|^3.0",
+                "phpbench/phpbench": "^1.2",
+                "phpstan/extension-installer": "^1.1",
+                "phpunit/phpunit": "^10.0|^11.0|^12.0",
+                "spatie/invade": "^1.0",
+                "spatie/laravel-typescript-transformer": "^2.5",
+                "spatie/pest-plugin-snapshots": "^2.1",
+                "spatie/test-time": "^1.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\LaravelData\\LaravelDataServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\LaravelData\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ruben Van Assche",
+                    "email": "ruben@spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Create unified resources and data transfer objects",
+            "homepage": "https://github.com/spatie/laravel-data",
+            "keywords": [
+                "laravel",
+                "laravel-data",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/laravel-data/issues",
+                "source": "https://github.com/spatie/laravel-data/tree/4.18.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-10-16T16:44:07+00:00"
         },
         {
             "name": "spatie/laravel-medialibrary",
@@ -9645,6 +10078,77 @@
                 }
             ],
             "time": "2025-09-16T08:38:17+00:00"
+        },
+        {
+            "name": "symfony/options-resolver",
+            "version": "v7.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/options-resolver.git",
+                "reference": "0ff2f5c3df08a395232bbc3c2eb7e84912df911d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/0ff2f5c3df08a395232bbc3c2eb7e84912df911d",
+                "reference": "0ff2f5c3df08a395232bbc3c2eb7e84912df911d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.2",
+                "symfony/deprecation-contracts": "^2.5|^3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\OptionsResolver\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Provides an improved replacement for the array_replace PHP function",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "config",
+                "configuration",
+                "options"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/options-resolver/tree/v7.3.3"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2025-08-05T10:16:07+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -11612,6 +12116,75 @@
                 "source": "https://github.com/tijsverkoyen/CssToInlineStyles/tree/v2.3.0"
             },
             "time": "2024-12-21T16:25:41+00:00"
+        },
+        {
+            "name": "typesense/typesense-php",
+            "version": "v4.9.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/typesense/typesense-php.git",
+                "reference": "50fc2089ff4829c8e0e11d8c674e9da085b49998"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/typesense/typesense-php/zipball/50fc2089ff4829c8e0e11d8c674e9da085b49998",
+                "reference": "50fc2089ff4829c8e0e11d8c674e9da085b49998",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "monolog/monolog": "^2.1 || ^3.0 || ^3.3",
+                "nyholm/psr7": "^1.3",
+                "php": ">=7.4",
+                "php-http/client-common": "^1.0 || ^2.3",
+                "php-http/discovery": "^1.0",
+                "php-http/httplug": "^1.0 || ^2.2",
+                "psr/http-client-implementation": "^1.0",
+                "psr/http-factory": "^1.0",
+                "psr/http-message": "^1.0 || ^2.0"
+            },
+            "require-dev": {
+                "squizlabs/php_codesniffer": "3.*",
+                "symfony/http-client": "^5.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Typesense\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Typesense",
+                    "email": "contact@typesense.org",
+                    "homepage": "https://typesense.org",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Abdullah Al-Faqeir",
+                    "email": "abdullah@devloops.net",
+                    "homepage": "https://www.devloops.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP client for Typesense Search Server: https://github.com/typesense/typesense",
+            "homepage": "https://github.com/typesense/typesense-php",
+            "support": {
+                "docs": "https://typesense.org/api",
+                "issues": "https://github.com/typesense/typesense-php/issues",
+                "source": "https://github.com/typesense/typesense-php"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/typesense",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-04-29T15:34:34+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -14458,10 +15031,17 @@
             "time": "2024-03-03T12:36:25+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "package": "lunarphp/lunarmono",
+            "version": "dev-patch-1",
+            "alias": "1.1.0",
+            "alias_normalized": "1.1.0.0"
+        }
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
-        "lunarphp/lunar": 10,
+        "lunarphp/lunarmono": 20,
         "lunarphp/stripe": 10,
         "lunarphp/table-rate-shipping": 10
     },
