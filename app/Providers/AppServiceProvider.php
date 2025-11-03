@@ -21,18 +21,28 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        // Override Lunar's ProductResource with our custom one before the panel is registered
+        $reflection = new \ReflectionClass(\Lunar\Admin\LunarPanelManager::class);
+        $resourcesProperty = $reflection->getProperty('resources');
+        $resourcesProperty->setAccessible(true);
+        $resources = $resourcesProperty->getValue();
+
+        // Replace the ProductResource with our custom one
+        $resources = array_map(function ($resource) {
+            if ($resource === \Lunar\Admin\Filament\Resources\ProductResource::class) {
+                return \App\Filament\Resources\ProductResource::class;
+            }
+            return $resource;
+        }, $resources);
+
+        $resourcesProperty->setValue(null, $resources);
+
         LunarPanel::panel(
             fn($panel) => $panel->plugins([
                 new ShippingPlugin,
             ])
         )
             ->register();
-
-        // Override Lunar's CustomerGroupRelationManager with our custom one
-        $this->app->bind(
-            \Lunar\Admin\Filament\Resources\ProductResource\RelationManagers\CustomerGroupRelationManager::class,
-            \App\Filament\Resources\ProductResource\RelationManagers\CustomerGroupRelationManager::class
-        );
     }
 
     /**
