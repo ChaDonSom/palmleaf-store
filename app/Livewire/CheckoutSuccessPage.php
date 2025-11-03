@@ -16,14 +16,24 @@ class CheckoutSuccessPage extends Component
 
     public function mount(): void
     {
-        $this->cart = CartSession::current();
-        if (! $this->cart || ! $this->cart->completedOrder) {
-            $this->redirect('/');
+        // Prefer the order ID stored in session after checkout completes.
+        $orderId = session()->pull('last_order_id');
 
-            return;
+        if ($orderId && $order = Order::find($orderId)) {
+            $this->order = $order;
+        } else {
+            // Fallback: attempt to resolve from the current cart if available
+            $this->cart = CartSession::current();
+            if ($this->cart && $this->cart->completedOrder) {
+                $this->order = $this->cart->completedOrder;
+            } else {
+                $this->redirect('/');
+
+                return;
+            }
         }
-        $this->order = $this->cart->completedOrder;
 
+        // Clear any cart left in session now that checkout is successful.
         CartSession::forget();
     }
 

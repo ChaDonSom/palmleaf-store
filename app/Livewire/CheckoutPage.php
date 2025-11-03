@@ -129,12 +129,17 @@ class CheckoutPage extends Component
         }
 
         if ($this->payment_intent) {
-            $payment = Payments::driver($this->paymentType)->cart($this->cart)->withData([
-                'payment_intent_client_secret' => $this->payment_intent_client_secret,
-                'payment_intent' => $this->payment_intent,
-            ])->authorize();
+            $payment = Payments::driver($this->paymentType)
+                ->cart($this->cart)
+                ->withData([
+                    'payment_intent_client_secret' => $this->payment_intent_client_secret,
+                    'payment_intent' => $this->payment_intent,
+                ])->authorize();
 
-            if ($payment->success) {
+            if ($payment?->success) {
+                if ($payment->orderId) {
+                    session()->put('last_order_id', $payment->orderId);
+                }
                 redirect()->route('checkout-success.view');
 
                 return;
@@ -142,11 +147,16 @@ class CheckoutPage extends Component
         }
 
         if ($this->paypal_order_id) {
-            $payment = Payments::driver('paypal')->cart($this->cart)->withData([
-                'paypal_order_id' => $this->paypal_order_id,
-            ])->authorize();
+            $payment = Payments::driver('paypal')
+                ->cart($this->cart)
+                ->withData([
+                    'paypal_order_id' => $this->paypal_order_id,
+                ])->authorize();
 
-            if ($payment->success) {
+            if ($payment?->success) {
+                if ($payment->orderId) {
+                    session()->put('last_order_id', $payment->orderId);
+                }
                 redirect()->route('checkout-success.view');
 
                 return;
@@ -216,7 +226,8 @@ class CheckoutPage extends Component
             $this->currentStep = $this->steps['billing_address'] + 1;
 
             if (isset($this->steps['signup'])) {
-                if ($this->signup = session('guest-checkout-signup', null) === null) {
+                $this->signup = session('guest-checkout-signup', null);
+                if ($this->signup === null) {
                     $this->currentStep = $this->steps['signup'];
                 } else {
                     $this->currentStep = $this->steps['signup'] + 1;
@@ -378,19 +389,22 @@ class CheckoutPage extends Component
                 'authorized' => 'payment-offline',
             ];
         }
-        $payment = Payments::cart($this->cart)->withData($paymentData)->setConfig($paymentConfig);
-
-        $payment->authorize();
+        $payment = Payments::driver($this->paymentType)
+            ->cart($this->cart)
+            ->withData($paymentData)
+            ->setConfig($paymentConfig)
+            ->authorize();
 
         session()->put('guest-checkout-signup', null);
 
-        if ($payment->success) {
-            redirect()->route('checkout-success.view');
-
-            return;
+        if ($payment?->success) {
+            if ($payment->orderId) {
+                session()->put('last_order_id', $payment->orderId);
+            }
+            return redirect()->route('checkout-success.view');
         }
 
-        return redirect()->route('checkout-success.view');
+        return redirect()->route('checkout.view')->with('error', 'Payment authorization failed. Please try again.');
     }
 
     /**
