@@ -14,8 +14,8 @@
                 id="quantity"
                 min="1"
                 value="1"
-                wire:model="quantity"
-                onfocus="this.select()"
+                wire:model.live="quantity"
+                onfocus="this.select()"{{-- TODO: new demo doesn't have this --}}
             />
         </div>
 

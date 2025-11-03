@@ -16,10 +16,10 @@
         href="{{ asset('css/app.css') }}"
         rel="stylesheet"
     >
-    <script
+    {{-- <script
         defer
         src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
-    ></script>
+    ></script><!-- TODO: Why do I have Alpine loading in here? --> --}}
     <link
         rel="icon"
         href="{{ asset('favicon.svg') }}"

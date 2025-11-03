@@ -2,53 +2,43 @@
 
 namespace Database\Seeders;
 
-use Lunar\FieldTypes\Text;
-use Lunar\FieldTypes\TranslatedText;
+use Illuminate\Support\Facades\DB;
 use Lunar\Models\Attribute;
 use Lunar\Models\AttributeGroup;
-use Lunar\Models\Collection;
-use Lunar\Models\CollectionGroup;
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class AttributeSeeder extends AbstractSeeder
 {
     /**
      * Run the database seeds.
      *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
         $attributes = $this->getSeedData('attributes');
 
-        $group = AttributeGroup::first();
+        $attributeGroup = AttributeGroup::first();
 
-        DB::transaction(function () use ($attributes, $group) {
+        DB::transaction(function () use ($attributes, $attributeGroup) {
             foreach ($attributes as $attribute) {
-                $handle = Str::snake($attribute->name);
-
-                Attribute::updateOrCreate(
-                    [
-                        'attribute_type' => $attribute->attribute_type,
-                        'handle' => $handle,
+                Attribute::create([
+                    'attribute_group_id' => $attributeGroup->id,
+                    'attribute_type' => $attribute->attribute_type,
+                    'handle' => $attribute->handle,
+                    'section' => 'main',
+                    'type' => $attribute->type,
+                    'required' => false,
+                    'searchable' => true,
+                    'filterable' => false,
+                    'system' => false,
+                    'position' => $attributeGroup->attributes()->count() + 1,
+                    'name' => [
+                        'en' => $attribute->name,
                     ],
-                    [
-                        'attribute_group_id' => $group->id,
-                        'section' => 'main',
-                        'type' => $attribute->type,
-                        'required' => false,
-                        'searchable' => true,
-                        'filterable' => false,
-                        'system' => false,
-                        'position' => $group->attributes()->count() + 1,
-                        'name' => [
-                            'en' => $attribute->name,
-                        ],
-                        'configuration' => (array) $attribute->configuration,
-                    ]
-                );
+                    'description' => [
+                        'en' => $attribute->name,
+                    ],
+                    'configuration' => (array) $attribute->configuration,
+                ]);
             }
         });
     }
