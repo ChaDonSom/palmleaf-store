@@ -38,7 +38,7 @@
                                 for="{{ $option->getIdentifier() }}"
                             >
                                 <p>
-                                    {{ $option->getDescription() }}
+                                    {{ $option->getName() }}
                                 </p>
 
                                 <p>
