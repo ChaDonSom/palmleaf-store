@@ -12,7 +12,8 @@ class MigrateMediaToDefaultPaths extends Command
     protected $signature = 'media:migrate-to-default-paths
                             {--disk= : The disk to migrate (defaults to media-library disk)}
                             {--dry-run : Show what would be moved without actually moving files}
-                            {--chunk=50 : Number of media items to process at once}';
+                            {--chunk=50 : Number of media items to process at once}
+                            {--force : Force the operation to run without confirmation}';
 
     protected $description = 'Migrate media files from custom path structure to default path structure';
 
@@ -28,9 +29,11 @@ class MigrateMediaToDefaultPaths extends Command
             $this->info('🔍 DRY RUN MODE - No files will be moved');
         } else {
             $this->warn('⚠️  This will move files on the production disk!');
-            if (!$this->confirm('Continue with migration?')) {
-                $this->info('Migration cancelled.');
-                return 0;
+            if (! $this->option('force')) {
+                if (!$this->confirm('Continue with migration?')) {
+                    $this->info('Migration cancelled.');
+                    return 0;
+                }
             }
         }
 
