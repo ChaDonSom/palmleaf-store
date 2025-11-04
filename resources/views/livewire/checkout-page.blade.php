@@ -36,7 +36,7 @@
                                     </p>
 
                                     <span class="block mt-1 text-xs text-gray-500">
-                                        {{ $line->quantity }} @ {{ $line->subTotal->formatted() }}
+                                        {{ $line->quantity }} @ {{ $line->unitPrice->formatted() }}
                                     </span>
                                 </div>
                             </div>
