@@ -77,7 +77,7 @@
                                             "
                                             :class="{
                                                 'bg-slate-600 border-slate-600 text-white hover:bg-slate-700' : selectedValues.includes({{ $value->id }}),
-                                                'hover:bg-gray-100': !selectedValues.includes({{ $value->id }})
+                                                'border-gray-300 hover:bg-gray-100': !selectedValues.includes({{ $value->id }})
                                             }"
                                         >
                                             {{ $value->translate('name') }}
