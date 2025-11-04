@@ -7,7 +7,7 @@
 
         @if ($type == 'shipping' && $step == $currentStep)
             <label class="flex items-center p-2 rounded-lg cursor-pointer hover:bg-gray-50">
-                <input class="w-5 h-5 text-green-600 border-gray-100 rounded"
+                <input class="w-5 h-5 text-slate-600 border-gray-100 rounded"
                        type="checkbox"
                        value="1"
                        wire:model.live="shippingIsBilling" />

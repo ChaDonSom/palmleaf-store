@@ -76,7 +76,7 @@
                                                 $set('selectedOptionValues.{{ $option['option']->id }}', {{ $value->id }})
                                             "
                                             :class="{
-                                                'bg-green-600 border-green-600 text-white hover:bg-green-700' : selectedValues.includes({{ $value->id }}),
+                                                'bg-slate-600 border-slate-600 text-white hover:bg-slate-700' : selectedValues.includes({{ $value->id }}),
                                                 'hover:bg-gray-100': !selectedValues.includes({{ $value->id }})
                                             }"
                                         >

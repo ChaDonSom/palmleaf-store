@@ -9,7 +9,7 @@
             </label>
 
             <x-input.text
-                class="w-16 px-1 py-4 text-sm text-center transition border border-gray-100 rounded-[32px] no-spinners focus:ring-green-600"
+                class="w-16 px-1 py-4 text-sm text-center transition border border-gray-100 rounded-[32px] no-spinners focus:ring-slate-600"
                 type="number"
                 id="quantity"
                 min="1"
@@ -21,7 +21,7 @@
 
         <button
             type="submit"
-            class="w-full px-6 py-4 text-sm font-medium text-center text-white bg-green-700 rounded-[32px] hover:bg-green-800"
+            class="w-full px-6 py-4 text-sm font-medium text-center text-white bg-slate-700 rounded-[32px] hover:bg-slate-800"
             wire:click.prevent="addToCart"
         >
             Add to Cart
