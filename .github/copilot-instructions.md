@@ -3,8 +3,8 @@
 ## Project Summary
 
 This is a Laravel-based e-commerce store for Palmleaf Creates. The project uses:
-- **Backend**: Laravel 9 (PHP 8.0+) with Jetstream and Livewire
-- **Frontend**: Tailwind CSS, Alpine.js, Laravel Mix
+- **Backend**: Laravel 9.52 (PHP 8.0-8.3+) with Jetstream 2.x and Livewire 2.x
+- **Frontend**: Tailwind CSS 3.x, Alpine.js 3.x, Laravel Mix
 - **E-commerce**: Lunar PHP for e-commerce functionality
 - **Payment Processing**: Stripe (via lunarphp/stripe) and PayPal
 - **Database**: MySQL
@@ -124,9 +124,9 @@ Follow PSR-12 coding standards for PHP code.
 ## Key Technologies and Packages
 
 ### Core Laravel Packages
-- `laravel/framework` (^9.0) - Core framework
-- `laravel/jetstream` (^2.17) - Authentication scaffolding
-- `livewire/livewire` (^2.5) - Full-stack framework
+- `laravel/framework` (^9.0, currently v9.52.21) - Core framework
+- `laravel/jetstream` (^2.17) - Authentication scaffolding with Teams support
+- `livewire/livewire` (^2.5, currently v2.12.8) - Full-stack reactive framework
 
 ### E-commerce
 - `lunarphp/lunar` (^0.1) - E-commerce functionality

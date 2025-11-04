@@ -30,7 +30,7 @@ steps:
     description: Compile frontend assets for development
 
 notes:
-  - The project requires PHP 8.0 or higher
+  - The project requires PHP 8.0 or higher (tested with PHP 8.0-8.3)
   - MySQL database needs to be set up separately with appropriate credentials in .env
   - Database migrations should be run manually based on environment (php artisan migrate)
   - For testing, ensure test database is configured in .env or phpunit.xml
