@@ -24,7 +24,7 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array<int, string>
      */
     protected $fillable = [
         'name',
@@ -36,7 +36,7 @@ class User extends Authenticatable
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $hidden = [
         'password',
@@ -48,7 +48,7 @@ class User extends Authenticatable
     /**
      * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
@@ -63,15 +63,18 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function customers() {
+    public function customers()
+    {
         return $this->belongsToMany(Customer::class, 'lunar_customer_user');
     }
 
-    public function getFirstNameAttribute() {
+    public function getFirstNameAttribute()
+    {
         return explode(" ", $this->name)[0];
     }
 
-    public function getLastNameAttribute() {
+    public function getLastNameAttribute()
+    {
         return collect(explode(" ", $this->name))->slice(1)->join(" ");
     }
 }
