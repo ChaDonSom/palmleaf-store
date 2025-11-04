@@ -57,7 +57,7 @@ php artisan migrate
 The project requires MySQL with the following default configuration:
 - Database: `palmleaf`
 - User: `palmleaf`
-- Password: `secret`
+- Password: `palmleaf`
 - Host: `localhost`
 
 ### Building Assets
