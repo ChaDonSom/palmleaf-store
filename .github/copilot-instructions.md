@@ -3,10 +3,10 @@
 ## Project Summary
 
 This is a Laravel-based e-commerce store for Palmleaf Creates. The project uses:
-- **Backend**: Laravel 9.52 (PHP 8.0-8.3+) with Jetstream 2.x and Livewire 2.x
-- **Frontend**: Tailwind CSS 3.x, Alpine.js 3.x, Laravel Mix
-- **E-commerce**: Lunar PHP for e-commerce functionality
-- **Payment Processing**: Stripe (via lunarphp/stripe) and PayPal
+- **Backend**: Laravel 11 (PHP 8.2+) with Jetstream 5.x and Livewire 3.x
+- **Frontend**: Tailwind CSS 3.x, Alpine.js 3.x, Vite
+- **E-commerce**: Lunar PHP 1.1 for e-commerce functionality
+- **Payment Processing**: Stripe and PayPal
 - **Database**: MySQL
 - **Search**: Meilisearch
 
@@ -62,14 +62,11 @@ The project requires MySQL with the following default configuration:
 
 ### Building Assets
 ```bash
-# Development build
+# Development build (compiles once)
+npm run build
+
+# Development server with hot reload
 npm run dev
-
-# Production build
-npm run prod
-
-# Watch for changes (hot reload)
-npm run hot
 ```
 
 ### Running Tests
@@ -90,8 +87,8 @@ php artisan test
 # Start Laravel development server
 php artisan serve
 
-# In a separate terminal, run asset watcher
-npm run hot
+# In a separate terminal, run Vite dev server for hot reload
+npm run dev
 ```
 
 ### Linting and Code Style
@@ -124,18 +121,16 @@ Follow PSR-12 coding standards for PHP code.
 ## Key Technologies and Packages
 
 ### Core Laravel Packages
-- `laravel/framework` (^9.0, currently v9.52.21) - Core framework
-- `laravel/jetstream` (^2.17) - Authentication scaffolding with Teams support
-- `livewire/livewire` (^2.5, currently v2.12.8) - Full-stack reactive framework
+- `laravel/framework` (^10.43|^11.0, currently v11.46.1) - Core framework
+- `laravel/jetstream` (^5.3, currently v5.3.8) - Authentication scaffolding with Teams support
+- `livewire/livewire` (v3.6.4) - Full-stack reactive framework
 
 ### E-commerce
-- `lunarphp/lunar` (^0.1) - E-commerce functionality
-- `lunarphp/stripe` (^0.1) - Stripe payment integration
-- `srmklive/paypal` (~3.0) - PayPal integration
+- `lunarphp/lunarmono` (1.1.0) - E-commerce functionality
 
 ### Development Tools
-- `spatie/laravel-ignition` - Error page for Laravel
-- `itsgoingd/clockwork` - Debugging and profiling
+- `laravel-vite-plugin` - Asset bundling with Vite
+- Tailwind CSS 3.x - Utility-first CSS framework
 
 ## Environment Variables
 

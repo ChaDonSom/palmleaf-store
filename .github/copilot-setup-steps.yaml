@@ -26,12 +26,13 @@ steps:
     description: Create symbolic link from public/storage to storage/app/public
 
   - name: Build frontend assets
-    command: npm run dev
-    description: Compile frontend assets for development
+    command: npm run build
+    description: Build frontend assets with Vite (use 'npm run dev' for hot reload during development)
 
 notes:
-  - The project requires PHP 8.0 or higher (tested with PHP 8.0-8.3)
+  - The project requires PHP 8.2 or higher
   - MySQL database needs to be set up separately with appropriate credentials in .env
   - Database migrations should be run manually based on environment (php artisan migrate)
   - For testing, ensure test database is configured in .env or phpunit.xml
   - Some environment variables (payment gateways, S3, etc.) may need manual configuration
+  - For development with hot reload, run 'npm run dev' in a separate terminal
