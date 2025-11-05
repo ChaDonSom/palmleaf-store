@@ -1,17 +1,17 @@
 <?php
 
-use App\Http\Livewire\AboutPage;
-use App\Http\Livewire\CheckoutPage;
-use App\Http\Livewire\CheckoutSuccessPage;
-use App\Http\Livewire\CollectionPage;
-use App\Http\Livewire\ContactPage;
-use App\Http\Livewire\CookiesPage;
-use App\Http\Livewire\FaqPage;
-use App\Http\Livewire\Home;
-use App\Http\Livewire\ProductPage;
-use App\Http\Livewire\SearchPage;
-use App\Http\Livewire\ShippingReturnsPage;
-use App\Http\Livewire\SizeGuidePage;
+use App\Livewire\AboutPage;
+use App\Livewire\CheckoutPage;
+use App\Livewire\CheckoutSuccessPage;
+use App\Livewire\CollectionPage;
+use App\Livewire\ContactPage;
+use App\Livewire\CookiesPage;
+use App\Livewire\FaqPage;
+use App\Livewire\Home;
+use App\Livewire\ProductPage;
+use App\Livewire\SearchPage;
+use App\Livewire\ShippingReturnsPage;
+use App\Livewire\SizeGuidePage;
 use Lunar\Models\Address;
 use Lunar\Models\Order;
 use Illuminate\Support\Facades\Route;
@@ -65,7 +65,7 @@ Route::middleware([
         return view('profile.addresses.show', ['address' => null]);
     })->name('profile-create-address');
     Route::get('/user/profile/addresses/{address}', function (Address $address) {
-        return view('profile.addresses.show', [ 'address' => $address ]);
+        return view('profile.addresses.show', ['address' => $address]);
     })->name('profile-edit-address');
     Route::get('/user/orders', function () {
         return view('orders');

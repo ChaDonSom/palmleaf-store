@@ -12,6 +12,7 @@
         "options": [
             {
                 "name": "Size",
+                "shared": false,
                 "values": [
                     "30 S (L30)",
                     "32 S (L30)",
@@ -25,7 +26,7 @@
         "attributes": {
             "name": "Chuck 70 Raw Edge",
             "description": "The timeless style you know and love gets remixed with light padding and unexpected raw-edge details. An elevated style icon, it features more cushioning to keep you looking ”and feeling” good all day. The Chuck 70 holds its own on fashion week runways and city streets, making it the go-to sneaker for those looking to enhance and express their style.",
-            "product_details": [
+            "details": [
                 "High-top sneaker, crafted with organic canvas for an elevated look and feel",
                 "OrthoLite cushioning for all-day comfort",
                 "Raw-cut textile inserts for added padding",
@@ -41,6 +42,7 @@
         "options": [
             {
                 "name": "Shoe Size",
+                "shared": true,
                 "values": ["UK 5", "UK 6", "UK 7", "UK 8", "UK 9", "UK 10"]
             }
         ]
@@ -58,6 +60,7 @@
         "options": [
             {
                 "name": "Shoe Size",
+                "shared": true,
                 "values": ["UK 5", "UK 6", "UK 7", "UK 8", "UK 9", "UK 10"]
             }
         ]
@@ -108,6 +111,7 @@
         "options": [
             {
                 "name": "Shoe Size",
+                "shared": true,
                 "values": ["UK 5", "UK 6", "UK 7", "UK 8", "UK 9", "UK 10"]
             }
         ]
@@ -147,6 +151,7 @@
         "options": [
             {
                 "name": "Shoe Size",
+                "shared": true,
                 "values": ["UK 5", "UK 6", "UK 7", "UK 8", "UK 9", "UK 10"]
             }
         ]
@@ -164,6 +169,7 @@
         "options": [
             {
                 "name": "Shoe Size",
+                "shared": true,
                 "values": ["UK 5", "UK 6", "UK 7", "UK 8", "UK 9", "UK 10"]
             }
         ]
@@ -192,10 +198,12 @@
         "options": [
             {
                 "name": "Colour",
+                "shared": true,
                 "values": ["Black", "Blue", "Red", "Green"]
             },
             {
                 "name": "Size",
+                "shared": true,
                 "values": ["Small", "Medium", "Large", "X-Large"]
             }
         ]

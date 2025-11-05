@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Http\Livewire\PaypalPaymentForm;
+use App\Livewire\PaypalPaymentForm;
 use App\PaymentTypes\PaypalPayment;
 use Illuminate\Support\ServiceProvider;
 use Lunar\Facades\Payments;

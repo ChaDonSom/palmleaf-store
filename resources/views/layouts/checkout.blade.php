@@ -7,7 +7,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1"
     >
-    <title>Pamleaf Creates</title>
+    <title>Checkout - {{ $title ?? config('app.name') }}</title>
     <meta
         name="description"
         content="Hand-made memorabilia by Maria Somero"
@@ -16,10 +16,6 @@
         href="{{ asset('css/app.css') }}"
         rel="stylesheet"
     >
-    <script
-        defer
-        src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
-    ></script>
     <link
         rel="icon"
         href="{{ asset('favicon.svg') }}"

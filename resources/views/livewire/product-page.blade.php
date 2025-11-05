@@ -17,6 +17,7 @@
                         <div
                             class="aspect-w-1 aspect-h-1"
                             wire:key="image_{{ $image->id }}"
+                            wire:click="$set('imageId', {{ $image->id }})"
                         >
                             <img
                                 loading="lazy"
@@ -60,7 +61,7 @@
                                 <div
                                     class="flex flex-wrap gap-2 mt-2 text-xs tracking-wide uppercase"
                                     x-data="{
-                                        selectedOption: @entangle('selectedOptionValues'),
+                                        selectedOption: @entangle('selectedOptionValues').live,
                                         selectedValues: [],
                                     }"
                                     x-init="selectedValues = Object.values(selectedOption);

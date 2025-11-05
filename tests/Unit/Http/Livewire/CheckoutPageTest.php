@@ -2,20 +2,16 @@
 
 namespace Tests\Unit\Http\Livewire;
 
-use App\Http\Livewire\CheckoutPage;
-use App\Http\Livewire\Components\CheckoutAddress;
-use App\Http\Livewire\Components\Navigation;
-use App\Http\Livewire\Home;
+use App\Livewire\CheckoutPage;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Config;
+use Livewire\Livewire;
 use Lunar\Facades\CartSession;
 use Lunar\Models\Cart;
 use Lunar\Models\CartAddress;
-use Lunar\Models\Collection;
 use Lunar\Models\Country;
 use Lunar\Models\TaxClass;
 use Lunar\Models\TaxZone;
-use Lunar\Models\Url;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Livewire\Livewire;
 use Tests\TestCase;
 
 /**
@@ -33,7 +29,7 @@ class CheckoutPageTest extends TestCase
     public function test_component_can_mount()
     {
         CartSession::shouldReceive('current')->andReturn(
-            Cart::factory()->create()->getManager()->getCart()
+            Cart::factory()->create()->calculate()
         );
 
         Livewire::test(CheckoutPage::class)
@@ -50,7 +46,7 @@ class CheckoutPageTest extends TestCase
     public function test_checkout_step_is_correct_on_load()
     {
         CartSession::shouldReceive('current')->andReturn(
-            Cart::factory()->create()->getManager()->getCart()
+            Cart::factory()->create()->calculate()
         );
 
         Livewire::test(CheckoutPage::class)
@@ -78,7 +74,7 @@ class CheckoutPageTest extends TestCase
         );
 
         CartSession::shouldReceive('current')->andReturn(
-            $cart->getManager()->getCart()
+            $cart->calculate()
         );
 
         Livewire::test(CheckoutPage::class)
@@ -93,6 +89,8 @@ class CheckoutPageTest extends TestCase
      */
     public function test_checkout_on_billing_if_we_have_shipping_option()
     {
+        Config::set('shipping-tables.enabled', false);
+
         TaxClass::factory()->create([
             'default' => true,
         ]);
@@ -111,7 +109,7 @@ class CheckoutPageTest extends TestCase
         );
 
         CartSession::shouldReceive('current')->andReturn(
-            $cart->getManager()->getCart()
+            $cart->calculate()
         );
 
         Livewire::test(CheckoutPage::class)
@@ -126,6 +124,8 @@ class CheckoutPageTest extends TestCase
      */
     public function test_checkout_on_payment_if_we_have_billing_address()
     {
+        Config::set('shipping-tables.enabled', false);
+
         TaxClass::factory()->create([
             'default' => true,
         ]);
@@ -150,10 +150,11 @@ class CheckoutPageTest extends TestCase
         );
 
         CartSession::shouldReceive('current')->andReturn(
-            $cart->getManager()->getCart()
+            $cart->calculate()
         );
 
         Livewire::test(CheckoutPage::class)
+            ->set('paymentType', 'cash')
             ->assertViewIs('livewire.checkout-page')
             ->assertSet('currentStep', 4);
     }
@@ -176,16 +177,17 @@ class CheckoutPageTest extends TestCase
         $cart = Cart::factory()->create();
 
         CartSession::shouldReceive('getCart')->andReturn(
-            $cart->getManager()->getCart()
+            $cart->calculate()
         );
 
         CartSession::shouldReceive('current')->andReturn(
-            $cart->getManager()->getCart()
+            $cart->calculate()
         );
 
         $country = Country::factory()->create();
 
         Livewire::test(CheckoutPage::class)
+            ->set('paymentType', 'cash')
             ->assertViewIs('livewire.checkout-page')
             ->call('saveAddress', 'shipping')
             ->assertHasErrors([
@@ -247,16 +249,17 @@ class CheckoutPageTest extends TestCase
         $cart = Cart::factory()->create();
 
         CartSession::shouldReceive('getCart')->andReturn(
-            $cart->getManager()->getCart()
+            $cart->calculate()
         );
 
         CartSession::shouldReceive('current')->andReturn(
-            $cart->getManager()->getCart()
+            $cart->calculate()
         );
 
         $country = Country::factory()->create();
 
         Livewire::test(CheckoutPage::class)
+            ->set('paymentType', 'cash')
             ->assertViewIs('livewire.checkout-page')
             ->call('saveAddress', 'billing')
             ->assertHasErrors([

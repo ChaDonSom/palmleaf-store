@@ -2,14 +2,15 @@
 
 namespace Tests\Unit\Http\Livewire;
 
-use App\Http\Livewire\CollectionPage;
+use App\Livewire\CollectionPage;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Livewire;
 use Lunar\Models\Collection;
 use Lunar\Models\Currency;
+use Lunar\Models\Language;
 use Lunar\Models\Price;
 use Lunar\Models\Product;
 use Lunar\Models\ProductVariant;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Livewire\Livewire;
 use Tests\TestCase;
 
 class CollectionPageTest extends TestCase
@@ -23,12 +24,16 @@ class CollectionPageTest extends TestCase
      */
     public function test_component_can_mount()
     {
+        Language::factory()->create([
+            'default' => true,
+        ]);
+
         $collection = Collection::factory()
             ->hasUrls(1, [
                 'default' => true,
             ])->create();
 
-        Livewire::test(CollectionPage::class, ['slug' => $collection->urls->first()->slug])
+        Livewire::test(CollectionPage::class, ['slug' => $collection->defaultUrl->slug])
             ->assertViewIs('livewire.collection-page');
     }
 
@@ -39,6 +44,10 @@ class CollectionPageTest extends TestCase
      */
     public function test_404_if_not_found()
     {
+        Language::factory()->create([
+            'default' => true,
+        ]);
+
         Collection::factory()
             ->hasUrls(1, [
                 'default' => true,
@@ -55,12 +64,16 @@ class CollectionPageTest extends TestCase
      */
     public function test_collection_is_rendered()
     {
+        Language::factory()->create([
+            'default' => true,
+        ]);
+
         $collection = Collection::factory()
             ->hasUrls(1, [
                 'default' => true,
             ])->create();
 
-        Livewire::test(CollectionPage::class, ['slug' => $collection->urls->first()->slug])
+        Livewire::test(CollectionPage::class, ['slug' => $collection->defaultUrl->slug])
             ->assertSee($collection->translateAttribute('name'))
             ->assertViewIs('livewire.collection-page');
     }
@@ -72,6 +85,10 @@ class CollectionPageTest extends TestCase
      */
     public function test_collection_renders_products()
     {
+        Language::factory()->create([
+            'default' => true,
+        ]);
+
         $currency = Currency::factory()->create([
             'default' => true,
         ]);
@@ -93,7 +110,7 @@ class CollectionPageTest extends TestCase
                     }), 'variants')
             )->create();
 
-        $component = Livewire::test(CollectionPage::class, ['slug' => $collection->urls->first()->slug])
+        $component = Livewire::test(CollectionPage::class, ['slug' => $collection->defaultUrl->slug])
             ->assertViewIs('livewire.collection-page');
 
         foreach ($collection->products as $product) {
