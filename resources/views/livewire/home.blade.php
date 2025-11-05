@@ -1,6 +1,6 @@
 <div class="min-h-screen bg-gradient-to-b from-white to-slate-50 text-slate-800">
     <!-- Hero Section -->
-    <section class="bg-center bg-cover border-b" style="background-image: url('https://images.unsplash.com/photo-1526318472351-c75fcf070305?q=80&w=1600&auto=format&fit=crop');">
+    <section class="bg-center bg-cover border-b" style="background-image: url('https://images.unsplash.com/photo-1557308970-df80a9ccee84?q=80&w=1600&auto=format&fit=crop');">
         <div class="px-4 py-16 mx-auto max-w-7xl md:py-24">
             <div class="max-w-2xl p-8 mx-auto text-center shadow-xl rounded-3xl bg-white/70 backdrop-blur">
                 <div class="inline-flex items-center gap-2 px-3 py-1 mx-auto mb-3 text-xs bg-white border rounded-full text-slate-600">
