@@ -14,6 +14,8 @@ class ProductPage extends Component
 {
     use FetchesUrls;
 
+    public ?int $imageId = null;
+
     /**
      * The selected option values.
      */
@@ -97,11 +99,15 @@ class ProductPage extends Component
      */
     public function getImageProperty(): ?Media
     {
+        if ($this->imageId) {
+            return $this->images->firstWhere('id', $this->imageId);
+        }
+
         if (count($this->variant->images)) {
             return $this->variant->images->first();
         }
 
-        if ($primary = $this->images->first(fn ($media) => $media->getCustomProperty('primary'))) {
+        if ($primary = $this->images->first(fn($media) => $media->getCustomProperty('primary'))) {
             return $primary;
         }
 
