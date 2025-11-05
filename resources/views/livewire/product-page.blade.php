@@ -57,28 +57,16 @@
                                     {{ $option['option']->translate('name') }}
                                 </legend>
 
-                                <div
-                                    class="flex flex-wrap gap-2 mt-2 text-xs tracking-wide uppercase"
-                                    x-data="{
-                                        selectedOption: @entangle('selectedOptionValues').live,
-                                        selectedValues: [],
-                                    }"
-                                    x-init="selectedValues = Object.values(selectedOption);
-                                    $watch('selectedOption', value =>
-                                        selectedValues = Object.values(selectedOption)
-                                    )"
-                                >
+                                <div class="flex flex-wrap gap-2 mt-2 text-xs tracking-wide uppercase">
                                     @foreach ($option['values'] as $value)
+                                        @php
+                                            $isSelected = isset($selectedOptionValues[$option['option']->id]) && 
+                                                         $selectedOptionValues[$option['option']->id] == $value->id;
+                                        @endphp
                                         <button
-                                            class="px-6 py-4 font-medium border rounded-3xl focus:outline-none"
+                                            class="px-6 py-4 font-medium border rounded-3xl focus:outline-none transition {{ $isSelected ? 'bg-slate-600 border-slate-600 text-white hover:bg-slate-700' : 'border-gray-300 hover:bg-gray-100' }}"
                                             type="button"
-                                            wire:click="
-                                                $set('selectedOptionValues.{{ $option['option']->id }}', {{ $value->id }})
-                                            "
-                                            :class="{
-                                                'bg-slate-600 border-slate-600 text-white hover:bg-slate-700' : selectedValues.includes({{ $value->id }}),
-                                                'border-gray-300 hover:bg-gray-100': !selectedValues.includes({{ $value->id }})
-                                            }"
+                                            wire:click="$set('selectedOptionValues.{{ $option['option']->id }}', {{ $value->id }})"
                                         >
                                             {{ $value->translate('name') }}
                                         </button>
