@@ -21,7 +21,7 @@
                     <div class="grid grid-cols-6 gap-4">
                         <label
                             class="flex items-center p-2 rounded-3xl cursor-pointer hover:bg-gray-50 col-span-12 sm:col-span-3">
-                            <input class="w-5 h-5 text-slate-600 border-gray-100 rounded-3xl focus:ring-slate-600"
+                            <input class="w-5 h-5 text-slate-600 border-gray-100 rounded-3xl focus:ring-yellow-600"
                                 type="checkbox" value="1" wire:model="signup" />
 
                             <span class="ml-2 text-xs font-medium">
@@ -72,7 +72,7 @@
                             @if($signup)
                             @else
                                 <button
-                                    class="px-5 py-3 text-sm font-medium text-white bg-slate-700 rounded-3xl hover:bg-slate-600"
+                                    class="px-5 py-3 text-sm font-medium text-white bg-yellow-600 rounded-3xl hover:bg-yellow-500"
                                     type="submit" wire:key="submit_btn" wire:loading.attr="disabled" wire:target="saveUser">
                                     <span wire:loading.remove wire:target="saveUser">
                                         {{ $signup ? __('Save') : __('Next') }}

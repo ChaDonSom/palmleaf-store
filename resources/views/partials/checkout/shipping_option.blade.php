@@ -34,7 +34,7 @@
                             />
 
                             <label
-                                class="flex items-center justify-between p-4 text-sm font-medium border border-gray-100 rounded-[32px] shadow-sm cursor-pointer peer-checked:border-slate-600 hover:bg-gray-50 peer-checked:ring-1 peer-checked:ring-slate-600"
+                                class="flex items-center justify-between p-4 text-sm font-medium border border-gray-100 rounded-[32px] shadow-sm cursor-pointer peer-checked:border-yellow-600 hover:bg-gray-50 peer-checked:ring-1 peer-checked:ring-yellow-600"
                                 for="{{ $option->getIdentifier() }}"
                             >
                                 <p>
@@ -70,7 +70,7 @@
             @if ($step == $currentStep)
                 <div class="mt-6 text-right">
                     <button
-                        class="px-5 py-3 text-sm font-medium text-white bg-slate-700 rounded-3xl hover:bg-slate-600"
+                        class="px-5 py-3 text-sm font-medium text-white bg-yellow-600 rounded-3xl hover:bg-yellow-500"
                         type="submit"
                         wire:key="shipping_submit_btn"
                     >
