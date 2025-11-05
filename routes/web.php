@@ -1,11 +1,17 @@
 <?php
 
+use App\Livewire\AboutPage;
 use App\Livewire\CheckoutPage;
 use App\Livewire\CheckoutSuccessPage;
 use App\Livewire\CollectionPage;
+use App\Livewire\ContactPage;
+use App\Livewire\CookiesPage;
+use App\Livewire\FaqPage;
 use App\Livewire\Home;
 use App\Livewire\ProductPage;
 use App\Livewire\SearchPage;
+use App\Livewire\ShippingReturnsPage;
+use App\Livewire\SizeGuidePage;
 use Lunar\Models\Address;
 use Lunar\Models\Order;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +38,18 @@ Route::get('search', SearchPage::class)->name('search.view');
 Route::get('checkout', CheckoutPage::class)->name('checkout.view');
 
 Route::get('checkout/success', CheckoutSuccessPage::class)->name('checkout-success.view');
+
+Route::get('about', AboutPage::class)->name('about.view');
+
+Route::get('contact', ContactPage::class)->name('contact.view');
+
+Route::get('shipping-returns', ShippingReturnsPage::class)->name('shipping-returns.view');
+
+Route::get('size-guide', SizeGuidePage::class)->name('size-guide.view');
+
+Route::get('faq', FaqPage::class)->name('faq.view');
+
+Route::get('cookies', CookiesPage::class)->name('cookies.view');
 
 Route::middleware([
     'auth:sanctum',
