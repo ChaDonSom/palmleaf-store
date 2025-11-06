@@ -1,41 +1,19 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<x-layouts.base bodyClasses="font-sans antialiased">
+    @push('fonts')
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    @endpush
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    @push('scripts')
+        <script defer src="https://cdn.jsdelivr.net/npm/luxon@3.0.4/build/global/luxon.min.js"></script>
+    @endpush
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    @section('navigation')
+        @livewire('components.navigation')
+    @endsection
 
-    <!-- Fonts -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    {{ $slot }}
 
-    <!-- Styles -->
-    @livewireStyles
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
-    <meta name="description" content="Hand-made memorabilia by Maria Somero">
-
-    <!-- Scripts -->
-    <script defer src="https://cdn.jsdelivr.net/npm/luxon@3.0.4/build/global/luxon.min.js"></script>
-    {{-- <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script> --}}
-    <link rel="icon" href="{{ asset('logo.png') }}">
-</head>
-
-<body class="font-sans antialiased">
-    @livewire('components.navigation')
-
-    <main>
-        {{ $slot }}
-    </main>
-
-    <x-footer />
-
-    @stack('modals')
-
-    @livewireScripts
-</body>
-
-</html>
+    @section('footer')
+        <x-footer />
+    @endsection
+</x-layouts.base>
