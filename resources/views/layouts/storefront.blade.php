@@ -20,7 +20,7 @@
 
     <!-- Scripts -->
     {{-- <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script> --}}
-    <link rel="icon" href="{{ asset('favicon.svg') }}">
+    <link rel="icon" href="{{ asset('logo.png') }}">
 </head>
 
 <body class="antialiased text-gray-900">
