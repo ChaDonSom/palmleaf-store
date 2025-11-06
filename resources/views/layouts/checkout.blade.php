@@ -21,6 +21,7 @@
         href="{{ asset('favicon.svg') }}"
     >
     @livewireStyles
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stripeScripts
     {{ $head }}
 </head>
@@ -34,7 +35,7 @@
             >
                 <span class="sr-only">Home</span>
 
-                <x-brand.logo class="w-auto h-6 text-indigo-600" />
+                <x-brand.logo class="text-indigo-600" />
             </a>
         </div>
     </header>

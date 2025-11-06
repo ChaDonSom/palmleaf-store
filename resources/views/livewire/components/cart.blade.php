@@ -7,7 +7,7 @@
         <x-icons.shopping-cart />
         <span class="hidden md:inline">Cart</span>
         @if (count($lines) > 0)
-            <span class="ml-1 inline-flex h-5 min-w-[20px] items-center justify-center rounded-full bg-slate-900 px-1.5 text-[10px] font-medium text-white">
+            <span class="ml-1 inline-flex h-5 min-w-[20px] items-center justify-center rounded-full bg-sky-100 px-1.5 text-[10px] font-medium text-slate-900">
                 {{ count($lines) }}
             </span>
         @endif
@@ -79,7 +79,7 @@
                 </div>
 
                 <a href="{{ route('checkout.view') }}"
-                   class="flex items-center justify-center w-full gap-2 px-6 py-3 mt-4 text-sm font-medium text-white transition rounded-2xl bg-slate-900 hover:bg-slate-800">
+                   class="flex items-center justify-center w-full gap-2 px-6 py-3 mt-4 text-sm font-medium transition text-slate-900 rounded-2xl bg-sky-100 hover:bg-sky-200">
                     Checkout
                     <x-icons.arrow-right />
                 </a>

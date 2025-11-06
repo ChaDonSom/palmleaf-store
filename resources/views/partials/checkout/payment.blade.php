@@ -61,7 +61,7 @@
 
             @if ($paymentType == 'cash')
                 <form wire:submit.prevent="checkout">
-                    <div class="p-4 text-sm text-center text-blue-700 rounded-lg bg-blue-50">
+                    <div class="p-4 text-sm text-center rounded-lg text-slate-900 bg-blue-50">
                         Payment is offline, no card details needed. We will begin processing the order upon receiving the cash payment.
                     </div>
 

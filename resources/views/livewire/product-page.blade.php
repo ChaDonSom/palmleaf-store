@@ -15,7 +15,7 @@
                 <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
                     @foreach ($this->images as $image)
                         <div
-                            class="aspect-w-1 aspect-h-1"
+                            class="aspect-w-1 aspect-h-1 cursor-pointer rounded-xl {{ $image->id === $imageId ? 'brightness-90' : '' }} hover:brightness-90 transition"
                             wire:key="image_{{ $image->id }}"
                             wire:click="$set('imageId', {{ $image->id }})"
                         >

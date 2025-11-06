@@ -7,7 +7,7 @@
 
         @if ($type == 'shipping' && $step == $currentStep)
             <label class="flex items-center p-2 rounded-lg cursor-pointer hover:bg-gray-50">
-                <input class="w-5 h-5 text-slate-600 border-gray-100 rounded"
+                <input class="w-5 h-5 border-gray-100 rounded text-slate-600"
                        type="checkbox"
                        value="1"
                        wire:model.live="shippingIsBilling" />
@@ -207,7 +207,7 @@
 
             @if ($step == $currentStep)
                 <div class="mt-6 text-right">
-                    <button class="px-5 py-3 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-500"
+                    <button class="px-5 py-3 text-sm font-medium rounded-lg text-slate-900 bg-sky-100 hover:bg-sky-100"
                             type="submit"
                             wire:key="submit_btn"
                             wire:loading.attr="disabled"

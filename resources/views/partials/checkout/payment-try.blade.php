@@ -36,11 +36,11 @@
 
             @if ($paymentType == 'cash-in-hand')
                 <form wire:submit="checkout">
-                    <div class="p-4 text-sm text-center text-blue-700 rounded-lg bg-blue-50">
+                    <div class="p-4 text-sm text-center rounded-lg text-slate-900 bg-blue-50">
                         Payment is offline, no card details needed.
                     </div>
 
-                    <button class="px-5 py-3 mt-4 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-500"
+                    <button class="px-5 py-3 mt-4 text-sm font-medium rounded-lg text-slate-900 bg-sky-100 hover:bg-sky-100"
                             type="submit"
                             wire:key="payment_submit_btn">
                         <span wire:loading.remove.delay
