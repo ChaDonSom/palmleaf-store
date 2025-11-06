@@ -36,6 +36,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(ShippingModifiers $shippingModifiers, OrderModifiers $orderModifiers): void
     {
+        \Lunar\Facades\Telemetry::optOut();
+
         $shippingModifiers->add(
             ShippingModifier::class
         );

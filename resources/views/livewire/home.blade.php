@@ -164,14 +164,10 @@
 
     <!-- Value Props -->
     <section class="bg-white border-y">
-        <div class="grid grid-cols-1 gap-6 px-4 py-10 mx-auto max-w-7xl md:grid-cols-3 md:px-6">
+        <div class="grid grid-cols-1 gap-6 px-4 py-10 mx-auto max-w-7xl md:grid-cols-2 md:px-6">
             <div class="p-6 border shadow-sm rounded-3xl">
-                <div class="text-lg font-bold">Softstyle & Premium Blanks</div>
+                <div class="text-lg font-bold">Softstyle Apparel</div>
                 <div class="mt-1 text-slate-900">We source cozy, durable garments you'll reach for daily.</div>
-            </div>
-            <div class="p-6 border shadow-sm rounded-3xl">
-                <div class="text-lg font-bold">DTF + Embroidery Craft</div>
-                <div class="mt-1 text-slate-900">Crisp prints and stitched details that last with care.</div>
             </div>
             <div class="p-6 border shadow-sm rounded-3xl">
                 <div class="text-lg font-bold">Small‑Batch, Heart‑Led</div>
