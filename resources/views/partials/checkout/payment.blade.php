@@ -11,7 +11,7 @@
                 <button
                     @class([
                         'px-5 py-2 text-sm border font-medium rounded-3xl',
-                        'text-green-700 border-green-600 bg-green-50' => $paymentType === 'card',
+                        'text-slate-900 border-yellow-600 bg-yellow-50' => $paymentType === 'card',
                         'text-gray-500 hover:text-gray-700' => $paymentType !== 'card',
                     ])
                     type="button"
@@ -23,7 +23,7 @@
                 <button
                     @class([
                         'px-5 py-2 text-sm border font-medium rounded-3xl',
-                        'text-green-700 border-green-600 bg-green-50' => $paymentType === 'paypal',
+                        'text-slate-900 border-yellow-600 bg-yellow-50' => $paymentType === 'paypal',
                         'text-gray-500 hover:text-gray-700' => $paymentType !== 'paypal',
                     ])
                     type="button"
@@ -35,7 +35,7 @@
                 <button
                     @class([
                         'px-5 py-2 text-sm border font-medium rounded-3xl',
-                        'text-green-700 border-green-600 bg-green-50' => $paymentType === 'cash',
+                        'text-slate-900 border-yellow-600 bg-yellow-50' => $paymentType === 'cash',
                         'text-gray-500 hover:text-gray-700' => $paymentType !== 'cash',
                     ])
                     type="button"
@@ -61,12 +61,12 @@
 
             @if ($paymentType == 'cash')
                 <form wire:submit.prevent="checkout">
-                    <div class="p-4 text-sm text-center text-blue-700 rounded-lg bg-blue-50">
+                    <div class="p-4 text-sm text-center rounded-lg text-slate-900 bg-blue-50">
                         Payment is offline, no card details needed. We will begin processing the order upon receiving the cash payment.
                     </div>
 
                     <button
-                        class="px-5 py-3 mt-4 text-sm font-medium text-white bg-green-600 rounded-3xl hover:bg-green-500"
+                        class="px-5 py-3 mt-4 text-sm font-medium text-white bg-yellow-500 rounded-3xl hover:bg-yellow-400"
                         type="submit"
                         wire:key="payment_submit_btn"
                     >

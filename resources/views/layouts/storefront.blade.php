@@ -14,7 +14,7 @@
 
     <!-- Styles -->
     @livewireStyles
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <meta name="description" content="Hand-made memorabilia by Maria Somero">
 

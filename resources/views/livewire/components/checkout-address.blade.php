@@ -158,7 +158,7 @@
             @if ($editing)
                 <button type="submit"
                         wire:key="submit_btn"
-                        class="px-5 py-3 font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-500">
+                        class="px-5 py-3 font-medium rounded-lg text-slate-900 bg-sky-100 hover:bg-sky-100">
                     Continue
                 </button>
             @else

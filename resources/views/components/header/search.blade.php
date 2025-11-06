@@ -6,7 +6,7 @@
         name="term"
         type="search"
         placeholder="Search for products"
-        class="w-full pl-10 text-sm border-2 border-gray-100 rounded-3xl focus:border-green-600 focus:ring-0"
+        class="w-full pl-10 text-sm border-2 border-gray-100 rounded-3xl focus:border-yellow-600 focus:ring-0"
         value="{{ $this->term }}"
     />
 

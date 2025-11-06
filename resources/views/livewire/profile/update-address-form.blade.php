@@ -33,7 +33,7 @@
         </x-input.group>
 
         <x-input.group class="col-span-6" label="Country" required>
-            <select class="w-full p-3 border border-gray-200 rounded-3xl sm:text-sm focus:border-green-600 focus:ring-green-600" wire:model.defer="address.country_id">
+            <select class="w-full p-3 border border-gray-200 rounded-3xl sm:text-sm focus:border-yellow-600 focus:ring-yellow-600" wire:model.defer="address.country_id">
                 <option value>Select a country</option>
                 @foreach ($this->countries as $country)
                 <option value="{{ $country->id }}" wire:key="country_{{ $country->id }}">
@@ -46,7 +46,7 @@
         <x-input.group class="col-span-3 sm:col-span-2" :errors="$errors->get('address.shipping_default')">
             <label class="flex items-center p-2 rounded-3xl cursor-pointer hover:bg-gray-50">
                 <input
-                    class="w-5 h-5 text-green-700 border-gray-100 rounded-3xl focus:ring-green-700"
+                    class="w-5 h-5 text-slate-900 border-gray-100 rounded-3xl focus:ring-yellow-600"
                     type="checkbox"
                     wire:model.defer="address.shipping_default"
                 />
@@ -60,7 +60,7 @@
         <x-input.group class="col-span-3 sm:col-span-2" :errors="$errors->get('address.billing_default')">
             <label class="flex items-center p-2 rounded-3xl cursor-pointer hover:bg-gray-50">
                 <input
-                    class="w-5 h-5 text-green-700 border-gray-100 rounded-3xl focus:ring-green-700"
+                    class="w-5 h-5 text-slate-900 border-gray-100 rounded-3xl focus:ring-yellow-600"
                     type="checkbox"
                     wire:model.defer="address.billing_default"
                 />

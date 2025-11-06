@@ -15,7 +15,7 @@
                 <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
                     @foreach ($this->images as $image)
                         <div
-                            class="aspect-w-1 aspect-h-1"
+                            class="aspect-w-1 aspect-h-1 cursor-pointer rounded-xl {{ $image->id === $imageId ? 'brightness-90' : '' }} hover:brightness-90 transition"
                             wire:key="image_{{ $image->id }}"
                             wire:click="$set('imageId', {{ $image->id }})"
                         >
@@ -58,28 +58,16 @@
                                     {{ $option['option']->translate('name') }}
                                 </legend>
 
-                                <div
-                                    class="flex flex-wrap gap-2 mt-2 text-xs tracking-wide uppercase"
-                                    x-data="{
-                                        selectedOption: @entangle('selectedOptionValues').live,
-                                        selectedValues: [],
-                                    }"
-                                    x-init="selectedValues = Object.values(selectedOption);
-                                    $watch('selectedOption', value =>
-                                        selectedValues = Object.values(selectedOption)
-                                    )"
-                                >
+                                <div class="flex flex-wrap gap-2 mt-2 text-xs tracking-wide uppercase">
                                     @foreach ($option['values'] as $value)
+                                        @php
+                                            $isSelected = isset($selectedOptionValues[$option['option']->id]) &&
+                                                         $selectedOptionValues[$option['option']->id] == $value->id;
+                                        @endphp
                                         <button
-                                            class="px-6 py-4 font-medium border rounded-3xl focus:outline-none"
+                                            class="px-6 py-4 font-medium border rounded-3xl focus:outline-none transition {{ $isSelected ? 'bg-yellow-500 border-yellow-600 text-white hover:bg-yellow-400' : 'border-gray-300 hover:bg-gray-100' }}"
                                             type="button"
-                                            wire:click="
-                                                $set('selectedOptionValues.{{ $option['option']->id }}', {{ $value->id }})
-                                            "
-                                            :class="{
-                                                'bg-green-600 border-green-600 text-white hover:bg-green-700' : selectedValues.includes({{ $value->id }}),
-                                                'hover:bg-gray-100': !selectedValues.includes({{ $value->id }})
-                                            }"
+                                            wire:click="$set('selectedOptionValues.{{ $option['option']->id }}', {{ $value->id }})"
                                         >
                                             {{ $value->translate('name') }}
                                         </button>
