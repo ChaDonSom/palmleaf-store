@@ -6,7 +6,7 @@
         <x-validation-errors class="mb-4" />
 
         @if (session('status'))
-            <div class="mb-4 font-medium text-sm text-slate-900">
+            <div class="mb-4 text-sm font-medium text-slate-900">
                 {{ session('status') }}
             </div>
         @endif
@@ -14,12 +14,14 @@
         <form method="POST" action="{{ route('login') }}" class="flex flex-col gap-3">
             @csrf
 
-            <x-input.group label="{{ __('Email') }}">
-                <x-input.text id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
+            <h3>{{ __('Log in') }}</h3>
+
+            <x-input.group>
+                <x-input.text id="email" class="block w-full mt-1" type="email" name="email" :value="old('email')" required autofocus placeholder="{{ __('Email') }}" />
             </x-input.group>
 
-            <x-input.group label="{{ __('Password') }}">
-                <x-input.text id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
+            <x-input.group>
+                <x-input.text id="password" class="block w-full mt-1" type="password" name="password" required autocomplete="current-password" placeholder="{{ __('Password') }}" />
             </x-input.group>
 
             <x-input.group>
@@ -31,7 +33,7 @@
 
             <div class="flex items-center justify-end mt-4">
                 @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
+                    <a class="text-sm text-gray-600 underline hover:text-gray-900" href="{{ route('password.request') }}">
                         {{ __('Forgot your password?') }}
                     </a>
                 @endif

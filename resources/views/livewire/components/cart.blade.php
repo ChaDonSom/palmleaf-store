@@ -1,24 +1,26 @@
-<div class="relative"
+<div
      x-data="{
          linesVisible: @entangle('linesVisible').live
      }">
-    <button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium transition bg-white border rounded-2xl border-slate-300 hover:bg-slate-50"
+    <button class="h-16 text-sm font-medium transition"
             x-on:click="linesVisible = !linesVisible">
-        <x-icons.shopping-cart />
-        <span class="hidden md:inline">Cart</span>
-        @if (count($lines) > 0)
-            <span class="ml-1 inline-flex h-5 min-w-[20px] items-center justify-center rounded-full bg-sky-100 px-1.5 text-[10px] font-medium text-slate-900">
-                {{ count($lines) }}
-            </span>
-        @endif
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-white border rounded-2xl border-slate-300 hover:bg-slate-50">
+            <x-icons.shopping-cart />
+            <span class="hidden md:inline">Cart</span>
+            @if (count($lines) > 0)
+                <span class="ml-1 inline-flex h-5 min-w-[20px] items-center justify-center rounded-full bg-sky-100 px-1.5 text-[10px] font-medium text-slate-900">
+                    {{ count($lines) }}
+                </span>
+            @endif
+        </div>
     </button>
 
-    <div class="absolute right-0 top-auto z-50 mt-2 w-[95vw] sm:w-[480px] bg-white border border-slate-100 shadow-xl rounded-2xl"
+    <div class="absolute right-0 top-auto z-50 space-y-4 w-screen sm:w-[480px] p-4 sm:max-w-xs"
          x-show="linesVisible"
          x-on:click.away="linesVisible = false"
          x-transition
          x-cloak>
-        <div class="p-4">
+        <div class="p-4 bg-white border shadow-xl border-slate-100 rounded-2xl">
             <div class="flex items-center justify-between mb-4">
                 <h3 class="text-lg font-semibold">Your Cart</h3>
                 <button class="transition-transform text-slate-500 hover:scale-110"

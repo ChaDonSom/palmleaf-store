@@ -1,1 +1,8 @@
-<input type="checkbox" {!! $attributes->merge(['class' => 'rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800']) !!}>
+@props([
+    'secondary' => false,
+])
+
+<input type="checkbox" {!! $attributes->merge(['class' => 'shadow-sm transition border-gray-100 rounded-3xl'])->class([
+    'focus:ring-yellow-600 bg-yellow-600 text-yellow-600' => $secondary,
+    'focus:ring-sky-200 bg-sky-200 text-sky-300' => ! $secondary,
+]) !!}>
