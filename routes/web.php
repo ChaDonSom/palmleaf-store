@@ -51,8 +51,13 @@ Route::get('faq', FaqPage::class)->name('faq.view');
 
 Route::get('cookies', CookiesPage::class)->name('cookies.view');
 
+// Use the session-based "web" guard for Jetstream / Fortify protected pages.
+// "auth:sanctum" switches the default guard to Sanctum's RequestGuard which
+// does not implement StatefulGuard (no viaRemember method), causing
+// AuthenticateSession to call viaRemember on a RequestGuard and explode.
+// Keeping just 'auth' (alias for the default session guard) avoids that.
 Route::middleware([
-    'auth:sanctum',
+    'auth', // was 'auth:sanctum' – switched to session guard to fix viaRemember error
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
