@@ -22,7 +22,7 @@
                         <label
                             class="flex items-center col-span-12 p-2 transition cursor-pointer rounded-3xl hover:bg-gray-50 sm:col-span-3">
                             <input class="w-5 h-5 text-yellow-600 transition bg-yellow-600 border-gray-100 rounded-3xl focus:ring-yellow-600"
-                                type="checkbox" value="1" wire:model="signup" />
+                                type="checkbox" value="1" wire:model.live="signup" />
 
                             <span class="ml-2 text-xs font-medium">
                                 {{ __('Use these details to sign up for a new user account') }}

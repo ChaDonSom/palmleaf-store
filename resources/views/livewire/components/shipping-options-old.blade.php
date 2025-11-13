@@ -6,7 +6,7 @@
         <div class="p-4 border-t">
             @foreach($this->shippingOptions as $option)
                 <label class="flex items-center w-full cursor-pointer">
-                    <input type="radio" wire:model="chosenOption" value="{{ $option->getIdentifier() }}" />
+                    <input type="radio" wire:model.live="chosenOption" value="{{ $option->getIdentifier() }}" />
                     <div class="flex items-center block ml-2">
                         <span class="block mr-2 text-2xl">{{ $option->getPrice()->formatted() }}</span>
                         {{ $option->getDescription() }}

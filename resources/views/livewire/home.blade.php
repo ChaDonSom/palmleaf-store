@@ -71,7 +71,7 @@
 
                 <!-- Sort Dropdown -->
                 <select
-                    wire:model="sort"
+                    wire:model.live="sort"
                     class="px-4 py-2 text-sm border rounded-full border-sky-300 focus:border-sky-400 focus:ring-1 focus:ring-sky-400"
                 >
                     <option value="featured">Featured</option>
