@@ -48,7 +48,8 @@ class Home extends Component
     public function getCategoriesProperty()
     {
         // Only show categories that have products to avoid empty pages
-        $collections = Collection::whereHas('products')->get();
+        // Order by _lft to respect manual sort order set in Lunar admin
+        $collections = Collection::whereHas('products')->orderBy('_lft')->get();
         // Use base collection to avoid Eloquent unique() attempting to key by model
         $categories = $collections->toBase()->map(function ($collection) {
             return $collection->translateAttribute('name');
