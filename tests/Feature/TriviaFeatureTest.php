@@ -36,23 +36,25 @@ class TriviaFeatureTest extends TestCase
 
     public function test_user_can_view_trivia_question(): void
     {
-        Livewire::test(TriviaChallenge::class)
+        $component = Livewire::test(TriviaChallenge::class)
             ->call('openModal')
-            ->assertSet('showModal', true)
-            ->assertNotNull('question')
-            ->assertNotEmpty('answers');
+            ->assertSet('showModal', true);
+        
+        $this->assertNotNull($component->get('question'));
+        $this->assertNotEmpty($component->get('answers'));
     }
 
     public function test_user_can_submit_correct_answer(): void
     {
         $question = TriviaQuestion::first();
         
-        Livewire::test(TriviaChallenge::class)
+        $component = Livewire::test(TriviaChallenge::class)
             ->set('selectedAnswer', $question->correct_answer)
             ->call('submitAnswer')
             ->assertSet('isCorrect', true)
-            ->assertSet('showResult', true)
-            ->assertNotNull('discountCode');
+            ->assertSet('showResult', true);
+        
+        $this->assertNotNull($component->get('discountCode'));
         
         // Verify attempt was recorded
         $this->assertDatabaseHas('trivia_attempts', [
@@ -65,12 +67,13 @@ class TriviaFeatureTest extends TestCase
     {
         $question = TriviaQuestion::first();
         
-        Livewire::test(TriviaChallenge::class)
+        $component = Livewire::test(TriviaChallenge::class)
             ->set('selectedAnswer', $question->wrong_answers[0])
             ->call('submitAnswer')
             ->assertSet('isCorrect', false)
-            ->assertSet('showResult', true)
-            ->assertNull('discountCode');
+            ->assertSet('showResult', true);
+        
+        $this->assertNull($component->get('discountCode'));
     }
 
     public function test_user_cannot_attempt_twice_in_same_day(): void
