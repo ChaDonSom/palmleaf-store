@@ -16,6 +16,8 @@
         <div class="flex items-center justify-between ml-4 lg:justify-end">
 
             <div class="flex items-center -mr-4 sm:-mr-6 lg:mr-0">
+                @livewire('components.trivia-challenge')
+                
                 @livewire('components.cart')
 
                 @if (Route::has('login'))
