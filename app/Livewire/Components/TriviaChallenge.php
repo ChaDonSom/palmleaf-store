@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Carbon\Carbon;
+use Lunar\Models\Discount;
 
 class TriviaChallenge extends Component
 {
@@ -77,9 +78,10 @@ class TriviaChallenge extends Component
         $this->isCorrect = $this->selectedAnswer === $this->question->correct_answer;
         $this->showResult = true;
 
-        // Generate discount code if correct
+        // Generate discount code and create Lunar discount if correct
         if ($this->isCorrect) {
             $this->discountCode = 'TRIVIA-' . strtoupper(Str::random(8));
+            $this->createLunarDiscount($this->discountCode);
         }
 
         // Record the attempt
@@ -93,6 +95,32 @@ class TriviaChallenge extends Component
         ]);
 
         $this->hasAttemptedToday = true;
+    }
+
+    /**
+     * Create a Lunar discount for the trivia code
+     */
+    protected function createLunarDiscount(string $code): void
+    {
+        try {
+            Discount::create([
+                'name' => 'Daily Bible Trivia Discount',
+                'handle' => strtolower($code),
+                'coupon' => $code,
+                'type' => 'coupon',
+                'starts_at' => now(),
+                'ends_at' => now()->addDays(7), // Valid for 7 days
+                'max_uses' => 1, // Single use
+                'priority' => 1,
+                'stop' => false,
+                'data' => [
+                    'percentage' => 10, // 10% discount
+                ],
+            ]);
+        } catch (\Exception $e) {
+            // Log error but don't fail the trivia attempt
+            \Log::error('Failed to create Lunar discount: ' . $e->getMessage());
+        }
     }
 
     public function openModal()
