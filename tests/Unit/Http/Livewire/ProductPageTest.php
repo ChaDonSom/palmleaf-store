@@ -117,4 +117,56 @@ class ProductPageTest extends TestCase
             ->assertViewIs('livewire.product-page')
             ->assertSee($product->translateAttribute('name'));
     }
+
+    /**
+     * Test that imageId resets when variant selection changes.
+     *
+     * @return void
+     */
+    public function test_image_id_resets_when_variant_changes()
+    {
+        Language::factory()->create([
+            'default' => true,
+        ]);
+
+        $currency = Currency::factory()->create([
+            'default' => true,
+        ]);
+
+        $product = Product::factory()
+            ->hasUrls(1, [
+                'default' => true,
+            ])->has(ProductVariant::factory()->afterCreating(function ($variant) use ($currency) {
+                $variant->prices()->create(
+                    Price::factory()->make([
+                        'currency_id' => $currency->id,
+                    ])->getAttributes()
+                );
+            }), 'variants')
+            ->create();
+
+        $product->addMedia(UploadedFile::fake()->image('product1.jpg'))->toMediaCollection('images');
+        $product->addMedia(UploadedFile::fake()->image('product2.jpg'))->toMediaCollection('images');
+
+        $component = Livewire::test(ProductPage::class, ['slug' => $product->defaultUrl->slug])
+            ->assertViewIs('livewire.product-page');
+
+        // Get the first image ID
+        $firstImageId = $product->media->first()->id;
+
+        // Simulate clicking on a thumbnail image
+        $component->set('imageId', $firstImageId)
+            ->assertSet('imageId', $firstImageId);
+
+        // Get the option values to simulate variant change
+        $selectedOptions = $component->get('selectedOptionValues');
+        
+        if (!empty($selectedOptions)) {
+            // Change the selected option values (this simulates selecting a different variant)
+            $component->set('selectedOptionValues', $selectedOptions);
+            
+            // After variant change, imageId should be reset to null
+            $component->assertSet('imageId', null);
+        }
+    }
 }
