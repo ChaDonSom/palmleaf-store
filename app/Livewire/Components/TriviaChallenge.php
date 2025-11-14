@@ -25,7 +25,7 @@ class TriviaChallenge extends Component
     public function mount()
     {
         $this->checkDailyAttempt();
-        
+
         if (!$this->hasAttemptedToday) {
             $this->loadQuestion();
         }
@@ -37,7 +37,7 @@ class TriviaChallenge extends Component
         $this->question = TriviaQuestion::where('active', true)
             ->inRandomOrder()
             ->first();
-        
+
         if ($this->question) {
             $this->answers = $this->question->getShuffledAnswers();
         }
@@ -50,7 +50,7 @@ class TriviaChallenge extends Component
         $sessionId = session()->getId();
 
         $query = TriviaAttempt::where('attempt_date', $today);
-        
+
         if ($userId) {
             $query->where('user_id', $userId);
         } else {
@@ -58,10 +58,10 @@ class TriviaChallenge extends Component
         }
 
         $attempt = $query->first();
-        
+
         if ($attempt) {
             $this->hasAttemptedToday = true;
-            
+
             if ($attempt->correct) {
                 $this->isCorrect = true;
                 $this->discountCode = $attempt->discount_code;
@@ -103,20 +103,20 @@ class TriviaChallenge extends Component
      */
     protected function createLunarDiscount(string $code): void
     {
+        $templateDiscount = Discount::where('handle', 'daily-bible-trivia-discount-template')->first();
         try {
             Discount::create([
                 'name' => 'Daily Bible Trivia Discount',
                 'handle' => strtolower($code),
                 'coupon' => $code,
-                'type' => AmountOff::class,
+                'type' => $templateDiscount->type ?? AmountOff::class,
                 'starts_at' => now(),
-                'ends_at' => now()->addDays(7), // Valid for 7 days
-                'max_uses' => 1, // Single use
-                'priority' => 1,
-                'stop' => false,
-                'data' => [
-                    'percentage' => 10, // 10% discount
-                ],
+                'ends_at' => now()->addDays(1), // Valid for just today
+                'max_uses' => $templateDiscount->max_uses ?? 1, // Single use
+                'max_uses_per_user' => $templateDiscount->max_uses_per_user ?? 1,
+                'priority' => $templateDiscount->priority ?? 1,
+                'stop' => $templateDiscount->stop ?? false,
+                'data' => $templateDiscount->data ?? ['percentage' => 10],
             ]);
         } catch (\Exception $e) {
             // Log error but don't fail the trivia attempt
