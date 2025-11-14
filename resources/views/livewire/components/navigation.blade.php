@@ -11,7 +11,7 @@
             </a>
         </div>
 
-        <div class="flex items-center justify-center flex-grow"><x-header.search class="max-w-sm" /></div>
+        <div class="items-center justify-center flex-grow hidden md:flex"><x-header.search class="max-w-sm" /></div>
 
         <div class="flex items-center justify-between ml-4 lg:justify-end">
 

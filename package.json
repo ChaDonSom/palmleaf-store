@@ -2,6 +2,7 @@
     "private": true,
     "type": "module",
     "scripts": {
+        "start": "concurrently \"bun dev\" \"php artisan serve\"",
         "dev": "vite",
         "build": "vite build"
     },
@@ -17,6 +18,7 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "concurrently": "^9.2.1",
         "lodash": "^4.17.21"
     }
 }
