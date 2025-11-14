@@ -111,7 +111,7 @@ class TriviaChallenge extends Component
                 'coupon' => $code,
                 'type' => $templateDiscount->type ?? AmountOff::class,
                 'starts_at' => now(),
-                'ends_at' => now()->addDays(1), // Valid for just today
+                'ends_at' => now()->endOfDay(), // Valid for just today
                 'max_uses' => $templateDiscount->max_uses ?? 1, // Single use
                 'max_uses_per_user' => $templateDiscount->max_uses_per_user ?? 1,
                 'priority' => $templateDiscount->priority ?? 1,
