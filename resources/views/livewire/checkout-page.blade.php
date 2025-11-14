@@ -12,6 +12,12 @@
 
 <div>
     <div class="max-w-screen-xl px-4 py-12 mx-auto sm:px-6 lg:px-8">
+        @if (session('error'))
+            <div class="mb-6 p-4 text-sm text-red-800 bg-red-50 border border-red-200 rounded-lg">
+                {{ session('error') }}
+            </div>
+        @endif
+        
         <div class="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:items-start">
             <div class="px-6 py-8 space-y-4 bg-white border border-gray-100 lg:sticky lg:top-8 rounded-xl lg:order-last">
                 <h3 class="font-medium">
