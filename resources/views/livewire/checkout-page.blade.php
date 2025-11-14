@@ -115,6 +115,18 @@
                             </div>
                         @endif
 
+                        @if ($cart->discountTotal && $cart->discountTotal->value > 0)
+                            <div class="flex flex-wrap py-4">
+                                <dt class="w-1/2 font-medium text-green-600">
+                                    Discount
+                                </dt>
+
+                                <dd class="w-1/2 text-right text-green-600">
+                                    -{{ $cart->discountTotal->formatted() }}
+                                </dd>
+                            </div>
+                        @endif
+
                         @foreach ($cart->taxBreakdown->amounts as $tax)
                             <div class="flex flex-wrap py-4">
                                 <dt class="w-1/2 font-medium">
