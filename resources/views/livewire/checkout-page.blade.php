@@ -83,7 +83,7 @@
                             </div>
                             
                             @if($couponMessage)
-                                <p class="text-xs {{ str_contains($couponMessage, 'success') ? 'text-green-600' : 'text-slate-600' }}">
+                                <p class="text-xs {{ str_contains($couponMessage, 'success') ? 'text-green-600' : 'text-red-600' }}">
                                     {{ $couponMessage }}
                                 </p>
                             @endif
@@ -103,18 +103,6 @@
                             </dd>
                         </div>
 
-                        @if ($this->shippingOption)
-                            <div class="flex flex-wrap py-4">
-                                <dt class="w-1/2 font-medium">
-                                    {{ $this->shippingOption->getDescription() }}
-                                </dt>
-
-                                <dd class="w-1/2 text-right">
-                                    {{ $this->shippingOption->getPrice()->formatted() }}
-                                </dd>
-                            </div>
-                        @endif
-
                         @if ($cart->discountTotal && $cart->discountTotal->value > 0)
                             <div class="flex flex-wrap py-4">
                                 <dt class="w-1/2 font-medium text-green-600">
@@ -123,6 +111,18 @@
 
                                 <dd class="w-1/2 text-right text-green-600">
                                     -{{ $cart->discountTotal->formatted() }}
+                                </dd>
+                            </div>
+                        @endif
+
+                        @if ($this->shippingOption)
+                            <div class="flex flex-wrap py-4">
+                                <dt class="w-1/2 font-medium">
+                                    {{ $this->shippingOption->getDescription() }}
+                                </dt>
+
+                                <dd class="w-1/2 text-right">
+                                    {{ $this->shippingOption->getPrice()->formatted() }}
                                 </dd>
                             </div>
                         @endif
