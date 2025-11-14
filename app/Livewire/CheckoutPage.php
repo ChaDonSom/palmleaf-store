@@ -129,7 +129,7 @@ class CheckoutPage extends Component
         }
 
         if ($this->payment_intent) {
-            $payment = Payments::driver($this->paymentType)
+            $payment = Payments::driver('card')
                 ->cart($this->cart)
                 ->withData([
                     'payment_intent_client_secret' => $this->payment_intent_client_secret,
@@ -375,7 +375,7 @@ class CheckoutPage extends Component
     {
         $paymentData = [];
         $paymentConfig = [];
-        if ($this->paymentType == 'stripe') {
+        if ($this->paymentType == 'card') {
             $paymentData = [
                 'payment_intent_client_secret' => $this->payment_intent_client_secret,
                 'payment_intent' => $this->payment_intent,
