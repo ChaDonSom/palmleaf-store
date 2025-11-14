@@ -15,13 +15,13 @@
 
         <div class="flex items-center justify-between ml-4 lg:justify-end">
 
-            <div class="flex items-center -mr-4 sm:-mr-6 lg:mr-0">
+            <div class="flex items-center gap-2 -mr-4 sm:-mr-6 lg:mr-0">
                 @livewire('components.trivia-challenge')
-                
+
                 @livewire('components.cart')
 
                 @if (Route::has('login'))
-                    <div class="hidden ml-2 lg:block whitespace-nowrap">
+                    <div class="hidden lg:block whitespace-nowrap">
                         @auth
                         @else
                             <a href="{{ route('login') }}" class="text-sm text-slate-700 hover:text-slate-900">{{ __('Log in') }}</a>
