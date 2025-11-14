@@ -154,7 +154,6 @@ class CheckoutPageTest extends TestCase
         );
 
         Livewire::test(CheckoutPage::class)
-            ->set('paymentType', 'cash')
             ->assertViewIs('livewire.checkout-page')
             ->assertSet('currentStep', 4);
     }
@@ -187,7 +186,6 @@ class CheckoutPageTest extends TestCase
         $country = Country::factory()->create();
 
         Livewire::test(CheckoutPage::class)
-            ->set('paymentType', 'cash')
             ->assertViewIs('livewire.checkout-page')
             ->call('saveAddress', 'shipping')
             ->assertHasErrors([
@@ -259,7 +257,6 @@ class CheckoutPageTest extends TestCase
         $country = Country::factory()->create();
 
         Livewire::test(CheckoutPage::class)
-            ->set('paymentType', 'cash')
             ->assertViewIs('livewire.checkout-page')
             ->call('saveAddress', 'billing')
             ->assertHasErrors([

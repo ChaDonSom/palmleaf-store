@@ -69,7 +69,7 @@ class CheckoutPage extends Component
     /**
      * The payment type we want to use.
      */
-    public string $paymentType = 'cash';
+    public string $paymentType = 'card';
 
     /**
      * The discount/coupon code to apply
@@ -202,11 +202,21 @@ class CheckoutPage extends Component
         $this->billing = $this->cart->billingAddress ?: new CartAddress;
 
         $this->determineCheckoutStep();
+
+        // Ensure cash payment is not selectable in UI
+        if ($this->paymentType === 'cash') {
+            $this->paymentType = 'card';
+        }
     }
 
     public function hydrate(): void
     {
         $this->cart = CartSession::current();
+
+        // Ensure cash payment is not selectable in UI
+        if ($this->paymentType === 'cash') {
+            $this->paymentType = 'card';
+        }
     }
 
     /**
