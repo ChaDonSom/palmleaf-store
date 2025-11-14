@@ -1,4 +1,4 @@
-<header class="relative border-b border-gray-100">
+<header class="sticky top-0 z-50 bg-white border-b border-gray-100">
     <div class="flex items-center justify-center h-16 px-4 mx-auto max-w-screen-2xl sm:px-6 2xl:px-8">
         <div class="flex items-center">
             <a class="flex items-center flex-shrink-0"
