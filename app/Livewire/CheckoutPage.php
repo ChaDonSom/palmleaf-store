@@ -143,6 +143,11 @@ class CheckoutPage extends Component
                 redirect()->route('checkout-success.view');
 
                 return;
+            } else {
+                // Payment failed - redirect back to checkout with error
+                session()->flash('error', $payment?->message ?? 'Payment authorization failed. Please try again.');
+                redirect()->route('checkout.view');
+                return;
             }
         }
 
