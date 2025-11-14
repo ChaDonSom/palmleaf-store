@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Livewire\Component;
 use Carbon\Carbon;
 use Lunar\Models\Discount;
+use Lunar\DiscountTypes\AmountOff;
 
 class TriviaChallenge extends Component
 {
@@ -107,7 +108,7 @@ class TriviaChallenge extends Component
                 'name' => 'Daily Bible Trivia Discount',
                 'handle' => strtolower($code),
                 'coupon' => $code,
-                'type' => 'coupon',
+                'type' => AmountOff::class,
                 'starts_at' => now(),
                 'ends_at' => now()->addDays(7), // Valid for 7 days
                 'max_uses' => 1, // Single use
