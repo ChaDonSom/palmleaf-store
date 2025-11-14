@@ -69,7 +69,7 @@ class CheckoutPage extends Component
     /**
      * The payment type we want to use.
      */
-    public string $paymentType = 'cash';
+    public string $paymentType = 'card';
 
     /**
      * {@inheritDoc}
@@ -383,10 +383,6 @@ class CheckoutPage extends Component
         } else if ($this->paymentType == 'paypal') {
             $paymentData = [
                 'paypal_order_id' => $this->paypal_order_id,
-            ];
-        } else if ($this->paymentType == 'cash') {
-            $paymentConfig = [
-                'authorized' => 'payment-offline',
             ];
         }
         $payment = Payments::driver($this->paymentType)
