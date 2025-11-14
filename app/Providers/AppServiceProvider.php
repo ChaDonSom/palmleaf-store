@@ -22,9 +22,14 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         LunarPanel::panel(
-            fn($panel) => $panel->plugins([
-                new ShippingPlugin,
-            ])
+            fn($panel) => $panel
+                ->plugins([
+                    new ShippingPlugin,
+                ])
+                ->resources([
+                    ...\Lunar\Admin\LunarPanelManager::getResources(),
+                    \App\Filament\Resources\TriviaQuestionResource::class,
+                ])
         )
             ->register();
     }
