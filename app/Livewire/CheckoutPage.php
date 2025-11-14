@@ -182,11 +182,21 @@ class CheckoutPage extends Component
         $this->billing = $this->cart->billingAddress ?: new CartAddress;
 
         $this->determineCheckoutStep();
+
+        // Ensure cash payment is not selectable in UI
+        if ($this->paymentType === 'cash') {
+            $this->paymentType = 'card';
+        }
     }
 
     public function hydrate(): void
     {
         $this->cart = CartSession::current();
+
+        // Ensure cash payment is not selectable in UI
+        if ($this->paymentType === 'cash') {
+            $this->paymentType = 'card';
+        }
     }
 
     /**
@@ -383,6 +393,10 @@ class CheckoutPage extends Component
         } else if ($this->paymentType == 'paypal') {
             $paymentData = [
                 'paypal_order_id' => $this->paypal_order_id,
+            ];
+        } else if ($this->paymentType == 'cash') {
+            $paymentConfig = [
+                'authorized' => 'payment-offline',
             ];
         }
         $payment = Payments::driver($this->paymentType)
