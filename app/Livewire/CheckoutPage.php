@@ -82,6 +82,11 @@ class CheckoutPage extends Component
     public ?string $couponMessage = null;
 
     /**
+     * Whether the coupon message is a success message
+     */
+    public bool $couponSuccess = false;
+
+    /**
      * {@inheritDoc}
      */
     protected $listeners = [
@@ -393,6 +398,7 @@ class CheckoutPage extends Component
     {
         if (!$this->couponCode) {
             $this->couponMessage = 'Please enter a coupon code.';
+            $this->couponSuccess = false;
             return;
         }
 
@@ -403,8 +409,6 @@ class CheckoutPage extends Component
         // Refresh the cart to apply discounts
         $this->cart->calculate();
         
-        $previousDiscountTotal = $this->cart->discountTotal?->value ?? 0;
-        
         $this->refreshCart();
         
         $currentDiscountTotal = $this->cart->discountTotal?->value ?? 0;
@@ -412,11 +416,13 @@ class CheckoutPage extends Component
         // Check if the discount was actually applied
         if ($currentDiscountTotal > 0) {
             $this->couponMessage = 'Coupon code applied successfully!';
+            $this->couponSuccess = true;
         } else {
             // Discount wasn't applied, likely invalid or already used
             $this->cart->coupon_code = null;
             $this->cart->save();
             $this->couponMessage = 'This coupon code is invalid or has already been used.';
+            $this->couponSuccess = false;
         }
     }
 
@@ -435,6 +441,7 @@ class CheckoutPage extends Component
 
         $this->couponCode = null;
         $this->couponMessage = 'Coupon code removed.';
+        $this->couponSuccess = false;
     }
 
     public function checkout()

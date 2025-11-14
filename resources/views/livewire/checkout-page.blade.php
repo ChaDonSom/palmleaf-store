@@ -83,7 +83,7 @@
                             </div>
                             
                             @if($couponMessage)
-                                <p class="text-xs {{ str_contains($couponMessage, 'success') ? 'text-green-600' : 'text-red-600' }}">
+                                <p class="text-xs {{ $couponSuccess ? 'text-green-600' : 'text-red-600' }}">
                                     {{ $couponMessage }}
                                 </p>
                             @endif
