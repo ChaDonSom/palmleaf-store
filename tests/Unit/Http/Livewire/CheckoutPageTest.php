@@ -104,7 +104,7 @@ class CheckoutPageTest extends TestCase
         $cart->addresses()->create(
             CartAddress::factory()->make([
                 'type' => 'shipping',
-                'shipping_option' => 'BASDEL',
+                'shipping_option' => 'STANDARD',
             ])->toArray()
         );
 
@@ -139,7 +139,7 @@ class CheckoutPageTest extends TestCase
         $cart->addresses()->create(
             CartAddress::factory()->make([
                 'type' => 'shipping',
-                'shipping_option' => 'BASDEL',
+                'shipping_option' => 'STANDARD',
             ])->toArray()
         );
 
