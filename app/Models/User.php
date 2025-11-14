@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
-use Lunar\Base\Traits\LunarUser;
+use Lunar\Base\Traits\LunarUser as LunarUserTrait;
+use Lunar\Base\LunarUser as LunarUserContract;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -12,14 +14,14 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Lunar\Models\Customer;
 
-class User extends Authenticatable
+class User extends Authenticatable implements LunarUserContract
 {
     use HasApiTokens;
     use HasFactory;
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
-    use LunarUser;
+    use LunarUserTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -63,7 +65,7 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function customers()
+    public function customers(): BelongsToMany
     {
         return $this->belongsToMany(Customer::class, 'lunar_customer_user');
     }
