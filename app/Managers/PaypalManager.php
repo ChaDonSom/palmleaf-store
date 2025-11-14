@@ -37,8 +37,6 @@ class PaypalManager
      */
     public function createOrder(Cart $cart): object
     {
-        $cart = $cart->getManager()->getCart();
-        
         $shipping = $cart->shippingAddress;
 
         $meta = $cart->meta;
