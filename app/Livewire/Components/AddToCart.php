@@ -38,13 +38,13 @@ class AddToCart extends Component
 
         CartSession::manager()->add($this->purchasable, $this->quantity);
         $this->dispatch('add-to-cart');
-        
+
         // Get product name for toast notification
         $productName = $this->purchasable->product->translateAttribute('name');
-        $message = $this->quantity > 1 
+        $message = $this->quantity > 1
             ? "{$this->quantity} × {$productName} added to cart"
             : "{$productName} added to cart";
-        
+
         $this->dispatch('toast', message: $message);
     }
 
