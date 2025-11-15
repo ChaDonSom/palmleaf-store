@@ -8,20 +8,22 @@
         <form method="POST" action="{{ route('register') }}" class="flex flex-col gap-3">
             @csrf
 
+            <h3 class="dark:text-white">{{ __('Register') }}</h3>
+
             <x-input.group label="{{ __('Name') }}">
-                <x-input.text id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+                <x-input.text id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" placeholder="{{ __('Name') }}" />
             </x-input.group>
 
             <x-input.group class="mt-4" label="{{ __('Email') }}">
-                <x-input.text id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
+                <x-input.text id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required placeholder="{{ __('Email') }}" />
             </x-input.group>
 
             <x-input.group class="mt-4" label="{{ __('Password') }}">
-                <x-input.text id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
+                <x-input.text id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" placeholder="{{ __('Password') }}" />
             </x-input.group>
 
             <x-input.group class="mt-4" label="{{ __('Confirm Password') }}">
-                <x-input.text id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
+                <x-input.text id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" placeholder="{{ __('Confirm Password') }}" />
             </x-input.group>
 
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
@@ -32,8 +34,8 @@
 
                             <div class="ml-2">
                                 {!! __('I agree to the :terms_of_service and :privacy_policy', [
-                                        'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'" class="underline text-sm text-gray-600 hover:text-gray-900">'.__('Terms of Service').'</a>',
-                                        'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'" class="underline text-sm text-gray-600 hover:text-gray-900">'.__('Privacy Policy').'</a>',
+                                        'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100">'.__('Terms of Service').'</a>',
+                                        'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100">'.__('Privacy Policy').'</a>',
                                 ]) !!}
                             </div>
                         </div>
@@ -42,7 +44,7 @@
             @endif
 
             <div class="flex items-center justify-end mt-4">
-                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
+                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100" href="{{ route('login') }}">
                     {{ __('Already registered?') }}
                 </a>
 

@@ -1,15 +1,15 @@
 <form
     wire:submit.prevent="saveShippingOption"
-    class="bg-white border border-gray-100 rounded-xl"
+    class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl"
 >
-    <div class="flex items-center justify-between h-16 px-6 border-b border-gray-100">
-        <h3 class="font-medium">
+    <div class="flex items-center justify-between h-16 px-6 border-b border-gray-100 dark:border-gray-700">
+        <h3 class="font-medium dark:text-white">
             Shipping Options
         </h3>
 
         @if ($currentStep > $step && $this->shippingOptions->count() > 1)
             <button
-                class="px-5 py-2 text-sm font-medium text-gray-600 rounded-3xl hover:bg-gray-100 hover:text-gray-700"
+                class="px-5 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 rounded-3xl hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300"
                 type="button"
                 wire:click.prevent="$set('currentStep', {{ $step }})"
             >
@@ -34,7 +34,7 @@
                             />
 
                             <label
-                                class="flex items-center justify-between p-4 text-sm font-medium border border-gray-100 rounded-[32px] shadow-sm cursor-pointer peer-checked:border-yellow-600 hover:bg-gray-50 peer-checked:ring-1 peer-checked:ring-yellow-600"
+                                class="flex items-center justify-between p-4 text-sm font-medium border border-gray-100 dark:border-gray-700 rounded-[32px] shadow-sm cursor-pointer peer-checked:border-yellow-600 hover:bg-gray-50 dark:hover:bg-gray-700 peer-checked:ring-1 peer-checked:ring-yellow-600 dark:text-gray-300"
                                 for="{{ $option->getIdentifier() }}"
                             >
                                 <p>

@@ -19,13 +19,13 @@
         @endif
         
         <div class="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:items-start">
-            <div class="px-6 py-8 space-y-4 bg-white border border-gray-100 lg:sticky lg:top-8 rounded-xl lg:order-last">
-                <h3 class="font-medium">
+            <div class="px-6 py-8 space-y-4 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 lg:sticky lg:top-8 rounded-xl lg:order-last">
+                <h3 class="font-medium dark:text-white">
                     Order Summary
                 </h3>
 
                 <div class="flow-root">
-                    <div class="-my-4 divide-y divide-gray-100">
+                    <div class="-my-4 divide-y divide-gray-100 dark:divide-gray-700">
                         @foreach ($cart->lines as $line)
                             <div
                                 class="flex items-center py-4"
@@ -37,11 +37,11 @@
                                 />
 
                                 <div class="flex-1 ml-4">
-                                    <p class="text-sm font-medium max-w-[35ch]">
+                                    <p class="text-sm font-medium max-w-[35ch] dark:text-gray-100">
                                         {{ $line->purchasable->getDescription() }}
                                     </p>
 
-                                    <span class="block mt-1 text-xs text-gray-500">
+                                    <span class="block mt-1 text-xs text-gray-500 dark:text-gray-400">
                                         {{ $line->quantity }} @ {{ $line->unitPrice->formatted() }}
                                     </span>
                                 </div>
@@ -51,8 +51,8 @@
                 </div>
 
                 {{-- Discount Code Section --}}
-                <div class="pt-4 border-t border-gray-100">
-                    <h4 class="mb-3 text-sm font-medium">Discount Code</h4>
+                <div class="pt-4 border-t border-gray-100 dark:border-gray-700">
+                    <h4 class="mb-3 text-sm font-medium dark:text-white">Discount Code</h4>
 
                     @if($cart->coupon_code)
                         <div class="flex items-center justify-between p-3 rounded-lg bg-green-50">
@@ -77,7 +77,7 @@
                                     type="text"
                                     wire:model.live="couponCode"
                                     placeholder="Enter code"
-                                    class="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-full focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                                    class="flex-1 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-full focus:ring-2 focus:ring-sky-500 focus:border-transparent dark:bg-gray-700 dark:text-gray-100"
                                 >
                                 <button
                                     wire:click="applyCoupon"
@@ -98,13 +98,13 @@
                 </div>
 
                 <div class="flow-root">
-                    <dl class="-my-4 text-sm divide-y divide-gray-100">
+                    <dl class="-my-4 text-sm divide-y divide-gray-100 dark:divide-gray-700">
                         <div class="flex flex-wrap py-4">
-                            <dt class="w-1/2 font-medium">
+                            <dt class="w-1/2 font-medium dark:text-gray-300">
                                 Sub Total
                             </dt>
 
-                            <dd class="w-1/2 text-right">
+                            <dd class="w-1/2 text-right dark:text-gray-100">
                                 {{ $cart->subTotal->formatted() }}
                             </dd>
                         </div>
@@ -123,11 +123,11 @@
 
                         @if ($this->shippingOption)
                             <div class="flex flex-wrap py-4">
-                                <dt class="w-1/2 font-medium">
+                                <dt class="w-1/2 font-medium dark:text-gray-300">
                                     {{ $this->shippingOption->getDescription() }}
                                 </dt>
 
-                                <dd class="w-1/2 text-right">
+                                <dd class="w-1/2 text-right dark:text-gray-100">
                                     {{ $this->shippingOption->getPrice()->formatted() }}
                                 </dd>
                             </div>
@@ -135,22 +135,22 @@
 
                         @foreach ($cart->taxBreakdown->amounts as $tax)
                             <div class="flex flex-wrap py-4">
-                                <dt class="w-1/2 font-medium">
+                                <dt class="w-1/2 font-medium dark:text-gray-300">
                                     {{ $tax->description }}
                                 </dt>
 
-                                <dd class="w-1/2 text-right">
+                                <dd class="w-1/2 text-right dark:text-gray-100">
                                     {{ $tax->price->formatted() }}
                                 </dd>
                             </div>
                         @endforeach
 
                         <div class="flex flex-wrap py-4">
-                            <dt class="w-1/2 font-medium">
+                            <dt class="w-1/2 font-medium dark:text-gray-300">
                                 Total
                             </dt>
 
-                            <dd class="w-1/2 text-right">
+                            <dd class="w-1/2 text-right dark:text-gray-100">
                                 {{ $cart->total->formatted() }}
                             </dd>
                         </div>

@@ -1,4 +1,4 @@
-<header class="sticky top-0 z-50 bg-white border-b border-gray-100">
+<header class="sticky top-0 z-50 bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
     <div class="flex items-center justify-center h-16 px-4 mx-auto max-w-screen-2xl sm:px-6 2xl:px-8">
         <div class="flex items-center">
             <a class="flex items-center flex-shrink-0"
@@ -16,6 +16,8 @@
         <div class="flex items-center justify-between ml-4 lg:justify-end">
 
             <div class="flex items-center gap-2 -mr-4 sm:-mr-6 lg:mr-0">
+                @livewire('components.dark-mode-toggle')
+
                 @livewire('components.trivia-challenge')
 
                 @livewire('components.cart')
@@ -24,9 +26,9 @@
                     <div class="hidden lg:block whitespace-nowrap">
                         @auth
                         @else
-                            <a href="{{ route('login') }}" class="text-sm text-slate-700 hover:text-slate-900">{{ __('Log in') }}</a>
+                            <a href="{{ route('login') }}" class="text-sm text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100">{{ __('Log in') }}</a>
                             @if (Route::has('register'))
-                                <a href="{{ route('register') }}" class="ml-1 text-sm text-slate-700 hover:text-slate-900">{{ __('Register') }}</a>
+                                <a href="{{ route('register') }}" class="ml-1 text-sm text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100">{{ __('Register') }}</a>
                             @endif
                         @endauth
                     </div>
@@ -43,7 +45,7 @@
                                 </button>
                             @else
                                 <span class="inline-flex rounded-md">
-                                    <button type="button" class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition bg-white border border-transparent rounded-md hover:text-gray-700 focus:outline-none">
+                                    <button type="button" class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 dark:text-gray-400 transition bg-white dark:bg-gray-800 border border-transparent rounded-md hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none">
                                         {{ Auth::user()->name }}
 
                                         <x-icons.chevron-down class="ml-2 -mr-0.5" />
@@ -54,7 +56,7 @@
 
                         <x-slot name="content">
                             <!-- Account Management -->
-                            <div class="block px-4 py-2 text-xs text-gray-400">
+                            <div class="block px-4 py-2 text-xs text-gray-400 dark:text-gray-500">
                                 {{ __('Manage Account') }}
                             </div>
 
@@ -72,7 +74,7 @@
                                 </x-dropdown-link>
                             @endif
 
-                            <div class="border-t border-gray-100"></div>
+                            <div class="border-t border-gray-100 dark:border-gray-700"></div>
 
                             <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}" x-data>
@@ -112,14 +114,14 @@
                          x-show="mobileMenu"
                          class="absolute right-0 top-auto z-50 w-screen p-4 sm:max-w-xs">
                         <ul x-on:click.away="mobileMenu = false"
-                            class="px-1 py-3 space-y-2 bg-white border border-gray-100 shadow-xl rounded-xl">
+                            class="px-1 py-3 space-y-2 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 shadow-xl rounded-xl">
 
                             @auth
-                                <div class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition border border-transparent rounded-md">
+                                <div class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 dark:text-gray-400 transition border border-transparent rounded-md">
                                     {{ Auth::user()->name }}
                                 </div>
                                 <!-- Account Management -->
-                                <div class="block px-4 py-2 text-xs text-gray-400">
+                                <div class="block px-4 py-2 text-xs text-gray-400 dark:text-gray-500">
                                     {{ __('Manage Account') }}
                                 </div>
 

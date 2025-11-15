@@ -5,7 +5,7 @@
 ])
 
 <label {{ $attributes->merge(['class' => 'space-y-1']) }}>
-    <div class="font-medium text-sm">
+    <div class="font-medium text-sm dark:text-gray-300">
         {{ $label }} @if ($required)<small class="text-xs text-red-500">&#42;</small>@endif
     </div>
 
