@@ -192,3 +192,5 @@ This project has accumulated specific lessons about working with Laravel, Lunar,
 **Index of Lessons:**
 
 -   **[Lunar Polymorphic Relationships](lessons/lunar-polymorphic-relationships.md)** - When working with Lunar models (ProductVariant, Product, etc.) in tests or factories, especially when creating Price records or other polymorphic relationships. Covers morph maps and the critical difference between `ModelClass::class` vs `$model->getMorphClass()`.
+
+-   **[Code Review and Schema Verification](lessons/code-review-and-schema-verification.md)** - Essential practices for verifying database schema and method signatures before making changes. Critical when optimizing queries, overriding methods, or implementing code review feedback. Prevents runtime errors from incorrect column names or incompatible method signatures.
