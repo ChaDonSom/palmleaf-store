@@ -165,6 +165,11 @@ class CheckoutPage extends Component
                 return;
             } else {
                 // Payment failed - redirect back to checkout with error
+                \Log::error('Card payment authorization failed', [
+                    'payment_intent' => $this->payment_intent,
+                    'message' => $payment?->message,
+                    'payment_type' => $payment?->paymentType ?? 'unknown',
+                ]);
                 session()->flash('error', $payment?->message ?? 'Payment authorization failed. Please try again.');
                 redirect()->route('checkout.view');
                 return;
