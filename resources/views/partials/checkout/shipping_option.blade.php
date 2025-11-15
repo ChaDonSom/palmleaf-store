@@ -7,7 +7,7 @@
             Shipping Options
         </h3>
 
-        @if ($currentStep > $step)
+        @if ($currentStep > $step && $this->shippingOptions->count() > 1)
             <button
                 class="px-5 py-2 text-sm font-medium text-gray-600 rounded-3xl hover:bg-gray-100 hover:text-gray-700"
                 type="button"
@@ -20,7 +20,7 @@
 
     @if ($currentStep >= $step)
         <div class="p-6">
-            @if ($currentStep == $step)
+            @if ($currentStep == $step && $this->shippingOptions->count() > 1)
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     @foreach ($this->shippingOptions as $option)
                         <div>
@@ -34,11 +34,11 @@
                             />
 
                             <label
-                                class="flex items-center justify-between p-4 text-sm font-medium border border-gray-100 rounded-[32px] shadow-sm cursor-pointer peer-checked:border-green-600 hover:bg-gray-50 peer-checked:ring-1 peer-checked:ring-green-600"
+                                class="flex items-center justify-between p-4 text-sm font-medium border border-gray-100 rounded-[32px] shadow-sm cursor-pointer peer-checked:border-yellow-600 hover:bg-gray-50 peer-checked:ring-1 peer-checked:ring-yellow-600"
                                 for="{{ $option->getIdentifier() }}"
                             >
                                 <p>
-                                    {{ $option->getDescription() }}
+                                    {{ $option->getName() }}
                                 </p>
 
                                 <p>
@@ -55,6 +55,17 @@
                     </p>
                 @endif
 
+            @elseif($currentStep == $step && $this->shippingOptions->count() <= 1 && $this->shippingOption)
+                <dl class="flex flex-wrap max-w-xs text-sm">
+                    <dt class="w-1/2 font-medium">
+                        {{ $this->shippingOption->getDescription() }}
+                    </dt>
+
+                    <dd class="w-1/2 text-right">
+                        {{ $this->shippingOption->getPrice()->formatted() }}
+                    </dd>
+                </dl>
+
             @elseif($currentStep > $step && $this->shippingOption)
                 <dl class="flex flex-wrap max-w-xs text-sm">
                     <dt class="w-1/2 font-medium">
@@ -67,10 +78,10 @@
                 </dl>
             @endif
 
-            @if ($step == $currentStep)
+            @if ($step == $currentStep && $this->shippingOptions->count() > 1)
                 <div class="mt-6 text-right">
                     <button
-                        class="px-5 py-3 text-sm font-medium text-white bg-green-700 rounded-3xl hover:bg-green-600"
+                        class="px-5 py-3 text-sm font-medium text-white bg-yellow-600 rounded-3xl hover:bg-yellow-500"
                         type="submit"
                         wire:key="shipping_submit_btn"
                     >

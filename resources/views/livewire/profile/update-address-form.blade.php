@@ -1,4 +1,4 @@
-<x-jet-form-section submit="updateAddress" x-init="$wire.on('saved', () => history.back())">
+<x-form-section submit="updateAddress" x-init="$wire.on('saved', () => history.back())">
     <x-slot name="title">
         {{ __('Edit Address') }}
     </x-slot>
@@ -33,7 +33,7 @@
         </x-input.group>
 
         <x-input.group class="col-span-6" label="Country" required>
-            <select class="w-full p-3 border border-gray-200 rounded-3xl sm:text-sm focus:border-green-600 focus:ring-green-600" wire:model.defer="address.country_id">
+            <select class="w-full p-3 border border-gray-200 rounded-3xl sm:text-sm focus:border-yellow-600 focus:ring-yellow-600" wire:model.defer="address.country_id">
                 <option value>Select a country</option>
                 @foreach ($this->countries as $country)
                 <option value="{{ $country->id }}" wire:key="country_{{ $country->id }}">
@@ -46,7 +46,7 @@
         <x-input.group class="col-span-3 sm:col-span-2" :errors="$errors->get('address.shipping_default')">
             <label class="flex items-center p-2 rounded-3xl cursor-pointer hover:bg-gray-50">
                 <input
-                    class="w-5 h-5 text-green-700 border-gray-100 rounded-3xl focus:ring-green-700"
+                    class="w-5 h-5 text-slate-900 border-gray-100 rounded-3xl focus:ring-yellow-600"
                     type="checkbox"
                     wire:model.defer="address.shipping_default"
                 />
@@ -60,7 +60,7 @@
         <x-input.group class="col-span-3 sm:col-span-2" :errors="$errors->get('address.billing_default')">
             <label class="flex items-center p-2 rounded-3xl cursor-pointer hover:bg-gray-50">
                 <input
-                    class="w-5 h-5 text-green-700 border-gray-100 rounded-3xl focus:ring-green-700"
+                    class="w-5 h-5 text-slate-900 border-gray-100 rounded-3xl focus:ring-yellow-600"
                     type="checkbox"
                     wire:model.defer="address.billing_default"
                 />
@@ -74,17 +74,17 @@
 
     <x-slot name="actions">
         @if($address->id)
-            <x-jet-danger-button wire:loading.attr="disabled" type="button" class="mr-auto" wire:click="deleteAddress">
+            <x-danger-button wire:loading.attr="disabled" type="button" class="mr-auto" wire:click="deleteAddress">
                 {{ __('DELETE') }}
-            </x-jet-danger-button>
+            </x-danger-button>
         @endif
 
-        <x-jet-action-message class="mr-3" on="saved">
+        <x-action-message class="mr-3" on="saved">
             {{ __('Saved.') }}
-        </x-jet-action-message>
+        </x-action-message>
 
-        <x-jet-button wire:loading.attr="disabled" wire:target="photo">
+        <x-button wire:loading.attr="disabled" wire:target="photo">
             {{ __('Save') }}
-        </x-jet-button>
+        </x-button>
     </x-slot>
-</x-jet-form-section>
+</x-form-section>

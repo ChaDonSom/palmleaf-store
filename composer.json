@@ -1,37 +1,36 @@
 {
-    "name": "laravel/laravel",
+    "name": "lunarphp/livewire-starter-kit",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "Livewire starter kit for Lunar e-commerce.",
     "keywords": [
-        "framework",
+        "lunar",
+        "ecommerce",
+        "e-commerce",
+        "livewire",
         "laravel"
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.0",
-        "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "^7.0.1",
+        "php": "^8.3",
+        "guzzlehttp/guzzle": "^7.2",
         "http-interop/http-factory-guzzle": "^1.2",
-        "illuminate/console": "*",
-        "itsgoingd/clockwork": "^5.1",
-        "laravel/framework": "^9.0",
-        "laravel/jetstream": "^2.17",
-        "laravel/sanctum": "^2.11",
-        "laravel/tinker": "^2.5",
+        "laravel/fortify": "^1.31",
+        "laravel/framework": "^10.43|^11.0",
+        "laravel/jetstream": "^5.3",
+        "laravel/sanctum": "^3.3|^4.0",
+        "laravel/tinker": "^2.8",
         "league/flysystem-aws-s3-v3": "^3.0",
-        "livewire/livewire": "^2.5",
-        "lunarphp/lunar": "^0.1",
-        "lunarphp/stripe": "^0.1",
-        "meilisearch/meilisearch-php": "^0.24.2",
-        "srmklive/paypal": "~3.0"
+        "lunarphp/lunarmono": "dev-patch-1 as 1.1.0",
+        "meilisearch/meilisearch-php": "^1.6",
+        "predis/predis": "^2.2",
+        "srmklive/paypal": "^3.0"
     },
     "require-dev": {
-        "spatie/laravel-ignition": "^1.0",
-        "fakerphp/faker": "^1.9.1",
-        "laravel/sail": "^1.0.1",
+        "fakerphp/faker": "^1.23",
         "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^6.1",
-        "phpunit/phpunit": "^9.5.10"
+        "nunomaduro/collision": "^7.0|^8.1",
+        "phpunit/phpunit": "^10.1|^11.0.1",
+        "spatie/laravel-ignition": "^2.0"
     },
     "autoload": {
         "psr-4": {
@@ -60,6 +59,13 @@
             "@php artisan key:generate --ansi"
         ]
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/ChaDonSom/lunar",
+            "canonical": false
+        }
+    ],
     "extra": {
         "laravel": {
             "dont-discover": []

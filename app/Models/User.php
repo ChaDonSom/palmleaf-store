@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
-use Lunar\Base\Traits\LunarUser;
+use Lunar\Base\Traits\LunarUser as LunarUserTrait;
+use Lunar\Base\LunarUser as LunarUserContract;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -12,19 +14,19 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Lunar\Models\Customer;
 
-class User extends Authenticatable
+class User extends Authenticatable implements LunarUserContract
 {
     use HasApiTokens;
     use HasFactory;
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
-    use LunarUser;
+    use LunarUserTrait;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array<int, string>
      */
     protected $fillable = [
         'name',
@@ -36,7 +38,7 @@ class User extends Authenticatable
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $hidden = [
         'password',
@@ -48,7 +50,7 @@ class User extends Authenticatable
     /**
      * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
@@ -63,15 +65,18 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function customers() {
+    public function customers(): BelongsToMany
+    {
         return $this->belongsToMany(Customer::class, 'lunar_customer_user');
     }
 
-    public function getFirstNameAttribute() {
+    public function getFirstNameAttribute()
+    {
         return explode(" ", $this->name)[0];
     }
 
-    public function getLastNameAttribute() {
+    public function getLastNameAttribute()
+    {
         return collect(explode(" ", $this->name))->slice(1)->join(" ");
     }
 }

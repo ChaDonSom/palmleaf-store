@@ -2,36 +2,34 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Seeder;
 use Lunar\Models\Country;
 use Lunar\Models\TaxClass;
 use Lunar\Models\TaxRate;
 use Lunar\Models\TaxZone;
 use Lunar\Models\TaxZoneCountry;
-use Illuminate\Database\Seeder;
 
 class TaxSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
-        /**
-         * Tax Zones.
-         */
+        $taxClass = TaxClass::first();
+
+        $ukCountry = Country::firstWhere('iso3', 'GBR');
+
         $ukTaxZone = TaxZone::factory()->create([
             'name' => 'UK',
-            'zone_type' => 'country',
-            'default' => true,
             'active' => true,
+            'default' => true,
+            'zone_type' => 'country',
         ]);
 
-        $uk = Country::where('iso3', '=', 'GBR')->first();
-
         TaxZoneCountry::factory()->create([
-            'country_id' => $uk->id,
+            'country_id' => $ukCountry->id,
             'tax_zone_id' => $ukTaxZone->id,
         ]);
 
@@ -44,7 +42,7 @@ class TaxSeeder extends Seeder
         $ukRate->taxRateAmounts()->createMany([
             [
                 'percentage' => 20,
-                'tax_class_id' => TaxClass::first()->id,
+                'tax_class_id' => $taxClass->id,
             ],
         ]);
     }

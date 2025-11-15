@@ -1,4 +1,4 @@
-<x-jet-form-section submit="">
+<x-form-section submit="">
     <x-slot name="title">
         {{ __('Addresses') }}
     </x-slot>
@@ -25,7 +25,7 @@
                             <div class="flex justify-center">
                                 @if($address->shipping_default)
                                 <input
-                                    class="w-5 h-5 text-green-700 border-gray-100 rounded-3xl"
+                                    class="w-5 h-5 text-slate-900 border-gray-100 rounded-3xl"
                                     type="checkbox"
                                     disabled
                                     checked
@@ -37,7 +37,7 @@
                             <div class="flex justify-center">
                                 @if($address->billing_default)
                                 <input
-                                    class="w-5 h-5 text-green-700 border-gray-100 rounded-3xl"
+                                    class="w-5 h-5 text-slate-900 border-gray-100 rounded-3xl"
                                     type="checkbox"
                                     disabled
                                     checked
@@ -56,7 +56,7 @@
                 @endforeach
                 <tr>
                     <td>
-                        <a href="{{ route('profile-create-address') }}" class="inline-flex items-center px-4 py-2 my-2 bg-green-800 border border-transparent rounded-3xl font-semibold text-xs text-white tracking-widest hover:bg-green-700 active:bg-green-900 focus:outline-none focus:ring focus:ring-green-600 disabled:opacity-25 transition">
+                        <a href="{{ route('profile-create-address') }}" class="inline-flex items-center px-4 py-2 my-2 bg-yellow-600 border border-transparent rounded-3xl font-semibold text-xs text-white tracking-widest hover:bg-yellow-600 active:bg-yellow-700 focus:outline-none focus:ring focus:ring-yellow-600 disabled:opacity-25 transition">
                             {{ __('Add address') }}
                         </a>
                     </td>
@@ -64,4 +64,4 @@
             </tbody>
         </table>
     </x-slot>
-</x-jet-form-section>
+</x-form-section>

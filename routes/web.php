@@ -1,11 +1,17 @@
 <?php
 
-use App\Http\Livewire\CheckoutPage;
-use App\Http\Livewire\CheckoutSuccessPage;
-use App\Http\Livewire\CollectionPage;
-use App\Http\Livewire\Home;
-use App\Http\Livewire\ProductPage;
-use App\Http\Livewire\SearchPage;
+use App\Livewire\AboutPage;
+use App\Livewire\CheckoutPage;
+use App\Livewire\CheckoutSuccessPage;
+use App\Livewire\CollectionPage;
+use App\Livewire\ContactPage;
+use App\Livewire\CookiesPage;
+use App\Livewire\FaqPage;
+use App\Livewire\Home;
+use App\Livewire\ProductPage;
+use App\Livewire\SearchPage;
+use App\Livewire\ShippingReturnsPage;
+use App\Livewire\SizeGuidePage;
 use Lunar\Models\Address;
 use Lunar\Models\Order;
 use Illuminate\Support\Facades\Route;
@@ -33,8 +39,25 @@ Route::get('checkout', CheckoutPage::class)->name('checkout.view');
 
 Route::get('checkout/success', CheckoutSuccessPage::class)->name('checkout-success.view');
 
+Route::get('about', AboutPage::class)->name('about.view');
+
+Route::get('contact', ContactPage::class)->name('contact.view');
+
+Route::get('shipping-returns', ShippingReturnsPage::class)->name('shipping-returns.view');
+
+Route::get('size-guide', SizeGuidePage::class)->name('size-guide.view');
+
+Route::get('faq', FaqPage::class)->name('faq.view');
+
+Route::get('cookies', CookiesPage::class)->name('cookies.view');
+
+// Use the session-based "web" guard for Jetstream / Fortify protected pages.
+// "auth:sanctum" switches the default guard to Sanctum's RequestGuard which
+// does not implement StatefulGuard (no viaRemember method), causing
+// AuthenticateSession to call viaRemember on a RequestGuard and explode.
+// Keeping just 'auth' (alias for the default session guard) avoids that.
 Route::middleware([
-    'auth:sanctum',
+    'auth', // was 'auth:sanctum' – switched to session guard to fix viaRemember error
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
@@ -47,7 +70,7 @@ Route::middleware([
         return view('profile.addresses.show', ['address' => null]);
     })->name('profile-create-address');
     Route::get('/user/profile/addresses/{address}', function (Address $address) {
-        return view('profile.addresses.show', [ 'address' => $address ]);
+        return view('profile.addresses.show', ['address' => $address]);
     })->name('profile-edit-address');
     Route::get('/user/orders', function () {
         return view('orders');

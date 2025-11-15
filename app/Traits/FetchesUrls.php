@@ -8,8 +8,6 @@ trait FetchesUrls
 {
     /**
      * The URL model from the slug.
-     *
-     * @var \Lunar\Models\Url
      */
     public ?Url $url = null;
 
@@ -19,13 +17,13 @@ trait FetchesUrls
      * @param  string  $slug
      * @param  string  $type
      * @param  array  $eagerLoad
-     * @return \Lunar\Models\Url|null
      */
-    public function fetchUrl($slug, $type, $eagerLoad = [])
+    public function fetchUrl($slug, $type, $eagerLoad = []): ?Url
     {
         return Url::whereElementType($type)
             ->whereDefault(true)
-            ->whereSlug($slug)
+            ->whereSlug($slug) // TODO: These 3 lines. Review and see if they break anything. Remember previous version
+            // fixed the product slugs giving 404s when you open the product page.
             ->with($eagerLoad)->first();
     }
 }

@@ -9,19 +9,19 @@
             </label>
 
             <x-input.text
-                class="w-16 px-1 py-4 text-sm text-center transition border border-gray-100 rounded-[32px] no-spinners focus:ring-green-600"
+                class="w-16 px-1 py-4 text-sm text-center transition border border-gray-100 rounded-[32px] no-spinners focus:ring-yellow-600"
                 type="number"
                 id="quantity"
                 min="1"
                 value="1"
-                wire:model="quantity"
-                onfocus="this.select()"
+                wire:model.live="quantity"
+                onfocus="this.select()"{{-- TODO: new demo doesn't have this --}}
             />
         </div>
 
         <button
             type="submit"
-            class="w-full px-6 py-4 text-sm font-medium text-center text-white bg-green-700 rounded-[32px] hover:bg-green-800"
+            class="w-full px-6 py-4 text-sm font-medium text-center text-white bg-yellow-500 rounded-[32px] hover:bg-yellow-400 border-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-600 disabled:opacity-25 transition"
             wire:click.prevent="addToCart"
         >
             Add to Cart

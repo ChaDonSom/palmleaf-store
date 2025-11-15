@@ -37,8 +37,9 @@ class PaypalManager
      */
     public function createOrder(Cart $cart): object
     {
-        $cart = $cart->getManager()->getCart();
-        
+        // Calculate the cart to ensure totals are available
+        $cart->calculate();
+
         $shipping = $cart->shippingAddress;
 
         $meta = $cart->meta;
@@ -92,12 +93,12 @@ class PaypalManager
      *
      * @param int $value
      * @param string $currencyCode
-     * @param \Lunar\Models\CartAddress $shipping
+     * @param \Lunar\Models\CartAddress|null $shipping
      * @return object
      */
     protected function buildOrder($value, $currencyCode, $shipping)
     {
-        return (object) $this->paypal->createOrder([
+        $orderData = [
             "intent" => config('lunar.paypal.policy', 'automatic') == 'automatic' ? 'CAPTURE' : 'AUTHORIZE',
             "purchase_units" => [
                 [
@@ -107,17 +108,25 @@ class PaypalManager
                     ],
                 ]
             ],
-            'shipping' => [
-                'name' => "{$shipping->first_name} {$shipping->last_name}",
-                'address' => [
-                    'city' => $shipping->city,
-                    'country' => $shipping->country->iso2,
-                    'line1' => $shipping->line_one,
-                    'line2' => $shipping->line_two,
-                    'postal_code' => $shipping->postcode,
-                    'state' => $shipping->state,
+        ];
+
+        // Only add shipping if address is provided
+        if ($shipping) {
+            $orderData['shipping'] = [
+                'name' => [
+                    'full_name' => "{$shipping->first_name} {$shipping->last_name}",
                 ],
-            ],
-        ]);
+                'address' => [
+                    'address_line_1' => $shipping->line_one,
+                    'address_line_2' => $shipping->line_two,
+                    'admin_area_2' => $shipping->city,
+                    'admin_area_1' => $shipping->state,
+                    'postal_code' => $shipping->postcode,
+                    'country_code' => $shipping->country->iso2,
+                ],
+            ];
+        }
+
+        return (object) $this->paypal->createOrder($orderData);
     }
 }

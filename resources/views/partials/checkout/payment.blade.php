@@ -11,7 +11,7 @@
                 <button
                     @class([
                         'px-5 py-2 text-sm border font-medium rounded-3xl',
-                        'text-green-700 border-green-600 bg-green-50' => $paymentType === 'card',
+                        'text-slate-900 border-yellow-600 bg-yellow-50' => $paymentType === 'card',
                         'text-gray-500 hover:text-gray-700' => $paymentType !== 'card',
                     ])
                     type="button"
@@ -23,25 +23,13 @@
                 <button
                     @class([
                         'px-5 py-2 text-sm border font-medium rounded-3xl',
-                        'text-green-700 border-green-600 bg-green-50' => $paymentType === 'paypal',
+                        'text-slate-900 border-yellow-600 bg-yellow-50' => $paymentType === 'paypal',
                         'text-gray-500 hover:text-gray-700' => $paymentType !== 'paypal',
                     ])
                     type="button"
                     wire:click.prevent="$set('paymentType', 'paypal')"
                 >
                     Pay with PayPal
-                </button>
-
-                <button
-                    @class([
-                        'px-5 py-2 text-sm border font-medium rounded-3xl',
-                        'text-green-700 border-green-600 bg-green-50' => $paymentType === 'cash',
-                        'text-gray-500 hover:text-gray-700' => $paymentType !== 'cash',
-                    ])
-                    type="button"
-                    wire:click.prevent="$set('paymentType', 'cash')"
-                >
-                    Pay with cash
                 </button>
             </div>
 
@@ -57,52 +45,6 @@
                     :cart="$cart"
                     :returnUrl="route('checkout.view')"
                 />
-            @endif
-
-            @if ($paymentType == 'cash')
-                <form wire:submit.prevent="checkout">
-                    <div class="p-4 text-sm text-center text-blue-700 rounded-lg bg-blue-50">
-                        Payment is offline, no card details needed. We will begin processing the order upon receiving the cash payment.
-                    </div>
-
-                    <button
-                        class="px-5 py-3 mt-4 text-sm font-medium text-white bg-green-600 rounded-3xl hover:bg-green-500"
-                        type="submit"
-                        wire:key="payment_submit_btn"
-                    >
-                        <span
-                            wire:loading.remove.delay
-                            wire:target="checkout"
-                        >
-                            Submit Order
-                        </span>
-                        <span
-                            wire:loading.delay
-                            wire:target="checkout"
-                        >
-                            <svg
-                                class="w-5 h-5 text-white animate-spin"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                            >
-                                <circle
-                                    class="opacity-25"
-                                    cx="12"
-                                    cy="12"
-                                    r="10"
-                                    stroke="currentColor"
-                                    stroke-width="4"
-                                ></circle>
-                                <path
-                                    class="opacity-75"
-                                    fill="currentColor"
-                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                                ></path>
-                            </svg>
-                        </span>
-                    </button>
-                </form>
             @endif
         </div>
     @endif

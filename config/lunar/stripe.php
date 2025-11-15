@@ -14,4 +14,21 @@ return [
     |
     */
     'policy' => 'manual',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Status Mapping
+    |--------------------------------------------------------------------------
+    |
+    | Map Stripe payment intent statuses to your order statuses.
+    | When a payment intent is updated, the order status will be set accordingly.
+    |
+    */
+    'status_mapping' => [
+        'succeeded' => 'paid',
+        'requires_capture' => 'requires-capture',
+        'canceled' => 'cancelled',
+        'processing' => 'processing',
+        'requires_payment_method' => 'payment-failed',
+    ],
 ];

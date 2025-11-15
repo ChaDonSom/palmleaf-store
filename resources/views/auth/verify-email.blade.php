@@ -1,7 +1,7 @@
 <x-guest-layout>
-    <x-jet-authentication-card>
+    <x-authentication-card>
         <x-slot name="logo">
-            <x-jet-authentication-card-logo />
+            <x-authentication-card-logo />
         </x-slot>
 
         <div class="mb-4 text-sm text-gray-600">
@@ -9,7 +9,7 @@
         </div>
 
         @if (session('status') == 'verification-link-sent')
-            <div class="mb-4 font-medium text-sm text-green-600">
+            <div class="mb-4 font-medium text-sm text-slate-900">
                 {{ __('A new verification link has been sent to the email address you provided in your profile settings.') }}
             </div>
         @endif
@@ -19,9 +19,9 @@
                 @csrf
 
                 <div>
-                    <x-jet-button type="submit">
+                    <x-button type="submit">
                         {{ __('Resend Verification Email') }}
-                    </x-jet-button>
+                    </x-button>
                 </div>
             </form>
 
@@ -41,5 +41,5 @@
                 </form>
             </div>
         </div>
-    </x-jet-authentication-card>
+    </x-authentication-card>
 </x-guest-layout>

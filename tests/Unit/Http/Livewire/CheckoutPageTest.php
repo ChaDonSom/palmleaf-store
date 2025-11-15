@@ -2,23 +2,16 @@
 
 namespace Tests\Unit\Http\Livewire;
 
-use App\Http\Livewire\CheckoutPage;
-use App\Http\Livewire\Components\CheckoutAddress;
-use App\Http\Livewire\Components\Navigation;
-use App\Http\Livewire\Home;
+use App\Livewire\CheckoutPage;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Config;
+use Livewire\Livewire;
 use Lunar\Facades\CartSession;
-use Lunar\Facades\ShippingManifest;
 use Lunar\Models\Cart;
 use Lunar\Models\CartAddress;
-use Lunar\Models\Collection;
 use Lunar\Models\Country;
 use Lunar\Models\TaxClass;
 use Lunar\Models\TaxZone;
-use Lunar\Models\Url;
-use Lunar\DataTypes\ShippingOption;
-use Lunar\DataTypes\Price;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Livewire\Livewire;
 use Tests\TestCase;
 
 /**
@@ -29,24 +22,6 @@ class CheckoutPageTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * Create a shipping option for testing.
-     *
-     * @param Cart $cart
-     * @param string $identifier
-     * @return ShippingOption
-     */
-    private function createShippingOption(Cart $cart, string $identifier = 'BASDEL'): ShippingOption
-    {
-        return new ShippingOption(
-            name: 'Basic Delivery',
-            description: 'Basic Delivery',
-            identifier: $identifier,
-            price: new Price(500, $cart->currency, 1),
-            taxClass: TaxClass::getDefault()
-        );
-    }
-
-    /**
      * Test the component mounts correctly.
      *
      * @return void
@@ -54,7 +29,7 @@ class CheckoutPageTest extends TestCase
     public function test_component_can_mount()
     {
         CartSession::shouldReceive('current')->andReturn(
-            Cart::factory()->create()->getManager()->getCart()
+            Cart::factory()->create()->calculate()
         );
 
         Livewire::test(CheckoutPage::class)
@@ -71,7 +46,7 @@ class CheckoutPageTest extends TestCase
     public function test_checkout_step_is_correct_on_load()
     {
         CartSession::shouldReceive('current')->andReturn(
-            Cart::factory()->create()->getManager()->getCart()
+            Cart::factory()->create()->calculate()
         );
 
         Livewire::test(CheckoutPage::class)
@@ -86,28 +61,30 @@ class CheckoutPageTest extends TestCase
      */
     public function test_checkout_step_is_correct_with_shipping_on_load()
     {
+        Config::set('shipping-tables.enabled', false);
+
         TaxClass::factory()->create([
             'default' => true,
         ]);
 
         $cart = Cart::factory()->create();
 
-        // Stub shipping options to avoid constructing real ShippingOption objects
-        // (which require full shipping config) for this specific test.
-        ShippingManifest::shouldReceive('getOptions')->andReturn(collect());
-
-        $cart->getManager()->setShippingAddress(CartAddress::factory()->create([
-            'type' => 'shipping',
-            'cart_id' => $cart->id,
-        ]));
+        $cart->addresses()->create(
+            CartAddress::factory()->make([
+                'type' => 'shipping',
+            ])->toArray()
+        );
 
         CartSession::shouldReceive('current')->andReturn(
-            $cart->getManager()->getCart()
+            $cart->calculate()
         );
+
+        // With only one shipping option, it auto-selects and skips to billing step
+        CartSession::shouldReceive('setShippingOption')->once();
 
         Livewire::test(CheckoutPage::class)
             ->assertViewIs('livewire.checkout-page')
-            ->assertSet('currentStep', 2);
+            ->assertSet('currentStep', 3);
     }
 
     /**
@@ -117,6 +94,8 @@ class CheckoutPageTest extends TestCase
      */
     public function test_checkout_on_billing_if_we_have_shipping_option()
     {
+        Config::set('shipping-tables.enabled', false);
+
         TaxClass::factory()->create([
             'default' => true,
         ]);
@@ -130,16 +109,12 @@ class CheckoutPageTest extends TestCase
         $cart->addresses()->create(
             CartAddress::factory()->make([
                 'type' => 'shipping',
-                'shipping_option' => 'BASDEL',
+                'shipping_option' => 'STANDARD',
             ])->toArray()
         );
 
-        // Provide a real ShippingOption that matches the shipping_option identifier
-        $option = $this->createShippingOption($cart);
-        ShippingManifest::shouldReceive('getOptions')->andReturn(collect([$option]));
-
         CartSession::shouldReceive('current')->andReturn(
-            $cart->getManager()->getCart()
+            $cart->calculate()
         );
 
         Livewire::test(CheckoutPage::class)
@@ -154,6 +129,8 @@ class CheckoutPageTest extends TestCase
      */
     public function test_checkout_on_payment_if_we_have_billing_address()
     {
+        Config::set('shipping-tables.enabled', false);
+
         TaxClass::factory()->create([
             'default' => true,
         ]);
@@ -167,7 +144,7 @@ class CheckoutPageTest extends TestCase
         $cart->addresses()->create(
             CartAddress::factory()->make([
                 'type' => 'shipping',
-                'shipping_option' => 'BASDEL',
+                'shipping_option' => 'STANDARD',
             ])->toArray()
         );
 
@@ -177,12 +154,8 @@ class CheckoutPageTest extends TestCase
             ])->toArray()
         );
 
-        // Provide a real ShippingOption that matches the shipping_option identifier
-        $option = $this->createShippingOption($cart);
-        ShippingManifest::shouldReceive('getOptions')->andReturn(collect([$option]));
-
         CartSession::shouldReceive('current')->andReturn(
-            $cart->getManager()->getCart()
+            $cart->calculate()
         );
 
         Livewire::test(CheckoutPage::class)
@@ -197,6 +170,8 @@ class CheckoutPageTest extends TestCase
      */
     public function test_can_save_shipping_address()
     {
+        Config::set('shipping-tables.enabled', false);
+
         TaxClass::factory()->create([
             'default' => true,
         ]);
@@ -207,16 +182,16 @@ class CheckoutPageTest extends TestCase
 
         $cart = Cart::factory()->create();
 
-        // Avoid shipping options lookup during this test
-        ShippingManifest::shouldReceive('getOptions')->andReturn(collect());
-
         CartSession::shouldReceive('getCart')->andReturn(
-            $cart->getManager()->getCart()
+            $cart->calculate()
         );
 
         CartSession::shouldReceive('current')->andReturn(
-            $cart->getManager()->getCart()
+            $cart->calculate()
         );
+
+        // Auto-selection of single shipping option
+        CartSession::shouldReceive('setShippingOption')->once();
 
         $country = Country::factory()->create();
 
@@ -282,11 +257,11 @@ class CheckoutPageTest extends TestCase
         $cart = Cart::factory()->create();
 
         CartSession::shouldReceive('getCart')->andReturn(
-            $cart->getManager()->getCart()
+            $cart->calculate()
         );
 
         CartSession::shouldReceive('current')->andReturn(
-            $cart->getManager()->getCart()
+            $cart->calculate()
         );
 
         $country = Country::factory()->create();

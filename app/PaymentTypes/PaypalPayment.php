@@ -9,6 +9,7 @@ use Lunar\Base\DataTransferObjects\PaymentAuthorize;
 use Lunar\Base\DataTransferObjects\PaymentCapture;
 use Lunar\Base\DataTransferObjects\PaymentRefund;
 use Lunar\Models\Transaction;
+use Lunar\Models\Contracts;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
@@ -50,7 +51,7 @@ class PaypalPayment extends AbstractPayment
     {
         if (!$this->order) {
             if (!$this->order = $this->cart->order) {
-                $this->order = $this->cart->getManager()->createOrder();
+                $this->order = $this->cart->createOrder();
             }
         }
 
@@ -105,11 +106,11 @@ class PaypalPayment extends AbstractPayment
     /**
      * Capture a payment for a transaction.
      *
-     * @param \Lunar\Models\Transaction $transaction
+     * @param \Lunar\Models\Contracts\Transaction $transaction
      * @param integer $amount
      * @return \Lunar\Base\DataTransferObjects\PaymentCapture
      */
-    public function capture(Transaction $transaction, $amount = 0): PaymentCapture
+    public function capture(Contracts\Transaction $transaction, $amount = 0): PaymentCapture
     {
         try {
             $response = $this->paypal->captureAuthorizedPayment(
@@ -145,18 +146,26 @@ class PaypalPayment extends AbstractPayment
 
         $transaction->order->transactions()->createMany($transactions);
 
+        // Update order status to paid (Payment Received) after successful capture
+        if ($response->status == 'COMPLETED') {
+            $transaction->order->update([
+                'status' => 'paid',
+                'placed_at' => $transaction->order->placed_at ?? now(),
+            ]);
+        }
+
         return new PaymentCapture(success: true);
     }
 
     /**
      * Refund a captured transaction
      *
-     * @param \Lunar\Models\Transaction $transaction
+     * @param \Lunar\Models\Contracts\Transaction $transaction
      * @param integer $amount
      * @param string|null $notes
      * @return \Lunar\Base\DataTransferObjects\PaymentRefund
      */
-    public function refund(Transaction $transaction, int $amount = 0, $notes = null): PaymentRefund
+    public function refund(Contracts\Transaction $transaction, int $amount, $notes = null): PaymentRefund
     {
         try {
             $refund = $this->paypal->refundCapturedPayment(
@@ -209,11 +218,18 @@ class PaypalPayment extends AbstractPayment
             // Convert it to (object) for easy ?-> access
             $paypalOrder = json_decode(json_encode($this->paypalOrder));
             $purchaseUnits = $paypalOrder->purchase_units;
-            
-            $this->order->update([
-                'status' => $this->config['released'] ?? 'paid',
-                'placed_at' => now()->parse($paypalOrder->create_time),
-            ]);
+
+            // For manual capture, set status to requires-capture and leave placed_at null
+            // For automatic capture, set status to paid and set placed_at
+            $orderUpdate = [
+                'status' => $this->policy == 'manual' ? 'requires-capture' : ($this->config['released'] ?? 'paid'),
+            ];
+
+            if ($this->policy !== 'manual') {
+                $orderUpdate['placed_at'] = now()->parse($paypalOrder->create_time);
+            }
+
+            $this->order->update($orderUpdate);
 
             $transactions = [];
 
@@ -230,7 +246,10 @@ class PaypalPayment extends AbstractPayment
                      * there's another step the payer has to do. Send them to the "rel": "payer-action" link.
                      */
                     'success' => in_array($paypalOrder->status, [
-                        'CREATED', 'SAVED', 'APPROVED', 'COMPLETED',
+                        'CREATED',
+                        'SAVED',
+                        'APPROVED',
+                        'COMPLETED',
                     ]),
                     'type' => $type,
                     'driver' => 'paypal',
@@ -252,6 +271,9 @@ class PaypalPayment extends AbstractPayment
             $this->order->transactions()->createMany($transactions);
         });
 
-        return new PaymentAuthorize(success: true);
+        return new PaymentAuthorize(
+            success: true,
+            orderId: $this->order->id
+        );
     }
 }

@@ -66,7 +66,7 @@
     </button> --}}
     <div class="mt-4">
       <button
-        class="flex items-center px-5 py-3 text-sm font-medium text-white bg-green-600 rounded-3xl hover:bg-green-500 disabled:opacity-50"
+        class="flex items-center px-5 py-3 text-sm font-medium text-white bg-yellow-500 rounded-3xl hover:bg-yellow-400 disabled:opacity-50"
         type="submit"
         x-bind:disabled="processing"
       >
