@@ -30,7 +30,11 @@ class AppServiceProvider extends ServiceProvider
                     ...\Lunar\Admin\LunarPanelManager::getResources(),
                     \App\Filament\Resources\TriviaQuestionResource::class,
                 ])
+                ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
         )
+            ->extensions([
+                \Lunar\Admin\Filament\Pages\Dashboard::class => \App\Filament\Extensions\DashboardExtension::class,
+            ])
             ->register();
     }
 
@@ -59,21 +63,5 @@ class AppServiceProvider extends ServiceProvider
 
         // Register view composers
         View::composer('components.footer', FooterComposer::class);
-
-        // Debug: Log customer group pivot data when accessed in production
-        if (app()->environment('production')) {
-            \Illuminate\Support\Facades\DB::listen(function ($query) {
-                if (
-                    str_contains($query->sql, 'customer_group_product') ||
-                    str_contains($query->sql, 'customer_groups')
-                ) {
-                    \Illuminate\Support\Facades\Log::info('CustomerGroup Query Debug', [
-                        'sql' => $query->sql,
-                        'bindings' => $query->bindings,
-                        'time' => $query->time,
-                    ]);
-                }
-            });
-        }
     }
 }
