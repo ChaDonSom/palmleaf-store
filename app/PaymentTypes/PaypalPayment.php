@@ -263,6 +263,9 @@ class PaypalPayment extends AbstractPayment
             $this->order->transactions()->createMany($transactions);
         });
 
-        return new PaymentAuthorize(success: true);
+        return new PaymentAuthorize(
+            success: true,
+            orderId: $this->order->id
+        );
     }
 }
