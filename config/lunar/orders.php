@@ -31,6 +31,12 @@ return [
             'mailers'       => [],
             'notifications' => [],
         ],
+        'requires-capture' => [
+            'label'         => 'Requires Capture',
+            'color'         => '#f0ad4e',
+            'mailers'       => [],
+            'notifications' => [],
+        ],
         'paid' => [
             'label'         => 'Payment Received',
             'color'         => '#6a67ce',

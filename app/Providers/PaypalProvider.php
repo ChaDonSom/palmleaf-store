@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Livewire\PaypalPaymentForm;
 use App\PaymentTypes\PaypalPayment;
+use App\PaymentTypes\StripePayment;
 use Illuminate\Support\ServiceProvider;
 use Lunar\Facades\Payments;
 use Lunar\Models\Cart;
@@ -31,9 +32,9 @@ class PaypalProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Register Stripe payment driver
+        // Register Stripe payment driver with our custom implementation
         Payments::extend('stripe', function ($app) {
-            return $app->make(StripePaymentType::class);
+            return $app->make(StripePayment::class);
         });
 
         // Register PayPal payment driver

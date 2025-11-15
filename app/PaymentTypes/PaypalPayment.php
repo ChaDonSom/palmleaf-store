@@ -146,6 +146,14 @@ class PaypalPayment extends AbstractPayment
 
         $transaction->order->transactions()->createMany($transactions);
 
+        // Update order status to paid (Payment Received) after successful capture
+        if ($response->status == 'COMPLETED') {
+            $transaction->order->update([
+                'status' => 'paid',
+                'placed_at' => $transaction->order->placed_at ?? now(),
+            ]);
+        }
+
         return new PaymentCapture(success: true);
     }
 
