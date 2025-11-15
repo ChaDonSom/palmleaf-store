@@ -32,7 +32,7 @@
 
             <div>
                 <div class="flex items-center justify-between">
-                    <h1 class="text-xl font-bold">
+                    <h1 class="text-xl font-bold dark:text-white">
                         {{ $this->product->translateAttribute('name') }}
                     </h1>
 
@@ -42,11 +42,11 @@
                     />
                 </div>
 
-                <p class="mt-1 text-sm text-gray-500">
+                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
                     {{ $this->variant->sku }}
                 </p>
 
-                <article class="mt-4 text-gray-700">
+                <article class="mt-4 text-gray-700 dark:text-gray-300">
                     {!! $this->product->translateAttribute('description') !!}
                 </article>
 
@@ -54,7 +54,7 @@
                     <div class="space-y-4">
                         @foreach ($this->productOptions as $option)
                             <fieldset>
-                                <legend class="text-xs font-medium text-gray-700">
+                                <legend class="text-xs font-medium text-gray-700 dark:text-gray-300">
                                     {{ $option['option']->translate('name') }}
                                 </legend>
 

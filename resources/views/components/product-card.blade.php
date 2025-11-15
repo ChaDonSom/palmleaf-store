@@ -14,11 +14,11 @@
         @endif
     </div>
 
-    <strong class="mt-2 text-sm font-medium">
+    <strong class="mt-2 text-sm font-medium dark:text-white">
         {{ $product->translateAttribute('name') }}
     </strong>
 
-    <p class="mt-1 text-sm text-gray-600">
+    <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
         <span class="sr-only">
             Price
         </span>

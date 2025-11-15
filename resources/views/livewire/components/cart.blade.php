@@ -4,7 +4,7 @@
      }">
     <button class="h-16 text-sm font-medium transition"
             x-on:click="linesVisible = !linesVisible">
-        <div class="inline-flex items-center gap-2 px-4 py-2 bg-white border rounded-2xl border-slate-300 hover:bg-slate-50">
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-700 border rounded-2xl border-slate-300 dark:border-gray-600 hover:bg-slate-50 dark:hover:bg-gray-600">
             <x-icons.shopping-cart />
             <span class="hidden md:inline">Cart</span>
             @if (count($lines) > 0)
@@ -20,10 +20,10 @@
          x-on:click.away="linesVisible = false"
          x-transition
          x-cloak>
-        <div class="p-4 bg-white border shadow-xl border-slate-100 rounded-2xl">
+        <div class="p-4 bg-white dark:bg-gray-800 border shadow-xl border-slate-100 dark:border-gray-700 rounded-2xl">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-semibold">Your Cart</h3>
-                <button class="transition-transform text-slate-500 hover:scale-110"
+                <h3 class="text-lg font-semibold dark:text-white">Your Cart</h3>
+                <button class="transition-transform text-slate-500 dark:text-slate-400 hover:scale-110"
                         type="button"
                         x-on:click="linesVisible = false">
                     <x-icons.close />
@@ -39,15 +39,15 @@
                                      alt="{{ $line['description'] }}">
 
                                 <div class="flex-1">
-                                    <div class="text-sm font-semibold">{{ $line['description'] }}</div>
-                                    <div class="text-sm text-slate-500">{{ $line['unit_price'] }} • Qty {{ $line['quantity'] }}</div>
-                                    <div class="mt-1 text-xs text-slate-400">{{ $line['identifier'] }} / {{ $line['options'] }}</div>
+                                    <div class="text-sm font-semibold dark:text-white">{{ $line['description'] }}</div>
+                                    <div class="text-sm text-slate-500 dark:text-slate-400">{{ $line['unit_price'] }} • Qty {{ $line['quantity'] }}</div>
+                                    <div class="mt-1 text-xs text-slate-400 dark:text-slate-500">{{ $line['identifier'] }} / {{ $line['options'] }}</div>
                                 </div>
                                 <div class="text-right">
-                                    <div class="font-semibold">{{ $line['sub_total'] }}</div>
+                                    <div class="font-semibold dark:text-white">{{ $line['sub_total'] }}</div>
                                     <button type="button"
                                             wire:click="removeLine('{{ $line['id'] }}')"
-                                            class="mt-1 text-xs transition text-slate-500 hover:text-red-600">
+                                            class="mt-1 text-xs transition text-slate-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-500">
                                         Remove
                                     </button>
                                 </div>
@@ -64,20 +64,20 @@
                         @endforeach
                     </div>
                 @else
-                    <div class="p-6 text-center border rounded-xl border-slate-100 text-slate-500">
+                    <div class="p-6 text-center border rounded-xl border-slate-100 dark:border-gray-700 text-slate-500 dark:text-slate-400">
                         Your cart is empty.
                     </div>
                 @endif
             @else
-                <div class="p-6 text-center border rounded-xl border-slate-100 text-slate-500">
+                <div class="p-6 text-center border rounded-xl border-slate-100 dark:border-gray-700 text-slate-500 dark:text-slate-400">
                     Your cart is empty.
                 </div>
             @endif
 
             @if ($this->cart && $lines)
-                <div class="flex items-center justify-between pt-4 mt-4 border-t border-slate-100">
-                    <div class="text-sm text-slate-500">Subtotal</div>
-                    <div class="text-lg font-bold">{{ $this->cart->subTotal->formatted() }}</div>
+                <div class="flex items-center justify-between pt-4 mt-4 border-t border-slate-100 dark:border-gray-700">
+                    <div class="text-sm text-slate-500 dark:text-slate-400">Subtotal</div>
+                    <div class="text-lg font-bold dark:text-white">{{ $this->cart->subTotal->formatted() }}</div>
                 </div>
 
                 <a href="{{ route('checkout.view') }}"
@@ -86,7 +86,7 @@
                     <x-icons.arrow-right />
                 </a>
 
-                <div class="mt-3 text-xs text-center text-slate-500">
+                <div class="mt-3 text-xs text-center text-slate-500 dark:text-slate-400">
                     Taxes and shipping calculated at checkout.
                 </div>
             @endif
