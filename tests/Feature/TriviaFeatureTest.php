@@ -10,6 +10,16 @@ use Livewire\Livewire;
 use Tests\TestCase;
 use Carbon\Carbon;
 use App\Livewire\Components\TriviaChallenge;
+use Lunar\Models\Discount;
+use Lunar\Models\Currency;
+use Lunar\Models\Country;
+use Lunar\Models\TaxClass;
+use Lunar\Models\Product;
+use Lunar\Models\ProductVariant;
+use Lunar\Models\Price;
+use Lunar\Models\Cart;
+use Lunar\Models\CartLine;
+use Lunar\DiscountTypes\AmountOff;
 
 class TriviaFeatureTest extends TestCase
 {
@@ -110,5 +120,57 @@ class TriviaFeatureTest extends TestCase
             'user_id' => $user->id,
             'correct' => true,
         ]);
+    }
+
+    public function test_guest_user_can_apply_trivia_discount_code(): void
+    {
+        $question = TriviaQuestion::first();
+        
+        // Submit correct answer as guest and get discount code
+        $component = Livewire::test(TriviaChallenge::class)
+            ->set('selectedAnswer', $question->correct_answer)
+            ->call('submitAnswer')
+            ->assertSet('isCorrect', true);
+        
+        $discountCode = $component->get('discountCode');
+        $this->assertNotNull($discountCode);
+        
+        // Verify discount was created in database
+        $this->assertDatabaseHas('lunar_discounts', [
+            'coupon' => $discountCode,
+        ]);
+
+        // Get the created discount and verify max_uses_per_user is null
+        $discount = Discount::where('coupon', $discountCode)->first();
+        $this->assertNotNull($discount);
+        $this->assertNull($discount->max_uses_per_user, 'max_uses_per_user should be null to allow guest usage');
+        $this->assertEquals(1, $discount->max_uses, 'max_uses should be 1 for single use');
+    }
+
+    public function test_authenticated_user_can_apply_trivia_discount_code(): void
+    {
+        $user = User::factory()->create();
+        $question = TriviaQuestion::first();
+        
+        $this->actingAs($user);
+        
+        // Submit correct answer as authenticated user and get discount code
+        $component = Livewire::test(TriviaChallenge::class)
+            ->set('selectedAnswer', $question->correct_answer)
+            ->call('submitAnswer')
+            ->assertSet('isCorrect', true);
+        
+        $discountCode = $component->get('discountCode');
+        $this->assertNotNull($discountCode);
+        
+        // Verify discount was created in database
+        $this->assertDatabaseHas('lunar_discounts', [
+            'coupon' => $discountCode,
+        ]);
+
+        // Get the created discount and verify max_uses_per_user is null
+        $discount = Discount::where('coupon', $discountCode)->first();
+        $this->assertNotNull($discount);
+        $this->assertNull($discount->max_uses_per_user, 'max_uses_per_user should be null to allow guest usage');
     }
 }

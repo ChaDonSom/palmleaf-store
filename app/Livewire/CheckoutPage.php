@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Actions\Fortify\CreateNewUser;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -245,10 +246,21 @@ class CheckoutPage extends Component
                 $this->chosenShipping = $this->shippingOption->getIdentifier();
                 $this->currentStep = $this->steps['shipping_option'] + 1;
             } else {
-                $this->currentStep = $this->steps['shipping_option'];
-                $this->chosenShipping = $this->shippingOptions->first()?->getIdentifier();
+                // If there's only one shipping option, auto-select it and skip the step
+                if ($this->shippingOptions->count() === 1) {
+                    $this->chosenShipping = $this->shippingOptions->first()->getIdentifier();
+                    // Set the shipping option directly without calling saveShippingOption to avoid recursion
+                    $option = $this->shippingOptions->first();
+                    CartSession::setShippingOption($option);
+                    $this->cart = CartSession::current();
+                    $this->currentStep = $this->steps['shipping_option'] + 1;
+                } else {
+                    // Multiple options - show the selection step
+                    $this->currentStep = $this->steps['shipping_option'];
+                    $this->chosenShipping = $this->shippingOptions->first()?->getIdentifier();
 
-                return;
+                    return;
+                }
             }
         }
 
@@ -416,11 +428,9 @@ class CheckoutPage extends Component
         $this->cart->coupon_code = strtoupper(trim($this->couponCode));
         $this->cart->save();
 
-        // Refresh the cart to apply discounts
-        $this->cart->calculate();
-        
-        $this->refreshCart();
-        
+        // Force a recalculation so discount pipelines run with the new coupon code
+        $this->cart->recalculate();
+
         $currentDiscountTotal = $this->cart->discountTotal?->value ?? 0;
 
         // Check if the discount was actually applied
@@ -443,10 +453,16 @@ class CheckoutPage extends Component
     {
         $this->cart->coupon_code = null;
         $this->cart->save();
-        
-        // Refresh the cart
-        $this->cart->calculate();
-        
+
+        // Clear any existing discount state so UI updates immediately
+        $this->cart->discountBreakdown = collect();
+        $this->cart->discounts = collect();
+        $this->cart->discountTotal = null;
+
+        // Force full recalculation without the coupon
+        $this->cart->recalculate();
+
+        // Optionally refresh Livewire cart instance from session
         $this->refreshCart();
 
         $this->couponCode = null;
