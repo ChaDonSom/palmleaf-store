@@ -160,12 +160,12 @@ class PaypalPayment extends AbstractPayment
     /**
      * Refund a captured transaction
      *
-     * @param \Lunar\Models\Transaction $transaction
+     * @param \Lunar\Models\Contracts\Transaction $transaction
      * @param integer $amount
      * @param string|null $notes
      * @return \Lunar\Base\DataTransferObjects\PaymentRefund
      */
-    public function refund(Transaction $transaction, int $amount = 0, $notes = null): PaymentRefund
+    public function refund(Contracts\Transaction $transaction, int $amount, $notes = null): PaymentRefund
     {
         try {
             $refund = $this->paypal->refundCapturedPayment(

@@ -22,8 +22,8 @@ class OrdersAwaitingCaptureWidget extends BaseWidget
         // Clone the base query for each operation to avoid consuming the builder
         $awaitingCapture = (clone $baseQuery)->count();
         $awaitingCaptureTotal = (clone $baseQuery)->sum('total');
-        // Only select needed columns and eager load currency for formatting
-        $firstOrder = (clone $baseQuery)->select(['id', 'currency_id'])->with('currency')->first();
+        // Eager load currency for formatting
+        $firstOrder = (clone $baseQuery)->with('currency')->first();
 
         $currencySymbol = $firstOrder && $firstOrder->currency ? $firstOrder->currency->code : 'USD';
         $formattedTotal = $firstOrder
