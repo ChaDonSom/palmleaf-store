@@ -1,14 +1,14 @@
 @guest
     <form wire:submit.prevent="saveUser">
-        <div class="bg-white border border-gray-100 rounded-xl">
-            <div class="flex items-center h-16 px-6 border-b border-gray-100">
-                <h3 class="text-lg font-medium">
+        <div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl">
+            <div class="flex items-center h-16 px-6 border-b border-gray-100 dark:border-gray-700">
+                <h3 class="text-lg font-medium dark:text-white">
                     Sign up (optional)
                 </h3>
 
                 @if ($currentStep > $step)
                     <button
-                        class="px-5 py-2 ml-auto text-sm font-medium text-gray-600 rounded-3xl hover:bg-gray-100 hover:text-gray-700"
+                        class="px-5 py-2 ml-auto text-sm font-medium text-gray-600 dark:text-gray-400 rounded-3xl hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300"
                         type="button" wire:click.prevent="$set('currentStep', {{ $step }})">
                         Edit
                     </button>
@@ -20,17 +20,17 @@
                 @if ($step == $currentStep)
                     <div class="grid grid-cols-6 gap-4">
                         <label
-                            class="flex items-center col-span-12 p-2 transition cursor-pointer rounded-3xl hover:bg-gray-50 sm:col-span-3">
-                            <input class="w-5 h-5 text-yellow-600 transition bg-yellow-600 border-gray-100 rounded-3xl focus:ring-yellow-600"
+                            class="flex items-center col-span-12 p-2 transition cursor-pointer rounded-3xl hover:bg-gray-50 dark:hover:bg-gray-700 sm:col-span-3">
+                            <input class="w-5 h-5 text-yellow-600 transition bg-yellow-600 border-gray-100 dark:border-gray-600 rounded-3xl focus:ring-yellow-600"
                                 type="checkbox" value="1" wire:model.live="signup" />
 
-                            <span class="ml-2 text-xs font-medium">
+                            <span class="ml-2 text-xs font-medium dark:text-gray-300">
                                 {{ __('Use these details to sign up for a new user account') }}
                             </span>
                         </label>
 
                         @if ($signup)
-                            <p class="col-span-12">
+                            <p class="col-span-12 dark:text-gray-300">
                                 {{ __('Please provide a password for your new user account.') }}
                             </p>
 
@@ -52,8 +52,8 @@
 
                                             <div class="ml-2">
                                                 {!! __('I agree to the :terms_of_service and :privacy_policy', [
-                                                        'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'" class="text-sm text-gray-600 underline hover:text-gray-900">'.__('Terms of Service').'</a>',
-                                                        'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'" class="text-sm text-gray-600 underline hover:text-gray-900">'.__('Privacy Policy').'</a>',
+                                                        'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'" class="text-sm text-gray-600 dark:text-gray-400 underline hover:text-gray-900 dark:hover:text-gray-100">'.__('Terms of Service').'</a>',
+                                                        'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'" class="text-sm text-gray-600 dark:text-gray-400 underline hover:text-gray-900 dark:hover:text-gray-100">'.__('Privacy Policy').'</a>',
                                                 ]) !!}
                                             </div>
                                         </div>

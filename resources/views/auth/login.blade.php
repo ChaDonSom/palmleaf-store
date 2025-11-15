@@ -14,7 +14,7 @@
         <form method="POST" action="{{ route('login') }}" class="flex flex-col gap-3">
             @csrf
 
-            <h3>{{ __('Log in') }}</h3>
+            <h3 class="dark:text-white">{{ __('Log in') }}</h3>
 
             <x-input.group>
                 <x-input.text id="email" class="block w-full mt-1" type="email" name="email" :value="old('email')" required autofocus placeholder="{{ __('Email') }}" />

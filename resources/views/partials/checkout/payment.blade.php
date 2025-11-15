@@ -1,6 +1,6 @@
-<div class="bg-white border border-gray-100 rounded-xl">
-    <div class="flex items-center h-16 px-6 border-b border-gray-100">
-        <h3 class="text-lg font-medium">
+<div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl">
+    <div class="flex items-center h-16 px-6 border-b border-gray-100 dark:border-gray-700">
+        <h3 class="text-lg font-medium dark:text-white">
             Payment
         </h3>
     </div>
@@ -12,7 +12,7 @@
                     @class([
                         'px-5 py-2 text-sm border font-medium rounded-3xl',
                         'text-slate-900 border-yellow-600 bg-yellow-50' => $paymentType === 'card',
-                        'text-gray-500 hover:text-gray-700' => $paymentType !== 'card',
+                        'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 dark:border-gray-600' => $paymentType !== 'card',
                     ])
                     type="button"
                     wire:click.prevent="$set('paymentType', 'card')"
@@ -24,7 +24,7 @@
                     @class([
                         'px-5 py-2 text-sm border font-medium rounded-3xl',
                         'text-slate-900 border-yellow-600 bg-yellow-50' => $paymentType === 'paypal',
-                        'text-gray-500 hover:text-gray-700' => $paymentType !== 'paypal',
+                        'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 dark:border-gray-600' => $paymentType !== 'paypal',
                     ])
                     type="button"
                     wire:click.prevent="$set('paymentType', 'paypal')"

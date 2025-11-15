@@ -1,22 +1,22 @@
 <form
     wire:submit.prevent="saveAddress('{{ $type }}')"
-    class="bg-white border border-gray-100 rounded-xl"
+    class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl"
 >
-    <div class="flex items-center justify-between h-16 px-6 border-b border-gray-100">
-        <h3 class="text-lg font-medium">
+    <div class="flex items-center justify-between h-16 px-6 border-b border-gray-100 dark:border-gray-700">
+        <h3 class="text-lg font-medium dark:text-white">
             {{ ucfirst($type) }} Details
         </h3>
 
         @if ($type == 'shipping' && $step == $currentStep)
-            <label class="flex items-center p-2 transition cursor-pointer rounded-3xl hover:bg-gray-50">
+            <label class="flex items-center p-2 transition cursor-pointer rounded-3xl hover:bg-gray-50 dark:hover:bg-gray-700">
                 <input
-                    class="w-5 h-5 text-yellow-600 transition bg-yellow-600 border-gray-100 rounded-3xl focus:ring-yellow-600"
+                    class="w-5 h-5 text-yellow-600 transition bg-yellow-600 border-gray-100 dark:border-gray-600 rounded-3xl focus:ring-yellow-600"
                     type="checkbox"
                     value="1"
                     wire:model.defer="shippingIsBilling"
                 />
 
-                <span class="ml-2 text-xs font-medium">
+                <span class="ml-2 text-xs font-medium dark:text-gray-300">
                     Same as billing
                 </span>
             </label>
@@ -24,7 +24,7 @@
 
         @if ($currentStep > $step)
             <button
-                class="px-5 py-2 text-sm font-medium text-gray-600 rounded-3xl hover:bg-gray-100 hover:text-gray-700"
+                class="px-5 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 rounded-3xl hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300"
                 type="button"
                 wire:click.prevent="$set('currentStep', {{ $step }})"
             >
