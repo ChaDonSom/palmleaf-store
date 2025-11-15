@@ -1,12 +1,13 @@
 <?php
 
-use Lunar\Base\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
+use Lunar\Base\Migration;
 
-class AddFieldsToTransactionsTable extends Migration
+return new class extends Migration
 {
-    public function up()
+    public function up(): void
     {
         Schema::table($this->prefix.'transactions', function (Blueprint $table) {
             $table->foreignId('parent_transaction_id')->after('id')
@@ -16,21 +17,31 @@ class AddFieldsToTransactionsTable extends Migration
             $table->enum('type', ['refund', 'intent', 'capture'])->after('success')->index()->default('capture');
         });
 
-        Schema::table($this->prefix.'transactions', function (Blueprint $table) {
-            $table->dropColumn('refund');
-        });
+        // Skip drop column for SQLite - it doesn't support it well
+        $driver = DB::connection()->getDriverName();
+        if ($driver !== 'sqlite') {
+            Schema::table($this->prefix.'transactions', function (Blueprint $table) {
+                $table->dropIndex(['refund']);
+                $table->dropColumn('refund');
+            });
+        }
     }
 
-    public function down()
+    public function down(): void
     {
-        Schema::table($this->prefix.'transactions', function ($table) {
-            $table->dropForeign(['parent_transaction_id']);
-            $table->dropColumn('parent_transaction_id');
-            $table->dropColumn('type');
+        Schema::table($this->prefix.'transactions', function (Blueprint $table) {
+            if ($this->canDropForeignKeys()) {
+                $table->dropForeign(['parent_transaction_id']);
+            }
+            $table->dropIndex(['type']);
+            $table->dropColumn(['parent_transaction_id', 'type', 'captured_at']);
         });
 
-        Schema::table($this->prefix.'transactions', function ($table) {
-            $table->boolean('refund')->default(false)->index();
-        });
+        $driver = DB::connection()->getDriverName();
+        if ($driver !== 'sqlite') {
+            Schema::table($this->prefix.'transactions', function (Blueprint $table) {
+                $table->boolean('refund')->default(false)->index();
+            });
+        }
     }
-}
+};

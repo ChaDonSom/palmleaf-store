@@ -1,4 +1,4 @@
-<header class="relative border-b border-gray-100">
+<header class="sticky top-0 z-50 bg-white border-b border-gray-100">
     <div class="flex items-center justify-center h-16 px-4 mx-auto max-w-screen-2xl sm:px-6 2xl:px-8">
         <div class="flex items-center">
             <a class="flex items-center flex-shrink-0"
@@ -15,11 +15,13 @@
 
         <div class="flex items-center justify-between ml-4 lg:justify-end">
 
-            <div class="flex items-center -mr-4 sm:-mr-6 lg:mr-0">
+            <div class="flex items-center gap-2 -mr-4 sm:-mr-6 lg:mr-0">
+                @livewire('components.trivia-challenge')
+
                 @livewire('components.cart')
 
                 @if (Route::has('login'))
-                    <div class="hidden ml-2 lg:block whitespace-nowrap">
+                    <div class="hidden lg:block whitespace-nowrap">
                         @auth
                         @else
                             <a href="{{ route('login') }}" class="text-sm text-slate-700 hover:text-slate-900">{{ __('Log in') }}</a>

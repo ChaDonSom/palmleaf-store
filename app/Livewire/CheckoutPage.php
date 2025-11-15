@@ -69,7 +69,22 @@ class CheckoutPage extends Component
     /**
      * The payment type we want to use.
      */
-    public string $paymentType = 'cash';
+    public string $paymentType = 'card';
+
+    /**
+     * The discount/coupon code to apply
+     */
+    public ?string $couponCode = null;
+
+    /**
+     * Message to display for coupon application
+     */
+    public ?string $couponMessage = null;
+
+    /**
+     * Whether the coupon message is a success message
+     */
+    public bool $couponSuccess = false;
 
     /**
      * {@inheritDoc}
@@ -114,6 +129,11 @@ class CheckoutPage extends Component
             $this->redirect('/');
 
             return;
+        }
+
+        // Initialize coupon code if already applied
+        if ($this->cart->coupon_code) {
+            $this->couponCode = $this->cart->coupon_code;
         }
 
         if (!Auth::user()) {
@@ -168,7 +188,7 @@ class CheckoutPage extends Component
         // Do we have a shipping address?
         $userShippingAddress = $this->cart->user?->customers->first()->addresses()->where('shipping_default', true)->first();
         if ($userShippingAddress) {
-            $this->cart->getManager()->setShippingAddress($userShippingAddress);
+            $this->cart->setShippingAddress($userShippingAddress);
             $this->cart->save();
         }
         $this->shipping = $this->cart->shippingAddress ?: new CartAddress;
@@ -176,17 +196,27 @@ class CheckoutPage extends Component
         // What about a billing address?
         $userBillingAddress = $this->cart->user?->customers->first()->addresses()->where('billing_default', true)->first();
         if ($userBillingAddress) {
-            $this->cart->getManager()->setBillingAddress($userBillingAddress);
+            $this->cart->setBillingAddress($userBillingAddress);
             $this->cart->save();
         }
         $this->billing = $this->cart->billingAddress ?: new CartAddress;
 
         $this->determineCheckoutStep();
+
+        // Ensure cash payment is not selectable in UI
+        if ($this->paymentType === 'cash') {
+            $this->paymentType = 'card';
+        }
     }
 
     public function hydrate(): void
     {
         $this->cart = CartSession::current();
+
+        // Ensure cash payment is not selectable in UI
+        if ($this->paymentType === 'cash') {
+            $this->paymentType = 'card';
+        }
     }
 
     /**
@@ -369,6 +399,59 @@ class CheckoutPage extends Component
         $this->refreshCart();
 
         $this->determineCheckoutStep();
+    }
+
+    /**
+     * Apply a coupon/discount code to the cart
+     */
+    public function applyCoupon(): void
+    {
+        if (!$this->couponCode) {
+            $this->couponMessage = 'Please enter a coupon code.';
+            $this->couponSuccess = false;
+            return;
+        }
+
+        // Set the coupon code on the cart
+        $this->cart->coupon_code = strtoupper(trim($this->couponCode));
+        $this->cart->save();
+
+        // Refresh the cart to apply discounts
+        $this->cart->calculate();
+        
+        $this->refreshCart();
+        
+        $currentDiscountTotal = $this->cart->discountTotal?->value ?? 0;
+
+        // Check if the discount was actually applied
+        if ($currentDiscountTotal > 0) {
+            $this->couponMessage = 'Coupon code applied successfully!';
+            $this->couponSuccess = true;
+        } else {
+            // Discount wasn't applied, likely invalid or already used
+            $this->cart->coupon_code = null;
+            $this->cart->save();
+            $this->couponMessage = 'This coupon code is invalid or has already been used.';
+            $this->couponSuccess = false;
+        }
+    }
+
+    /**
+     * Remove the coupon code from the cart
+     */
+    public function removeCoupon(): void
+    {
+        $this->cart->coupon_code = null;
+        $this->cart->save();
+        
+        // Refresh the cart
+        $this->cart->calculate();
+        
+        $this->refreshCart();
+
+        $this->couponCode = null;
+        $this->couponMessage = 'Coupon code removed.';
+        $this->couponSuccess = false;
     }
 
     public function checkout()

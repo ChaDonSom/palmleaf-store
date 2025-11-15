@@ -44,6 +44,14 @@ class ProductPage extends Component
     }
 
     /**
+     * Reset imageId when variant selection changes.
+     */
+    public function updatedSelectedOptionValues(): void
+    {
+        $this->imageId = null;
+    }
+
+    /**
      * Computed property to get variant.
      */
     public function getVariantProperty(): ProductVariant
