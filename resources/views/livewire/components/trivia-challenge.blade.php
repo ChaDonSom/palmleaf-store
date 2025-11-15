@@ -1,6 +1,6 @@
 <div x-data="{ showModal: @entangle('showModal').live }">
     <!-- Trivia Button -->
-    <button 
+    <button
         wire:click="openModal"
         class="h-16 text-sm font-medium transition"
         @if($hasAttemptedToday && $isCorrect)
@@ -31,39 +31,40 @@
     </button>
 
     <!-- Trivia Modal -->
-    <div 
+    <div
         x-show="showModal"
         x-cloak
         class="fixed inset-0 z-50 flex items-center justify-center p-4"
         x-on:click.self="$wire.closeModal()"
     >
         <!-- Scrim/Backdrop - only fades -->
-        <div 
+        <div
             x-show="showModal"
+            x-on:click="$wire.closeModal()"
             class="fixed inset-0 bg-black bg-opacity-50"
             x-transition:enter="ease-out duration-300"
             x-transition:enter-start="opacity-0"
             x-transition:enter-end="opacity-100"
-            x-transition:leave="ease-in duration-200"
+            x-transition:leave="ease-out duration-200"
             x-transition:leave-start="opacity-100"
             x-transition:leave-end="opacity-0"
         ></div>
 
         <!-- Modal body - fades and zooms -->
-        <div 
+        <div
             x-show="showModal"
             class="relative w-full max-w-lg p-6 bg-white shadow-xl rounded-2xl"
             x-transition:enter="ease-out duration-300"
             x-transition:enter-start="opacity-0 scale-95"
             x-transition:enter-end="opacity-100 scale-100"
-            x-transition:leave="ease-in duration-200"
+            x-transition:leave="ease-out duration-200"
             x-transition:leave-start="opacity-100 scale-100"
             x-transition:leave-end="opacity-0 scale-95"
         >
             <!-- Header -->
             <div class="flex items-center justify-between mb-6">
                 <h3 class="text-xl font-semibold">Daily Bible Trivia</h3>
-                <button 
+                <button
                     wire:click="closeModal"
                     class="transition-transform text-slate-500 hover:scale-110"
                 >
@@ -77,15 +78,15 @@
                 <!-- Already Attempted Today -->
                 <div class="space-y-4">
                     @if($isCorrect)
-                        <div class="p-6 text-center border rounded-xl border-green-200 bg-green-50">
+                        <div class="p-6 text-center border border-green-200 rounded-xl bg-green-50">
                             <div class="mb-2 text-4xl">🎉</div>
                             <h4 class="mb-2 text-lg font-semibold text-green-900">Congratulations!</h4>
                             <p class="mb-4 text-sm text-green-700">You've already earned today's discount!</p>
-                            
+
                             <div class="p-4 mb-4 font-mono text-lg font-bold bg-white border-2 border-green-300 rounded-lg text-slate-900">
                                 {{ $discountCode }}
                             </div>
-                            
+
                             <p class="text-xs text-green-600">Use this code at checkout for 10% off your order!</p>
                         </div>
                     @else
@@ -107,9 +108,9 @@
                         <div class="space-y-2">
                             @foreach($answers as $answer)
                                 <label class="block">
-                                    <input 
-                                        type="radio" 
-                                        wire:model.live="selectedAnswer" 
+                                    <input
+                                        type="radio"
+                                        wire:model.live="selectedAnswer"
                                         value="{{ $answer }}"
                                         class="hidden peer"
                                     >
@@ -120,7 +121,7 @@
                             @endforeach
                         </div>
 
-                        <button 
+                        <button
                             wire:click="submitAnswer"
                             @if(!$selectedAnswer) disabled @endif
                             class="w-full px-6 py-3 text-sm font-medium transition rounded-2xl
@@ -143,19 +144,19 @@
                 <!-- Result -->
                 <div class="space-y-4">
                     @if($isCorrect)
-                        <div class="p-6 text-center border rounded-xl border-green-200 bg-green-50">
+                        <div class="p-6 text-center border border-green-200 rounded-xl bg-green-50">
                             <div class="mb-2 text-4xl">🎉</div>
                             <h4 class="mb-2 text-lg font-semibold text-green-900">Correct!</h4>
                             <p class="mb-4 text-sm text-green-700">Great job! Here's your discount code:</p>
-                            
+
                             <div class="p-4 mb-4 font-mono text-lg font-bold bg-white border-2 border-green-300 rounded-lg text-slate-900">
                                 {{ $discountCode }}
                             </div>
-                            
+
                             <p class="text-xs text-green-600">Use this code at checkout for 10% off your order!</p>
                         </div>
                     @else
-                        <div class="p-6 text-center border rounded-xl border-red-200 bg-red-50">
+                        <div class="p-6 text-center border border-red-200 rounded-xl bg-red-50">
                             <div class="mb-2 text-4xl">❌</div>
                             <h4 class="mb-2 text-lg font-semibold text-red-900">Not quite right</h4>
                             <p class="text-sm text-red-700">The correct answer was: <strong>{{ $question->correct_answer }}</strong></p>
