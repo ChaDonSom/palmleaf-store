@@ -54,6 +54,17 @@ class PaymentForm extends Component
      */
     public function getClientSecretProperty()
     {
+        // Don't cancel payment intents if we're processing a return from Stripe
+        // (indicated by payment_intent in query params)
+        if (!request()->has('payment_intent')) {
+            // Cancel any existing payment intent that requires capture
+            // to prevent "payment_intent_unexpected_state" errors
+            $existingIntent = $this->cart->paymentIntents()->active()->first();
+            if ($existingIntent && $existingIntent->status === 'requires_capture') {
+                FacadesStripe::cancelIntent($this->cart, \Lunar\Stripe\Enums\CancellationReason::ABANDONED);
+            }
+        }
+
         $intent = FacadesStripe::createIntent($this->cart);
         return $intent->client_secret;
     }

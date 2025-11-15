@@ -149,25 +149,44 @@ class CheckoutPage extends Component
             $this->cart->save();
         }
 
+        // Handle payment return flows
         if ($this->payment_intent) {
-            $payment = Payments::driver($this->paymentType)
+            $driver = $this->getDriverKey();
+            $payment = Payments::driver($driver)
                 ->cart($this->cart)
                 ->withData([
                     'payment_intent_client_secret' => $this->payment_intent_client_secret,
                     'payment_intent' => $this->payment_intent,
                 ])->authorize();
 
-            if ($payment?->success) {
+            $isAwaitingCapture = false;
+            if (!$payment->success && $payment->orderId && $driver === 'stripe') {
+                $order = \Lunar\Models\Order::find($payment->orderId);
+                $isAwaitingCapture = $order && $order->status === 'requires-capture' && is_null($payment->message);
+            }
+
+            if ($payment?->success || $isAwaitingCapture) {
                 if ($payment->orderId) {
                     session()->put('last_order_id', $payment->orderId);
                 }
                 redirect()->route('checkout-success.view');
 
                 return;
+            } else {
+                // Payment failed - redirect back to checkout with error
+                \Log::error('Card payment authorization failed', [
+                    'payment_intent' => $this->payment_intent,
+                    'message' => $payment?->message,
+                    'payment_type' => $payment?->paymentType ?? 'unknown',
+                ]);
+                session()->flash('error', $payment?->message ?? 'Payment authorization failed. Please try again.');
+                redirect()->route('checkout.view');
+                return;
             }
         }
 
         if ($this->paypal_order_id) {
+            // Force paypal driver for PayPal return flow
             $payment = Payments::driver('paypal')
                 ->cart($this->cart)
                 ->withData([
@@ -474,29 +493,49 @@ class CheckoutPage extends Component
     {
         $paymentData = [];
         $paymentConfig = [];
-        if ($this->paymentType == 'stripe') {
+        $driver = $this->getDriverKey();
+        Log::debug('CheckoutPage checkout', ['driver' => $driver]);
+
+        if ($driver == 'stripe') {
             $paymentData = [
                 'payment_intent_client_secret' => $this->payment_intent_client_secret,
                 'payment_intent' => $this->payment_intent,
             ];
-        } else if ($this->paymentType == 'paypal') {
+        } else if ($driver == 'paypal') {
             $paymentData = [
                 'paypal_order_id' => $this->paypal_order_id,
             ];
-        } else if ($this->paymentType == 'cash') {
+        } else if ($driver == 'cash') {
             $paymentConfig = [
                 'authorized' => 'payment-offline',
             ];
         }
-        $payment = Payments::driver($this->paymentType)
-            ->cart($this->cart)
-            ->withData($paymentData)
-            ->setConfig($paymentConfig)
-            ->authorize();
+
+        try {
+            $payment = Payments::driver($driver)
+                ->cart($this->cart)
+                ->withData($paymentData)
+                ->setConfig($paymentConfig)
+                ->authorize();
+        } catch (\Exception $e) {
+            Log::error('CheckoutPage payment exception', [
+                'exception' => $e->getMessage(),
+                'driver' => $driver,
+                'trace' => $e->getTraceAsString(),
+            ]);
+            throw $e;
+        }
 
         session()->put('guest-checkout-signup', null);
 
-        if ($payment?->success) {
+        // Check if payment succeeded OR if it's a Stripe payment awaiting manual capture
+        $isAwaitingCapture = false;
+        if (!$payment->success && $payment->orderId && $driver === 'stripe') {
+            $order = \Lunar\Models\Order::find($payment->orderId);
+            $isAwaitingCapture = $order && $order->status === 'requires-capture' && is_null($payment->message);
+        }
+
+        if ($payment?->success || $isAwaitingCapture) {
             if ($payment->orderId) {
                 session()->put('last_order_id', $payment->orderId);
             }
@@ -504,6 +543,18 @@ class CheckoutPage extends Component
         }
 
         return redirect()->route('checkout.view')->with('error', 'Payment authorization failed. Please try again.');
+    }
+
+    /**
+     * Map UI-selected payment type to a valid driver key.
+     */
+    protected function getDriverKey(): string
+    {
+        return match ($this->paymentType) {
+            // Treat generic 'card' selection as Stripe driver
+            'card' => 'stripe',
+            default => $this->paymentType,
+        };
     }
 
     /**
