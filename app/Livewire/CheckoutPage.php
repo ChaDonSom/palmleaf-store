@@ -245,10 +245,21 @@ class CheckoutPage extends Component
                 $this->chosenShipping = $this->shippingOption->getIdentifier();
                 $this->currentStep = $this->steps['shipping_option'] + 1;
             } else {
-                $this->currentStep = $this->steps['shipping_option'];
-                $this->chosenShipping = $this->shippingOptions->first()?->getIdentifier();
+                // If there's only one shipping option, auto-select it and skip the step
+                if ($this->shippingOptions->count() === 1) {
+                    $this->chosenShipping = $this->shippingOptions->first()->getIdentifier();
+                    // Set the shipping option directly without calling saveShippingOption to avoid recursion
+                    $option = $this->shippingOptions->first();
+                    CartSession::setShippingOption($option);
+                    $this->cart = CartSession::current();
+                    $this->currentStep = $this->steps['shipping_option'] + 1;
+                } else {
+                    // Multiple options - show the selection step
+                    $this->currentStep = $this->steps['shipping_option'];
+                    $this->chosenShipping = $this->shippingOptions->first()?->getIdentifier();
 
-                return;
+                    return;
+                }
             }
         }
 
@@ -418,9 +429,9 @@ class CheckoutPage extends Component
 
         // Refresh the cart to apply discounts
         $this->cart->calculate();
-        
+
         $this->refreshCart();
-        
+
         $currentDiscountTotal = $this->cart->discountTotal?->value ?? 0;
 
         // Check if the discount was actually applied
@@ -443,10 +454,10 @@ class CheckoutPage extends Component
     {
         $this->cart->coupon_code = null;
         $this->cart->save();
-        
+
         // Refresh the cart
         $this->cart->calculate();
-        
+
         $this->refreshCart();
 
         $this->couponCode = null;
