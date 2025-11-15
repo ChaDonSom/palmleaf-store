@@ -29,6 +29,19 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv
           coverage: none
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Node dependencies
+        run: |
+          npm ci --no-audit --no-fund
+
+      - name: Build assets
+        run: npm run build
+
       - name: Copy .env
         run: |
           php -r "file_exists('.env') || copy('.env.example', '.env');"
