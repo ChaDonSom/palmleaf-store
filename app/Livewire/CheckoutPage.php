@@ -69,7 +69,7 @@ class CheckoutPage extends Component
     /**
      * The payment type we want to use.
      */
-    public string $paymentType = 'cash';
+    public string $paymentType = 'card';
 
     /**
      * The discount/coupon code to apply
@@ -193,7 +193,7 @@ class CheckoutPage extends Component
         // Do we have a shipping address?
         $userShippingAddress = $this->cart->user?->customers->first()->addresses()->where('shipping_default', true)->first();
         if ($userShippingAddress) {
-            $this->cart->getManager()->setShippingAddress($userShippingAddress);
+            $this->cart->setShippingAddress($userShippingAddress);
             $this->cart->save();
         }
         $this->shipping = $this->cart->shippingAddress ?: new CartAddress;
@@ -201,17 +201,27 @@ class CheckoutPage extends Component
         // What about a billing address?
         $userBillingAddress = $this->cart->user?->customers->first()->addresses()->where('billing_default', true)->first();
         if ($userBillingAddress) {
-            $this->cart->getManager()->setBillingAddress($userBillingAddress);
+            $this->cart->setBillingAddress($userBillingAddress);
             $this->cart->save();
         }
         $this->billing = $this->cart->billingAddress ?: new CartAddress;
 
         $this->determineCheckoutStep();
+
+        // Ensure cash payment is not selectable in UI
+        if ($this->paymentType === 'cash') {
+            $this->paymentType = 'card';
+        }
     }
 
     public function hydrate(): void
     {
         $this->cart = CartSession::current();
+
+        // Ensure cash payment is not selectable in UI
+        if ($this->paymentType === 'cash') {
+            $this->paymentType = 'card';
+        }
     }
 
     /**
