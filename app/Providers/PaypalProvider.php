@@ -7,10 +7,6 @@ use App\PaymentTypes\PaypalPayment;
 use App\PaymentTypes\StripePayment;
 use Illuminate\Support\ServiceProvider;
 use Lunar\Facades\Payments;
-use Lunar\Models\Cart;
-use Lunar\Stripe\Managers\StripeManager;
-use Lunar\Stripe\StripePaymentType;
-use Illuminate\Support\Facades\Blade;
 use Livewire\Livewire;
 
 class PaypalProvider extends ServiceProvider
