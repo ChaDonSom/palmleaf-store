@@ -79,13 +79,13 @@ class UpdateAddressForm extends Component
 
         $this->address->fill($validatedData['address'])->save();
 
-        $this->emit('saved');
+        $this->dispatch('saved');
     }
 
     public function deleteAddress()
     {
         $this->address->delete();
 
-        $this->emit('saved');
+        $this->dispatch('saved');
     }
 }
