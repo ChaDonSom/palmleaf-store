@@ -9,6 +9,7 @@ use Lunar\Base\DataTransferObjects\PaymentAuthorize;
 use Lunar\Base\DataTransferObjects\PaymentCapture;
 use Lunar\Base\DataTransferObjects\PaymentRefund;
 use Lunar\Models\Transaction;
+use Lunar\Models\Contracts;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
@@ -151,12 +152,12 @@ class PaypalPayment extends AbstractPayment
     /**
      * Refund a captured transaction
      *
-     * @param \Lunar\Models\Transaction $transaction
+     * @param \Lunar\Models\Contracts\Transaction $transaction
      * @param integer $amount
      * @param string|null $notes
      * @return \Lunar\Base\DataTransferObjects\PaymentRefund
      */
-    public function refund(Transaction $transaction, int $amount = 0, $notes = null): PaymentRefund
+    public function refund(Contracts\Transaction $transaction, int $amount, $notes = null): PaymentRefund
     {
         try {
             $refund = $this->paypal->refundCapturedPayment(
