@@ -1,4 +1,4 @@
-<x-form-section submit="updateAddress" x-init="$wire.on('saved', () => history.back())">
+<x-form-section submit="updateAddress" @saved.window="history.back()">
     <x-slot name="title">
         {{ __('Edit Address') }}
     </x-slot>
