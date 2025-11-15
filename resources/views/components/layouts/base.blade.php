@@ -8,7 +8,7 @@
 
     <title>@yield('title', config('app.name', 'Laravel'))</title>
 
-    <meta name="description" content="Hand-made memorabilia by Maria Somero">
+    <meta name="description" content="Clothing that carries good news">
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">

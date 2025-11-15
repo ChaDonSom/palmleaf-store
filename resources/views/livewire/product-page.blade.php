@@ -12,7 +12,8 @@
                     </div>
                 @endif
 
-                <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
+                {{-- Desktop: Grid layout --}}
+                <div class="hidden sm:grid grid-cols-2 gap-4 sm:grid-cols-4">
                     @foreach ($this->images as $image)
                         <div
                             class="aspect-w-1 aspect-h-1 cursor-pointer rounded-xl {{ $image->id === $imageId ? 'brightness-90' : '' }} hover:brightness-90 transition"
@@ -27,6 +28,81 @@
                             />
                         </div>
                     @endforeach
+                </div>
+
+                {{-- Mobile: Paginated Grid with Carousel Navigation --}}
+                @php
+                    $imagesPerPage = 6; // 3 rows of 2 columns
+                    $totalPages = ceil(count($this->images) / $imagesPerPage);
+                @endphp
+                <div class="sm:hidden" x-data="{ currentPage: 0, totalPages: {{ $totalPages }}, imagesPerPage: {{ $imagesPerPage }} }">
+                    <div class="relative">
+                        {{-- Grid container --}}
+                        <div class="overflow-hidden">
+                            <div 
+                                class="flex transition-transform duration-300 ease-in-out"
+                                :style="'transform: translateX(-' + (currentPage * 100) + '%)'">
+                                @for ($page = 0; $page < $totalPages; $page++)
+                                    <div class="w-full flex-shrink-0 grid grid-cols-2 gap-4 px-1">
+                                        @foreach ($this->images->slice($page * $imagesPerPage, $imagesPerPage) as $image)
+                                            <div
+                                                class="aspect-w-1 aspect-h-1 cursor-pointer rounded-xl {{ $image->id === $imageId ? 'brightness-90' : '' }} hover:brightness-90 transition"
+                                                wire:key="image_mobile_{{ $image->id }}"
+                                                wire:click="$set('imageId', {{ $image->id }})"
+                                            >
+                                                <img
+                                                    loading="lazy"
+                                                    class="object-cover rounded-xl"
+                                                    src="{{ $image->getUrl('small') }}"
+                                                    alt="{{ $this->product->translateAttribute('name') }}"
+                                                />
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endfor
+                            </div>
+                        </div>
+
+                        {{-- Previous button --}}
+                        <button
+                            @click="currentPage = Math.max(0, currentPage - 1)"
+                            x-show="currentPage > 0"
+                            class="absolute left-0 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition z-10"
+                            type="button"
+                            aria-label="Previous page"
+                        >
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+
+                        {{-- Next button --}}
+                        <button
+                            @click="currentPage = Math.min(totalPages - 1, currentPage + 1)"
+                            x-show="currentPage < totalPages - 1"
+                            class="absolute right-0 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition z-10"
+                            type="button"
+                            aria-label="Next page"
+                        >
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    {{-- Page indicators (only show if more than 1 page) --}}
+                    <div class="flex justify-center gap-2 mt-3" x-show="totalPages > 1">
+                        <template x-for="page in totalPages" :key="page">
+                            <button
+                                @click="currentPage = page - 1"
+                                class="w-2 h-2 rounded-full transition"
+                                :class="currentPage === (page - 1) ? 'bg-gray-800' : 'bg-gray-300'"
+                                type="button"
+                            >
+                                <span class="sr-only" x-text="'Go to page ' + page"></span>
+                            </button>
+                        </template>
+                    </div>
                 </div>
             </div>
 
