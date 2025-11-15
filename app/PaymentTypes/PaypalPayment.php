@@ -106,11 +106,11 @@ class PaypalPayment extends AbstractPayment
     /**
      * Capture a payment for a transaction.
      *
-     * @param \Lunar\Models\Transaction $transaction
+     * @param \Lunar\Models\Contracts\Transaction $transaction
      * @param integer $amount
      * @return \Lunar\Base\DataTransferObjects\PaymentCapture
      */
-    public function capture(Transaction $transaction, $amount = 0): PaymentCapture
+    public function capture(Contracts\Transaction $transaction, $amount = 0): PaymentCapture
     {
         try {
             $response = $this->paypal->captureAuthorizedPayment(
@@ -211,10 +211,17 @@ class PaypalPayment extends AbstractPayment
             $paypalOrder = json_decode(json_encode($this->paypalOrder));
             $purchaseUnits = $paypalOrder->purchase_units;
             
-            $this->order->update([
-                'status' => $this->config['released'] ?? 'paid',
-                'placed_at' => now()->parse($paypalOrder->create_time),
-            ]);
+            // For manual capture, set status to requires-capture and leave placed_at null
+            // For automatic capture, set status to paid and set placed_at
+            $orderUpdate = [
+                'status' => $this->policy == 'manual' ? 'requires-capture' : ($this->config['released'] ?? 'paid'),
+            ];
+            
+            if ($this->policy !== 'manual') {
+                $orderUpdate['placed_at'] = now()->parse($paypalOrder->create_time);
+            }
+            
+            $this->order->update($orderUpdate);
 
             $transactions = [];
 
