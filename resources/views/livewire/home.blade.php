@@ -6,9 +6,9 @@
     img.src = 'https://images.unsplash.com/photo-1557308970-df80a9ccee84?q=80&w=1600&auto=format&fit=crop';
 ">
     <!-- Main Content -->
-    <div class="min-h-screen bg-gradient-to-b from-white to-blue-50 text-slate-800">
+    <div class="min-h-screen bg-gradient-to-b from-white to-blue-50 dark:from-gray-900 dark:to-gray-800 text-slate-800 dark:text-slate-200">
         <!-- Hero Section -->
-        <section class="relative overflow-hidden border-b">
+        <section class="relative overflow-hidden border-b dark:border-gray-700">
             <!-- Background Image with Fade -->
             <div
                 class="absolute inset-0 transition duration-1000 ease-out bg-center bg-cover transform-gpu"
@@ -18,8 +18,8 @@
 
             <!-- Content -->
             <div class="relative px-4 py-16 mx-auto max-w-7xl md:py-24">
-            <div class="max-w-2xl p-8 mx-auto text-center shadow-xl rounded-3xl bg-white/70 backdrop-blur">
-                <div class="inline-flex items-center gap-2 px-3 py-1 mx-auto mb-3 text-xs bg-white border rounded-full text-slate-900">
+            <div class="max-w-2xl p-8 mx-auto text-center shadow-xl rounded-3xl bg-white/70 dark:bg-gray-800/70 backdrop-blur">
+                <div class="inline-flex items-center gap-2 px-3 py-1 mx-auto mb-3 text-xs bg-white dark:bg-gray-700 border dark:border-gray-600 rounded-full text-slate-900 dark:text-slate-200">
                     <x-icons.sparkles />
                     {{-- TODO: Replace with actual featured collection or new arrivals functionality --}}
                     New fall collection just dropped
@@ -27,14 +27,14 @@
                 <h1 class="text-4xl font-black tracking-tight md:text-5xl">
                     Clothing that carries <span class="underline decoration-emerald-300 decoration-4 underline-offset-4">good news</span>
                 </h1>
-                <p class="mt-3 text-slate-900 md:text-lg">
+                <p class="mt-3 text-slate-900 dark:text-slate-200 md:text-lg">
                     Thoughtfully designed, soft‑to‑live‑in apparel that whispers the Gospel in everyday moments.
                 </p>
                 <div class="flex items-center justify-center gap-3 mt-6">
-                    <a href="#catalog" class="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium transition text-slate-900 rounded-2xl bg-sky-100 hover:bg-sky-100">
+                    <a href="#catalog" class="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium transition text-slate-900 dark:text-slate-900 rounded-2xl bg-sky-100 hover:bg-sky-100">
                         Shop collection
                     </a>
-                    <a href="#about" class="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium transition bg-white border rounded-2xl border-sky-300 text-slate-900 hover:bg-blue-50">
+                    <a href="#about" class="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium transition bg-white dark:bg-gray-700 border rounded-2xl border-sky-300 dark:border-gray-600 text-slate-900 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-gray-600">
                         Learn more
                     </a>
                 </div>
@@ -43,14 +43,14 @@
     </section>
 
     <!-- Filters Section -->
-    <section class="bg-white border-b">
+    <section class="bg-white dark:bg-gray-800 border-b dark:border-gray-700">
         <div class="flex flex-col items-stretch gap-3 px-4 py-4 mx-auto max-w-7xl md:flex-row md:items-center md:justify-between md:px-6">
             <!-- Category Tabs -->
             <div class="flex flex-wrap w-full gap-2">
                 @foreach ($this->categories as $cat)
                     <button
                         wire:click="$set('category', @js($cat))"
-                        class="rounded-full border px-4 py-2 text-sm transition {{ $category === $cat ? 'border-sky-400 bg-sky-100 text-slate-900' : 'bg-white text-slate-900 hover:border-sky-300' }}"
+                        class="rounded-full border px-4 py-2 text-sm transition {{ $category === $cat ? 'border-sky-400 bg-sky-100 text-slate-900' : 'bg-white dark:bg-gray-700 text-slate-900 dark:text-slate-200 hover:border-sky-300 dark:hover:border-sky-600 dark:border-gray-600' }}"
                     >
                         {{ $cat }}
                     </button>
@@ -60,19 +60,19 @@
             <div class="flex items-center gap-2 md:flex-shrink-0">
                 <!-- Search -->
                 <div class="relative flex-1 md:w-64">
-                    <x-icons.search class="absolute -translate-y-1/2 left-3 top-1/2 text-slate-900" />
+                    <x-icons.search class="absolute -translate-y-1/2 left-3 top-1/2 text-slate-900 dark:text-slate-400" />
                     <input
                         type="text"
                         wire:model.debounce.500ms="query"
                         placeholder="Search products"
-                        class="w-full py-2 pr-4 text-sm border rounded-full border-sky-300 pl-9 focus:border-sky-400 focus:ring-1 focus:ring-sky-400"
+                        class="w-full py-2 pr-4 text-sm border rounded-full border-sky-300 dark:border-gray-600 pl-9 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 dark:bg-gray-700 dark:text-slate-200"
                     />
                 </div>
 
                 <!-- Sort Dropdown -->
                 <select
                     wire:model.live="sort"
-                    class="px-4 py-2 text-sm border rounded-full border-sky-300 focus:border-sky-400 focus:ring-1 focus:ring-sky-400"
+                    class="px-4 py-2 text-sm border rounded-full border-sky-300 dark:border-gray-600 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 dark:bg-gray-700 dark:text-slate-200"
                 >
                     <option value="featured">Featured</option>
                     <option value="price_asc">Price: Low to High</option>
@@ -86,7 +86,7 @@
     <section id="catalog" class="px-4 py-10 mx-auto max-w-7xl md:px-6">
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             @forelse($this->products as $product)
-                <div class="overflow-hidden bg-white border-0 shadow-sm group rounded-3xl ring-1 ring-sky-100">
+                <div class="overflow-hidden bg-white dark:bg-gray-800 border-0 shadow-sm group rounded-3xl ring-1 ring-sky-100 dark:ring-gray-700">
                     <!-- Product Image -->
                     <div class="relative p-0">
                         <a href="{{ route('product.view', $product->defaultUrl->slug) }}">
@@ -97,8 +97,8 @@
                                     class="object-cover w-full h-64 transition-transform duration-500 group-hover:scale-105"
                                 />
                             @else
-                                <div class="flex items-center justify-center w-full h-64 bg-sky-100">
-                                    <svg class="w-16 h-16 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="flex items-center justify-center w-full h-64 bg-sky-100 dark:bg-gray-700">
+                                    <svg class="w-16 h-16 text-slate-900 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                     </svg>
                                 </div>
@@ -114,7 +114,7 @@
                     <!-- Product Details -->
                     <div class="p-5">
                         <h3 class="text-lg font-semibold">
-                            <a href="{{ route('product.view', $product->defaultUrl->slug) }}" class="hover:text-slate-900">
+                            <a href="{{ route('product.view', $product->defaultUrl->slug) }}" class="hover:text-slate-900 dark:hover:text-slate-100">
                                 {{ $product->translateAttribute('name') }}
                             </a>
                         </h3>

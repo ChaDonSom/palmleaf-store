@@ -28,7 +28,7 @@
     @stack('head')
 </head>
 
-<body @class(['antialiased text-gray-900' => !isset($bodyClasses), $bodyClasses ?? ''])>
+<body @class(['antialiased text-gray-900 dark:text-gray-100 dark:bg-gray-900' => !isset($bodyClasses), $bodyClasses ?? ''])>
     @yield('navigation')
 
     <main>
