@@ -105,10 +105,14 @@ class TriviaChallenge extends Component
     {
         $templateDiscount = Discount::where('handle', 'daily-bible-trivia-discount-template')->first();
         
-        // Build discount data - ensure percentage is set to 10 even if template has null
+        // Build discount data from template, fixing invalid percentage if needed
         $discountData = $templateDiscount?->data ?? [];
-        $discountData['percentage'] = 10; // Always set 10% discount
-        $discountData['fixed_value'] = false; // Ensure we're using percentage, not fixed value
+        
+        // Only set percentage to 10 if template has invalid/null percentage
+        if (!isset($discountData['percentage']) || $discountData['percentage'] === null) {
+            $discountData['percentage'] = 10;
+            $discountData['fixed_value'] = false;
+        }
         
         try {
             Discount::create([
