@@ -61,6 +61,8 @@ class CheckoutPageTest extends TestCase
      */
     public function test_checkout_step_is_correct_with_shipping_on_load()
     {
+        Config::set('shipping-tables.enabled', false);
+
         TaxClass::factory()->create([
             'default' => true,
         ]);
@@ -77,9 +79,12 @@ class CheckoutPageTest extends TestCase
             $cart->calculate()
         );
 
+        // With only one shipping option, it auto-selects and skips to billing step
+        CartSession::shouldReceive('setShippingOption')->once();
+
         Livewire::test(CheckoutPage::class)
             ->assertViewIs('livewire.checkout-page')
-            ->assertSet('currentStep', 2);
+            ->assertSet('currentStep', 3);
     }
 
     /**
@@ -104,7 +109,7 @@ class CheckoutPageTest extends TestCase
         $cart->addresses()->create(
             CartAddress::factory()->make([
                 'type' => 'shipping',
-                'shipping_option' => 'BASDEL',
+                'shipping_option' => 'STANDARD',
             ])->toArray()
         );
 
@@ -139,7 +144,7 @@ class CheckoutPageTest extends TestCase
         $cart->addresses()->create(
             CartAddress::factory()->make([
                 'type' => 'shipping',
-                'shipping_option' => 'BASDEL',
+                'shipping_option' => 'STANDARD',
             ])->toArray()
         );
 
@@ -165,6 +170,8 @@ class CheckoutPageTest extends TestCase
      */
     public function test_can_save_shipping_address()
     {
+        Config::set('shipping-tables.enabled', false);
+
         TaxClass::factory()->create([
             'default' => true,
         ]);
@@ -182,6 +189,9 @@ class CheckoutPageTest extends TestCase
         CartSession::shouldReceive('current')->andReturn(
             $cart->calculate()
         );
+
+        // Auto-selection of single shipping option
+        CartSession::shouldReceive('setShippingOption')->once();
 
         $country = Country::factory()->create();
 
