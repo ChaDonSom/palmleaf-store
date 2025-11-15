@@ -58,9 +58,9 @@ class PaymentForm extends Component
         // to prevent "payment_intent_unexpected_state" errors
         $existingIntent = $this->cart->paymentIntents()->active()->first();
         if ($existingIntent && $existingIntent->status === 'requires_capture') {
-            FacadesStripe::cancelIntent($this->cart, \Lunar\Stripe\Enums\CancellationReason::Abandoned);
+            FacadesStripe::cancelIntent($this->cart, \Lunar\Stripe\Enums\CancellationReason::ABANDONED);
         }
-        
+
         $intent = FacadesStripe::createIntent($this->cart);
         return $intent->client_secret;
     }
