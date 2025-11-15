@@ -43,7 +43,7 @@ class ShippingModifierTest extends TestCase
         
         // Add 1 item with price less than $50 (e.g., $30 = 3000 cents)
         $variant = ProductVariant::factory()->create();
-        $cartLine = CartLine::factory()->create([
+        CartLine::factory()->create([
             'cart_id' => $cart->id,
             'purchasable_type' => ProductVariant::class,
             'purchasable_id' => $variant->id,
@@ -54,7 +54,7 @@ class ShippingModifierTest extends TestCase
         $cart->subTotal = new Price(3000, $currency, 1);
         
         $modifier = new ShippingModifier();
-        $result = $modifier->handle($cart, fn($cart) => $cart);
+        $modifier->handle($cart, fn($cart) => $cart);
         
         $options = ShippingManifest::getOptions($cart);
         $this->assertCount(1, $options);
@@ -62,6 +62,7 @@ class ShippingModifierTest extends TestCase
         $option = $options->first();
         $this->assertEquals(750, $option->price->value); // $7.50
         $this->assertEquals('Standard Shipping', $option->name);
+        $this->assertStringContainsString('more for free shipping', $option->description);
     }
 
     /**
@@ -85,7 +86,7 @@ class ShippingModifierTest extends TestCase
         $cart->subTotal = new Price(4000, $currency, 1);
         
         $modifier = new ShippingModifier();
-        $result = $modifier->handle($cart, fn($cart) => $cart);
+        $modifier->handle($cart, fn($cart) => $cart);
         
         $options = ShippingManifest::getOptions($cart);
         $this->assertCount(1, $options);
@@ -93,6 +94,7 @@ class ShippingModifierTest extends TestCase
         $option = $options->first();
         $this->assertEquals(1200, $option->price->value); // $12.00
         $this->assertEquals('Standard Shipping', $option->name);
+        $this->assertStringContainsString('more for free shipping', $option->description);
     }
 
     /**
@@ -116,7 +118,7 @@ class ShippingModifierTest extends TestCase
         $cart->subTotal = new Price(5000, $currency, 1);
         
         $modifier = new ShippingModifier();
-        $result = $modifier->handle($cart, fn($cart) => $cart);
+        $modifier->handle($cart, fn($cart) => $cart);
         
         $options = ShippingManifest::getOptions($cart);
         $this->assertCount(1, $options);
@@ -147,7 +149,7 @@ class ShippingModifierTest extends TestCase
         $cart->subTotal = new Price(7500, $currency, 1);
         
         $modifier = new ShippingModifier();
-        $result = $modifier->handle($cart, fn($cart) => $cart);
+        $modifier->handle($cart, fn($cart) => $cart);
         
         $options = ShippingManifest::getOptions($cart);
         $this->assertCount(1, $options);
@@ -187,7 +189,7 @@ class ShippingModifierTest extends TestCase
         $cart->subTotal = new Price(4000, $currency, 1);
         
         $modifier = new ShippingModifier();
-        $result = $modifier->handle($cart, fn($cart) => $cart);
+        $modifier->handle($cart, fn($cart) => $cart);
         
         $options = ShippingManifest::getOptions($cart);
         $this->assertCount(1, $options);

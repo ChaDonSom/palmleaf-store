@@ -20,6 +20,7 @@ class ShippingModifier
             // - 2+ items = $12.00 (1200 cents)
             // - Free when cart total >= $50 (5000 cents)
             $shippingPrice = 0;
+            $description = 'Standard Shipping';
             
             // Check if cart total is less than $50
             if ($cart->subTotal && $cart->subTotal->value < 5000) {
@@ -28,13 +29,20 @@ class ShippingModifier
                 } elseif ($totalQuantity >= 2) {
                     $shippingPrice = 1200; // $12.00
                 }
+                
+                // Calculate how much more needed for free shipping
+                $amountNeeded = 5000 - $cart->subTotal->value;
+                $amountNeededPrice = new Price($amountNeeded, $cart->currency, 1);
+                $description = "Add {$amountNeededPrice->formatted} more for free shipping";
+            } else {
+                // Shipping is free
+                $description = 'Free Shipping';
             }
-            // else: shipping is free (remains 0)
             
             ShippingManifest::addOption(
                 new ShippingOption(
                     name: 'Standard Shipping',
-                    description: $shippingPrice === 0 ? 'Free Shipping' : 'Standard Shipping',
+                    description: $description,
                     identifier: 'STANDARD',
                     price: new Price($shippingPrice, $cart->currency, 1),
                     taxClass: \Lunar\Models\TaxClass::getDefault()
