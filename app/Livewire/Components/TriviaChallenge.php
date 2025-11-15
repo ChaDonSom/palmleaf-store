@@ -113,7 +113,7 @@ class TriviaChallenge extends Component
                 'starts_at' => now(),
                 'ends_at' => now()->endOfDay(), // Valid for just today
                 'max_uses' => $templateDiscount->max_uses ?? 1, // Single use
-                'max_uses_per_user' => $templateDiscount->max_uses_per_user ?? 1,
+                'max_uses_per_user' => null, // Don't set per-user limit to allow guest usage
                 'priority' => $templateDiscount->priority ?? 1,
                 'stop' => $templateDiscount->stop ?? false,
                 'data' => $templateDiscount->data ?? ['percentage' => 10],
