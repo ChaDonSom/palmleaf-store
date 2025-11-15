@@ -126,6 +126,24 @@ class TriviaFeatureTest extends TestCase
     {
         $question = TriviaQuestion::first();
         
+        // Create a template discount with null percentage (simulating production issue)
+        Discount::create([
+            'name' => 'Template',
+            'handle' => 'daily-bible-trivia-discount-template',
+            'coupon' => 'TEMPLATE123',
+            'type' => AmountOff::class,
+            'starts_at' => now(),
+            'ends_at' => now()->addDay(),
+            'max_uses' => 1,
+            'priority' => 1,
+            'stop' => false,
+            'data' => [
+                'min_prices' => ['USD' => 0],
+                'percentage' => null,  // This is the production issue
+                'fixed_value' => false,
+            ],
+        ]);
+        
         // Submit correct answer as guest and get discount code
         $component = Livewire::test(TriviaChallenge::class)
             ->set('selectedAnswer', $question->correct_answer)
@@ -145,12 +163,35 @@ class TriviaFeatureTest extends TestCase
         $this->assertNotNull($discount);
         $this->assertNull($discount->max_uses_per_user, 'max_uses_per_user should be null to allow guest usage');
         $this->assertEquals(1, $discount->max_uses, 'max_uses should be 1 for single use');
+        
+        // Verify discount data has valid percentage set (should be fixed from template's null)
+        $this->assertIsArray($discount->data);
+        $this->assertEquals(10, $discount->data['percentage'], 'Discount percentage should be 10 when template has null');
+        $this->assertFalse($discount->data['fixed_value'], 'Discount should use percentage, not fixed value');
     }
 
     public function test_authenticated_user_can_apply_trivia_discount_code(): void
     {
         $user = User::factory()->create();
         $question = TriviaQuestion::first();
+        
+        // Create a template discount with valid percentage
+        Discount::create([
+            'name' => 'Template',
+            'handle' => 'daily-bible-trivia-discount-template',
+            'coupon' => 'TEMPLATE456',
+            'type' => AmountOff::class,
+            'starts_at' => now(),
+            'ends_at' => now()->addDay(),
+            'max_uses' => 1,
+            'priority' => 1,
+            'stop' => false,
+            'data' => [
+                'min_prices' => ['USD' => 0],
+                'percentage' => 15,  // Valid percentage - should be preserved
+                'fixed_value' => false,
+            ],
+        ]);
         
         $this->actingAs($user);
         
@@ -172,5 +213,10 @@ class TriviaFeatureTest extends TestCase
         $discount = Discount::where('coupon', $discountCode)->first();
         $this->assertNotNull($discount);
         $this->assertNull($discount->max_uses_per_user, 'max_uses_per_user should be null to allow guest usage');
+        
+        // Verify discount data preserves valid percentage from template
+        $this->assertIsArray($discount->data);
+        $this->assertEquals(15, $discount->data['percentage'], 'Discount percentage should be preserved from template when valid');
+        $this->assertFalse($discount->data['fixed_value'], 'Discount should use percentage, not fixed value');
     }
 }
