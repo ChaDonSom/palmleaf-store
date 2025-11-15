@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0ce241148a9dca51b8dfcea7fc77dd64",
+    "content-hash": "4ef068a974f570c9570076ca5be82242",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -4703,16 +4703,16 @@
         },
         {
             "name": "lunarphp/lunarmono",
-            "version": "dev-patch-1",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/ChaDonSom/lunar.git",
-                "reference": "fda38fdd328da96ab7d89bd23fcc30f1ae622888"
+                "url": "git@github.com:lunarphp/lunar.git",
+                "reference": "0d2a4c617f6dcb53656140758354075f4152ea3c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ChaDonSom/lunar/zipball/fda38fdd328da96ab7d89bd23fcc30f1ae622888",
-                "reference": "fda38fdd328da96ab7d89bd23fcc30f1ae622888",
+                "url": "https://api.github.com/repos/lunarphp/lunar/zipball/0d2a4c617f6dcb53656140758354075f4152ea3c",
+                "reference": "0d2a4c617f6dcb53656140758354075f4152ea3c",
                 "shasum": ""
             },
             "require": {
@@ -4854,16 +4854,7 @@
                 }
             ],
             "description": "Lunar Monorepo",
-            "support": {
-                "source": "https://github.com/ChaDonSom/lunar/tree/patch-1"
-            },
-            "funding": [
-                {
-                    "type": "github",
-                    "url": "https://github.com/lunarphp"
-                }
-            ],
-            "time": "2025-11-03T17:01:10+00:00"
+            "time": "2025-10-14T11:29:10+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
@@ -15097,22 +15088,13 @@
             "time": "2024-03-03T12:36:25+00:00"
         }
     ],
-    "aliases": [
-        {
-            "package": "lunarphp/lunarmono",
-            "version": "dev-patch-1",
-            "alias": "1.1.0",
-            "alias_normalized": "1.1.0.0"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "lunarphp/lunarmono": 20
-    },
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.2"
+        "php": "^8.3"
     },
     "platform-dev": {},
     "plugin-api-version": "2.6.0"
