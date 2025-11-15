@@ -39,14 +39,11 @@
                             Stay connected with us on social media for the latest updates, new arrivals, and inspiration.
                         </p>
                         <div class="mt-4 flex items-center gap-3">
-                            <a href="#" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 hover:bg-slate-100 transition">
+                            <a href="https://instagram.com/woveninagape/" target="_blank" rel="noopener noreferrer" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 hover:bg-slate-100 transition">
                                 <x-icons.instagram />
                             </a>
-                            <a href="#" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 hover:bg-slate-100 transition">
+                            <a href="https://facebook.com/woveninagape/" target="_blank" rel="noopener noreferrer" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 hover:bg-slate-100 transition">
                                 <x-icons.facebook />
-                            </a>
-                            <a href="#" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 hover:bg-slate-100 transition">
-                                <x-icons.twitter />
                             </a>
                         </div>
                     </div>

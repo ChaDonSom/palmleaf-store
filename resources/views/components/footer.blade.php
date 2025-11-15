@@ -7,14 +7,11 @@
                     Faith‑forward apparel based near High Point & Asheboro, NC.
                 </p>
                 <div class="mt-4 flex items-center gap-3">
-                    <a href="#" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 hover:bg-slate-50 transition">
+                    <a href="https://instagram.com/woveninagape/" target="_blank" rel="noopener noreferrer" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 hover:bg-slate-50 transition">
                         <x-icons.instagram />
                     </a>
-                    <a href="#" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 hover:bg-slate-50 transition">
+                    <a href="https://facebook.com/woveninagape/" target="_blank" rel="noopener noreferrer" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 hover:bg-slate-50 transition">
                         <x-icons.facebook />
-                    </a>
-                    <a href="#" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 hover:bg-slate-50 transition">
-                        <x-icons.twitter />
                     </a>
                 </div>
             </div>
