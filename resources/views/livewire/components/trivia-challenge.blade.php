@@ -34,11 +34,32 @@
     <div 
         x-show="showModal"
         x-cloak
-        class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50"
+        class="fixed inset-0 z-50 flex items-center justify-center p-4"
         x-on:click.self="$wire.closeModal()"
-        x-transition
     >
-        <div class="w-full max-w-lg p-6 bg-white shadow-xl rounded-2xl">
+        <!-- Scrim/Backdrop - only fades -->
+        <div 
+            x-show="showModal"
+            class="fixed inset-0 bg-black bg-opacity-50"
+            x-transition:enter="ease-out duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="ease-in duration-200"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+        ></div>
+
+        <!-- Modal body - fades and zooms -->
+        <div 
+            x-show="showModal"
+            class="relative w-full max-w-lg p-6 bg-white shadow-xl rounded-2xl"
+            x-transition:enter="ease-out duration-300"
+            x-transition:enter-start="opacity-0 scale-95"
+            x-transition:enter-end="opacity-100 scale-100"
+            x-transition:leave="ease-in duration-200"
+            x-transition:leave-start="opacity-100 scale-100"
+            x-transition:leave-end="opacity-0 scale-95"
+        >
             <!-- Header -->
             <div class="flex items-center justify-between mb-6">
                 <h3 class="text-xl font-semibold">Daily Bible Trivia</h3>
