@@ -47,7 +47,7 @@
                 {{-- Discount Code Section --}}
                 <div class="pt-4 border-t border-gray-100">
                     <h4 class="mb-3 text-sm font-medium">Discount Code</h4>
-                    
+
                     @if($cart->coupon_code)
                         <div class="flex items-center justify-between p-3 rounded-lg bg-green-50">
                             <div class="flex items-center gap-2">
@@ -56,7 +56,7 @@
                                 </svg>
                                 <span class="text-sm font-medium text-green-900">{{ $cart->coupon_code }}</span>
                             </div>
-                            <button 
+                            <button
                                 wire:click="removeCoupon"
                                 type="button"
                                 class="text-xs text-red-600 hover:text-red-700"
@@ -67,21 +67,21 @@
                     @else
                         <div class="space-y-2">
                             <div class="flex gap-2">
-                                <input 
-                                    type="text" 
+                                <input
+                                    type="text"
                                     wire:model.live="couponCode"
                                     placeholder="Enter code"
-                                    class="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                                    class="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-full focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                                 >
-                                <button 
+                                <button
                                     wire:click="applyCoupon"
                                     type="button"
-                                    class="px-4 py-2 text-sm font-medium text-white transition bg-sky-500 rounded-lg hover:bg-sky-600"
+                                    class="px-4 py-2 text-sm font-medium transition rounded-full bg-sky-200 hover:bg-sky-300"
                                 >
                                     Apply
                                 </button>
                             </div>
-                            
+
                             @if($couponMessage)
                                 <p class="text-xs {{ $couponSuccess ? 'text-green-600' : 'text-red-600' }}">
                                     {{ $couponMessage }}
