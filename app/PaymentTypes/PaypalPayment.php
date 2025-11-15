@@ -210,17 +210,17 @@ class PaypalPayment extends AbstractPayment
             // Convert it to (object) for easy ?-> access
             $paypalOrder = json_decode(json_encode($this->paypalOrder));
             $purchaseUnits = $paypalOrder->purchase_units;
-            
+
             // For manual capture, set status to requires-capture and leave placed_at null
             // For automatic capture, set status to paid and set placed_at
             $orderUpdate = [
                 'status' => $this->policy == 'manual' ? 'requires-capture' : ($this->config['released'] ?? 'paid'),
             ];
-            
+
             if ($this->policy !== 'manual') {
                 $orderUpdate['placed_at'] = now()->parse($paypalOrder->create_time);
             }
-            
+
             $this->order->update($orderUpdate);
 
             $transactions = [];
@@ -238,7 +238,10 @@ class PaypalPayment extends AbstractPayment
                      * there's another step the payer has to do. Send them to the "rel": "payer-action" link.
                      */
                     'success' => in_array($paypalOrder->status, [
-                        'CREATED', 'SAVED', 'APPROVED', 'COMPLETED',
+                        'CREATED',
+                        'SAVED',
+                        'APPROVED',
+                        'COMPLETED',
                     ]),
                     'type' => $type,
                     'driver' => 'paypal',

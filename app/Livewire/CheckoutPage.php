@@ -193,7 +193,13 @@ class CheckoutPage extends Component
                     'paypal_order_id' => $this->paypal_order_id,
                 ])->authorize();
 
-            if ($payment?->success) {
+            $isAwaitingCapture = false;
+            if (!$payment->success && $payment->orderId) {
+                $order = \Lunar\Models\Order::find($payment->orderId);
+                $isAwaitingCapture = $order && $order->status === 'requires-capture' && is_null($payment->message);
+            }
+
+            if ($payment?->success || $isAwaitingCapture) {
                 if ($payment->orderId) {
                     session()->put('last_order_id', $payment->orderId);
                 }
@@ -201,7 +207,13 @@ class CheckoutPage extends Component
 
                 return;
             } else {
-                dd($payment);
+                \Log::error('PayPal payment authorization failed', [
+                    'paypal_order_id' => $this->paypal_order_id,
+                    'message' => $payment?->message,
+                ]);
+                session()->flash('error', $payment?->message ?? 'Payment authorization failed. Please try again.');
+                redirect()->route('checkout.view');
+                return;
             }
         }
 
@@ -528,9 +540,9 @@ class CheckoutPage extends Component
 
         session()->put('guest-checkout-signup', null);
 
-        // Check if payment succeeded OR if it's a Stripe payment awaiting manual capture
+        // Check if payment succeeded OR if it's awaiting manual capture
         $isAwaitingCapture = false;
-        if (!$payment->success && $payment->orderId && $driver === 'stripe') {
+        if (!$payment->success && $payment->orderId) {
             $order = \Lunar\Models\Order::find($payment->orderId);
             $isAwaitingCapture = $order && $order->status === 'requires-capture' && is_null($payment->message);
         }
