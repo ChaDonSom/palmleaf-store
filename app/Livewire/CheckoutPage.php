@@ -548,16 +548,16 @@ class CheckoutPage extends Component
         $driver = $this->getDriverKey();
         Log::debug('CheckoutPage checkout', ['driver' => $driver]);
 
-        if ($driver == 'stripe') {
+        if ($driver === 'stripe') {
             $paymentData = [
                 'payment_intent_client_secret' => $this->payment_intent_client_secret,
                 'payment_intent' => $this->payment_intent,
             ];
-        } else if ($driver == 'paypal') {
+        } else if ($driver === 'paypal') {
             $paymentData = [
                 'paypal_order_id' => $this->paypal_order_id,
             ];
-        } else if ($driver == 'cash') {
+        } else if ($driver === 'cash') {
             $paymentConfig = [
                 'authorized' => 'payment-offline',
             ];
@@ -598,7 +598,11 @@ class CheckoutPage extends Component
     }
 
     /**
-     * Map UI-selected payment type to a valid driver key.
+     * Returns the payment driver key corresponding to the UI-selected payment type.
+     *
+     * For backward compatibility, the generic 'card' selection is mapped to the 'stripe' driver.
+     *
+     * @return string The payment driver key ('stripe' for 'card', otherwise the selected type).
      */
     protected function getDriverKey(): string
     {

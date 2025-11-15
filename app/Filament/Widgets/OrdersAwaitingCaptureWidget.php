@@ -15,23 +15,20 @@ class OrdersAwaitingCaptureWidget extends BaseWidget
 
     protected function getStats(): array
     {
-        $awaitingCapture = Order::where('status', 'requires-capture')
-            ->whereNull('placed_at')
-            ->count();
+        // Define the base query for orders awaiting capture
+        $baseQuery = Order::where('status', 'requires-capture')
+            ->whereNull('placed_at');
 
-        $awaitingCaptureTotal = Order::where('status', 'requires-capture')
-            ->whereNull('placed_at')
-            ->sum('total');
+        // Clone the base query for each operation to avoid consuming the builder
+        $awaitingCapture = (clone $baseQuery)->count();
+        $awaitingCaptureTotal = (clone $baseQuery)->sum('total');
+        // Eager load currency for formatting
+        $firstOrder = (clone $baseQuery)->with('currency')->first();
 
-        // Format the total using the first order's currency or default
-        $firstOrder = Order::where('status', 'requires-capture')
-            ->whereNull('placed_at')
-            ->with('currency')
-            ->first();
-
+        $currencySymbol = $firstOrder && $firstOrder->currency ? $firstOrder->currency->code : 'USD';
         $formattedTotal = $firstOrder
-            ? '$' . number_format($awaitingCaptureTotal / 100, 2)
-            : '$0.00';
+            ? $currencySymbol . ' ' . number_format($awaitingCaptureTotal / 100, 2)
+            : 'USD 0.00';
 
         return [
             Stat::make(
