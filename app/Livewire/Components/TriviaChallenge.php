@@ -104,6 +104,12 @@ class TriviaChallenge extends Component
     protected function createLunarDiscount(string $code): void
     {
         $templateDiscount = Discount::where('handle', 'daily-bible-trivia-discount-template')->first();
+        
+        // Build discount data - ensure percentage is set to 10 even if template has null
+        $discountData = $templateDiscount?->data ?? [];
+        $discountData['percentage'] = 10; // Always set 10% discount
+        $discountData['fixed_value'] = false; // Ensure we're using percentage, not fixed value
+        
         try {
             Discount::create([
                 'name' => 'Daily Bible Trivia Discount',
@@ -116,7 +122,7 @@ class TriviaChallenge extends Component
                 'max_uses_per_user' => null, // Don't set per-user limit to allow guest usage
                 'priority' => $templateDiscount->priority ?? 1,
                 'stop' => $templateDiscount->stop ?? false,
-                'data' => $templateDiscount->data ?? ['percentage' => 10],
+                'data' => $discountData,
             ]);
         } catch (\Exception $e) {
             // Log error but don't fail the trivia attempt

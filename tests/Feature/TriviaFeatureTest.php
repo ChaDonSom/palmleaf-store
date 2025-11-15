@@ -145,6 +145,11 @@ class TriviaFeatureTest extends TestCase
         $this->assertNotNull($discount);
         $this->assertNull($discount->max_uses_per_user, 'max_uses_per_user should be null to allow guest usage');
         $this->assertEquals(1, $discount->max_uses, 'max_uses should be 1 for single use');
+        
+        // Verify discount data has valid percentage set
+        $this->assertIsArray($discount->data);
+        $this->assertEquals(10, $discount->data['percentage'], 'Discount percentage should be 10');
+        $this->assertFalse($discount->data['fixed_value'], 'Discount should use percentage, not fixed value');
     }
 
     public function test_authenticated_user_can_apply_trivia_discount_code(): void
@@ -172,5 +177,10 @@ class TriviaFeatureTest extends TestCase
         $discount = Discount::where('coupon', $discountCode)->first();
         $this->assertNotNull($discount);
         $this->assertNull($discount->max_uses_per_user, 'max_uses_per_user should be null to allow guest usage');
+        
+        // Verify discount data has valid percentage set
+        $this->assertIsArray($discount->data);
+        $this->assertEquals(10, $discount->data['percentage'], 'Discount percentage should be 10');
+        $this->assertFalse($discount->data['fixed_value'], 'Discount should use percentage, not fixed value');
     }
 }
