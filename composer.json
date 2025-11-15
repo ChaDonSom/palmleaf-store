@@ -22,7 +22,8 @@
         "league/flysystem-aws-s3-v3": "^3.0",
         "lunarphp/lunarmono": "dev-patch-1 as 1.1.0",
         "meilisearch/meilisearch-php": "^1.6",
-        "predis/predis": "^2.2"
+        "predis/predis": "^2.2",
+        "srmklive/paypal": "^3.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
