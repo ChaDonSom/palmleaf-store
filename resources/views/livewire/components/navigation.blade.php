@@ -1,5 +1,5 @@
 <header class="sticky top-0 z-50 bg-white border-b border-gray-100">
-    <div class="flex items-center justify-center h-16 px-4 mx-auto max-w-screen-2xl sm:px-6 2xl:px-8">
+    <div class="flex items-center justify-between h-16 px-4 mx-auto max-w-screen-2xl sm:px-6 2xl:px-8">
         <div class="flex items-center">
             <a class="flex items-center flex-shrink-0"
                href="{{ url('/') }}"
@@ -13,7 +13,7 @@
 
         <div class="items-center justify-center flex-grow hidden md:flex"><x-header.search class="max-w-sm" /></div>
 
-        <div class="flex items-center justify-between ml-4 lg:justify-end">
+        <div class="flex items-center justify-end ml-4">
 
             <div class="flex items-center gap-2 -mr-4 sm:-mr-6 lg:mr-0">
                 @livewire('components.trivia-challenge')
