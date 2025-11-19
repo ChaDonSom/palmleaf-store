@@ -98,7 +98,7 @@ class CheckoutAddress extends Component
 
         $this->editing = false;
 
-        $this->emitUp('addressUpdated');
+        $this->dispatch('addressUpdated');
     }
 
     public function refreshAddress(): void
