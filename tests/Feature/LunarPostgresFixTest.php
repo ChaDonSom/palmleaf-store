@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Filament\Tables\Columns\IconColumn;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Lunar\Admin\Filament\Resources\ProductResource\RelationManagers\CustomerGroupRelationManager;
 use Lunar\Models\Currency;
@@ -9,7 +10,6 @@ use Lunar\Models\CustomerGroup;
 use Lunar\Models\Language;
 use Lunar\Models\Product;
 use Lunar\Models\ProductType;
-use ReflectionClass;
 use Tests\TestCase;
 
 class LunarPostgresFixTest extends TestCase
@@ -17,60 +17,27 @@ class LunarPostgresFixTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * Test that Lunar's CustomerGroupRelationManager has the PostgreSQL boolean fix.
+     * Test that Lunar's CustomerGroupRelationManager correctly handles boolean values.
      * 
      * This test verifies that the installed Lunar package includes the fix for the
-     * PostgreSQL boolean casting issue. The test checks that the code uses ternary
-     * operators (not match statements) which work with boolean values.
+     * PostgreSQL boolean casting issue by actually calling the column definitions
+     * with boolean values and ensuring no UnhandledMatchError is thrown.
      * 
      * THE ISSUE:
      * - PostgreSQL casts tinyint/boolean columns to PHP bool (true/false)
      * - Old Lunar code used: match ($state) { '1' => 'success', '0' => 'warning', }
      * - When boolean false is cast to string, it becomes '' (empty string), not '0'
-     * - This caused UnhandledMatchError in the admin interface
+     * - This caused UnhandledMatchError: "Unhandled match case ''" in the admin interface
      * 
      * THE FIX (merged Nov 11, 2025 in PR #2330):
      * - Changed to: $state ? 'success' : 'warning'
      * - This works with boolean, integer, and string values
      * 
-     * This test verifies the fix is present by inspecting the actual Lunar code.
+     * This test verifies the fix by calling the actual Lunar column callbacks.
      *
      * @return void
      */
-    public function test_lunar_has_postgres_boolean_casting_fix()
-    {
-        // Read the actual Lunar CustomerGroupRelationManager source code
-        $reflection = new ReflectionClass(CustomerGroupRelationManager::class);
-        $fileName = $reflection->getFileName();
-        $sourceCode = file_get_contents($fileName);
-        
-        // Verify the fix is present: should use ternary operators, not match statements
-        $hasTernaryOperator = str_contains($sourceCode, '->color(fn ($state): string => $state ? \'success\' : \'warning\')');
-        $hasIconTernary = str_contains($sourceCode, '->icon(fn ($state): string => $state ? \'heroicon-o-check-circle\' : \'heroicon-o-x-circle\')');
-        
-        // Verify the OLD buggy code is NOT present
-        $hasOldMatchStatement = str_contains($sourceCode, 'match ($state)') && 
-                                str_contains($sourceCode, '\'1\' => \'success\'') &&
-                                str_contains($sourceCode, '\'0\' => \'warning\'');
-        
-        $this->assertTrue($hasTernaryOperator, 
-            'Lunar CustomerGroupRelationManager should use ternary operator for color (the fix)');
-        $this->assertTrue($hasIconTernary, 
-            'Lunar CustomerGroupRelationManager should use ternary operator for icon (the fix)');
-        $this->assertFalse($hasOldMatchStatement, 
-            'Lunar CustomerGroupRelationManager should NOT have the old match statement (the bug)');
-    }
-
-    /**
-     * Test that boolean values work correctly with the database.
-     * 
-     * This test creates actual database records and verifies that boolean
-     * purchasable/visible values are stored and retrieved correctly, simulating
-     * what PostgreSQL would do.
-     *
-     * @return void
-     */
-    public function test_boolean_values_work_in_database()
+    public function test_lunar_customer_group_columns_handle_boolean_values()
     {
         // Create required dependencies
         Language::factory()->create(['default' => true]);
@@ -93,90 +60,145 @@ class LunarPostgresFixTest extends TestCase
             'handle' => 'test-group',
         ]);
 
-        // Test with boolean false (this is the critical case for PostgreSQL)
+        // Attach with boolean false (the critical case for PostgreSQL)
         $product->customerGroups()->attach($customerGroup->id, [
-            'purchasable' => false,  // Boolean false
+            'purchasable' => false,
             'visible' => false,
         ]);
 
-        // Retrieve the pivot data
-        $product->refresh();
-        $pivot = $product->customerGroups()
-            ->where('lunar_customer_groups.id', $customerGroup->id)
-            ->first()
-            ->pivot;
-
-        // Verify the values are stored correctly
-        // In PostgreSQL, these would be actual boolean values, not strings
-        $this->assertFalse((bool) $pivot->purchasable, 
-            'Purchasable false should be stored and retrieved correctly');
-        $this->assertFalse((bool) $pivot->visible, 
-            'Visible false should be stored and retrieved correctly');
-
-        // Verify the ternary operator logic works (simulating what Lunar's code does)
-        $color = $pivot->purchasable ? 'success' : 'warning';
-        $icon = $pivot->purchasable ? 'heroicon-o-check-circle' : 'heroicon-o-x-circle';
-
-        $this->assertEquals('warning', $color, 
-            'Ternary operator should work with boolean false from database');
-        $this->assertEquals('heroicon-o-x-circle', $icon, 
-            'Ternary operator should work with boolean false from database');
-
+        // Instantiate the actual Lunar CustomerGroupRelationManager
+        $relationManager = new CustomerGroupRelationManager();
+        $relationManager->ownerRecord = $product;
+        
+        // Get the table definition from Lunar - this is what the admin UI uses
+        $table = $relationManager->getDefaultTable(new \Filament\Tables\Table($relationManager));
+        
+        // Get the columns that Lunar defines
+        $columns = $table->getColumns();
+        
+        // Find the purchasable and visible columns
+        $purchasableColumn = collect($columns)->first(fn ($col) => $col->getName() === 'purchasable');
+        $visibleColumn = collect($columns)->first(fn ($col) => $col->getName() === 'visible');
+        
+        // Verify these are IconColumns (as expected)
+        $this->assertInstanceOf(IconColumn::class, $purchasableColumn);
+        $this->assertInstanceOf(IconColumn::class, $visibleColumn);
+        
+        // **THIS IS THE KEY TEST**
+        // Call the actual color and icon methods from Lunar with boolean values.
+        // If the old buggy match statement code is present, this will throw UnhandledMatchError
+        // because boolean false cast to string is '', not '0'.
+        // With the fix (ternary operators), this works correctly.
+        
+        // Test with boolean false - this is what PostgreSQL would pass
+        // This would throw "Unhandled match case ''" with the old code
+        $falseColor = $purchasableColumn->getColor(false);
+        $falseIcon = $purchasableColumn->getIcon(false);
+        
+        $this->assertEquals('warning', $falseColor, 
+            'Boolean false should return warning color without throwing error');
+        $this->assertEquals('heroicon-o-x-circle', $falseIcon, 
+            'Boolean false should return x-circle icon without throwing error');
+        
         // Test with boolean true
-        $product->customerGroups()->detach($customerGroup->id);
-        $product->customerGroups()->attach($customerGroup->id, [
-            'purchasable' => true,  // Boolean true
-            'visible' => true,
-        ]);
-
-        $product->refresh();
-        $pivot = $product->customerGroups()
-            ->where('lunar_customer_groups.id', $customerGroup->id)
-            ->first()
-            ->pivot;
-
-        $this->assertTrue((bool) $pivot->purchasable, 
-            'Purchasable true should be stored and retrieved correctly');
-
-        $color = $pivot->purchasable ? 'success' : 'warning';
-        $icon = $pivot->purchasable ? 'heroicon-o-check-circle' : 'heroicon-o-x-circle';
-
-        $this->assertEquals('success', $color, 
-            'Ternary operator should work with boolean true from database');
-        $this->assertEquals('heroicon-o-check-circle', $icon, 
-            'Ternary operator should work with boolean true from database');
+        $trueColor = $purchasableColumn->getColor(true);
+        $trueIcon = $purchasableColumn->getIcon(true);
+        
+        $this->assertEquals('success', $trueColor, 
+            'Boolean true should return success color');
+        $this->assertEquals('heroicon-o-check-circle', $trueIcon, 
+            'Boolean true should return check-circle icon');
+        
+        // Also test with integer values (MySQL behavior)
+        $oneColor = $purchasableColumn->getColor(1);
+        $zeroColor = $purchasableColumn->getColor(0);
+        
+        $this->assertEquals('success', $oneColor, 
+            'Integer 1 should return success color');
+        $this->assertEquals('warning', $zeroColor, 
+            'Integer 0 should return warning color');
     }
 
     /**
-     * Test that the ternary operator fix works with various input types.
+     * Test that boolean values from the database work with Lunar's columns.
      * 
-     * This test verifies that the ternary operator approach (the fix) works
-     * correctly with boolean, integer, and string values, unlike the old
-     * match statement which only worked with strings '0' and '1'.
+     * This test retrieves actual database pivot data (which PostgreSQL would return
+     * as boolean values) and verifies Lunar's column callbacks handle them correctly.
      *
      * @return void
      */
-    public function test_ternary_operator_works_with_all_value_types()
+    public function test_lunar_columns_handle_database_boolean_values()
     {
-        // Simulate the fixed code: $state ? 'success' : 'warning'
-        $getColor = fn ($state): string => $state ? 'success' : 'warning';
-        $getIcon = fn ($state): string => $state ? 'heroicon-o-check-circle' : 'heroicon-o-x-circle';
+        // Create required dependencies
+        Language::factory()->create(['default' => true]);
+        Currency::factory()->create([
+            'code' => 'GBP',
+            'exchange_rate' => 1,
+            'enabled' => true,
+            'default' => true,
+        ]);
 
-        // Test with boolean values (PostgreSQL behavior)
-        $this->assertEquals('success', $getColor(true), 'Boolean true should work');
-        $this->assertEquals('warning', $getColor(false), 'Boolean false should work (CRITICAL FIX)');
-        $this->assertEquals('heroicon-o-check-circle', $getIcon(true), 'Boolean true icon');
-        $this->assertEquals('heroicon-o-x-circle', $getIcon(false), 'Boolean false icon (CRITICAL FIX)');
+        // Create product and customer groups
+        $productType = ProductType::factory()->create();
+        $product = Product::factory()->create([
+            'product_type_id' => $productType->id,
+            'status' => 'published',
+        ]);
 
-        // Test with integer values (MySQL behavior)
-        $this->assertEquals('success', $getColor(1), 'Integer 1 should work');
-        $this->assertEquals('warning', $getColor(0), 'Integer 0 should work');
+        $purchasableGroup = CustomerGroup::factory()->create([
+            'name' => 'Purchasable Group',
+            'handle' => 'purchasable-group',
+        ]);
 
-        // Test with string values (legacy compatibility)
-        $this->assertEquals('success', $getColor('1'), 'String "1" should work');
-        $this->assertEquals('warning', $getColor('0'), 'String "0" should work');
+        $nonPurchasableGroup = CustomerGroup::factory()->create([
+            'name' => 'Non-Purchasable Group',
+            'handle' => 'non-purchasable-group',
+        ]);
 
-        // Test with empty string (what boolean false becomes when cast to string)
-        $this->assertEquals('warning', $getColor(''), 'Empty string should work as falsy');
+        // Attach with different boolean values
+        $product->customerGroups()->attach($purchasableGroup->id, [
+            'purchasable' => true,
+            'visible' => true,
+        ]);
+
+        $product->customerGroups()->attach($nonPurchasableGroup->id, [
+            'purchasable' => false,
+            'visible' => false,
+        ]);
+
+        // Get pivot data from database (PostgreSQL would return boolean values)
+        $product->refresh();
+        $pivot1 = $product->customerGroups()
+            ->where('lunar_customer_groups.id', $purchasableGroup->id)
+            ->first()
+            ->pivot;
+        $pivot2 = $product->customerGroups()
+            ->where('lunar_customer_groups.id', $nonPurchasableGroup->id)
+            ->first()
+            ->pivot;
+
+        // Get Lunar's column definitions
+        $relationManager = new CustomerGroupRelationManager();
+        $relationManager->ownerRecord = $product;
+        $table = $relationManager->getDefaultTable(new \Filament\Tables\Table($relationManager));
+        $columns = $table->getColumns();
+        $purchasableColumn = collect($columns)->first(fn ($col) => $col->getName() === 'purchasable');
+
+        // **CRITICAL TEST**: Use actual database values with Lunar's column methods
+        // If the fix is not present, passing boolean false from database would throw error
+        
+        $color1 = $purchasableColumn->getColor($pivot1->purchasable);
+        $icon1 = $purchasableColumn->getIcon($pivot1->purchasable);
+        $color2 = $purchasableColumn->getColor($pivot2->purchasable);
+        $icon2 = $purchasableColumn->getIcon($pivot2->purchasable);
+
+        $this->assertEquals('success', $color1, 
+            'Database true value should work with Lunar callbacks');
+        $this->assertEquals('heroicon-o-check-circle', $icon1, 
+            'Database true value should work with Lunar callbacks');
+        $this->assertEquals('warning', $color2, 
+            'Database false value should work with Lunar callbacks (THE FIX)');
+        $this->assertEquals('heroicon-o-x-circle', $icon2, 
+            'Database false value should work with Lunar callbacks (THE FIX)');
     }
 }
