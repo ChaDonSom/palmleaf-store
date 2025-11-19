@@ -16,6 +16,7 @@
                             <td class="py-1 dark:text-gray-300">{{ $order->reference }}</td>
                             <td
                                 class="py-1 dark:text-gray-300"
+                                @if($order->placed_at)
                                 x-data="{ date: '{{ $order->placed_at->toISOString() }}' }"
                                 x-text="() => luxon.DateTime.fromISO(date).toLocaleString(
                                     {
@@ -23,7 +24,8 @@
                                         weekday: 'short'
                                     }
                                 )"
-                            ></td>
+                                @endif
+                            >@if(!$order->placed_at){{ __('Pending') }}@endif</td>
                             <td class="py-1 text-right dark:text-gray-300">{{ $order->total->formatted }}</td>
                             <td class="py-1 text-right">
                                 <a href="{{ route('orders.show', ['order' => $order]) }}" class="underline text-sm text-gray-600 dark:text-gray-400 m-2">View</a>

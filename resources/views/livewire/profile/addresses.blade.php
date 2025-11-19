@@ -10,15 +10,15 @@
     <x-slot name="form">
         <table class="col-span-full">
             <thead>
-                <th>{{ __('Address') }}</th>
-                <th>{{ __('Shipping Default') }}</th>
-                <th>{{ __('Billing Default') }}</th>
+                <th class="dark:text-gray-300">{{ __('Address') }}</th>
+                <th class="dark:text-gray-300">{{ __('Shipping Default') }}</th>
+                <th class="dark:text-gray-300">{{ __('Billing Default') }}</th>
                 <th></th>
             </thead>
             <tbody>
                 @foreach ($addresses as $address)
                     <tr>
-                        <td class="text-sm text-gray-600">{{ $address->line_one }}, {{ $address->city }}
+                        <td class="text-sm text-gray-600 dark:text-gray-400">{{ $address->line_one }}, {{ $address->city }}
                             {{ $address->state }}
                             {{ $address->postcode }}</td>
                         <td>
@@ -48,7 +48,7 @@
                         <td>
                             <a type="button" href="{{ route('profile-edit-address', $address) }}">
                                 <i
-                                    class="w-9 h-9 material-icons text-[1.2rem] p-2 ml-auto text-gray-400 transition-colors rounded-3xl hover:bg-gray-100 hover:text-gray-700"
+                                    class="w-9 h-9 material-icons text-[1.2rem] p-2 ml-auto text-gray-400 dark:text-gray-500 transition-colors rounded-3xl hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300"
                                 >edit</i>
                             </a>
                         </td>
