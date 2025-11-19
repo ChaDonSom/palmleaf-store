@@ -15,7 +15,7 @@
             @if($hasAttemptedToday && $isCorrect)
                 bg-green-50 border-green-300 hover:bg-green-100
             @else
-                bg-white border-slate-300 hover:bg-slate-50
+                bg-white dark:bg-gray-700 border-slate-300 dark:border-gray-600 hover:bg-slate-50 dark:hover:bg-gray-600
             @endif
         ">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -53,7 +53,7 @@
         <!-- Modal body - fades and zooms -->
         <div
             x-show="showModal"
-            class="relative w-full max-w-lg p-6 bg-white shadow-xl rounded-2xl"
+            class="relative w-full max-w-lg p-6 bg-white dark:bg-gray-800 shadow-xl rounded-2xl"
             x-transition:enter="ease-out duration-300"
             x-transition:enter-start="opacity-0 scale-95"
             x-transition:enter-end="opacity-100 scale-100"
@@ -63,10 +63,10 @@
         >
             <!-- Header -->
             <div class="flex items-center justify-between mb-6">
-                <h3 class="text-xl font-semibold">Daily Bible Trivia</h3>
+                <h3 class="text-xl font-semibold dark:text-white">Daily Bible Trivia</h3>
                 <button
                     wire:click="closeModal"
-                    class="transition-transform text-slate-500 hover:scale-110"
+                    class="transition-transform text-slate-500 dark:text-slate-400 hover:scale-110"
                 >
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -90,10 +90,10 @@
                             <p class="text-xs text-green-600">Use this code at checkout for 10% off your order!</p>
                         </div>
                     @else
-                        <div class="p-6 text-center border rounded-xl border-slate-200 bg-slate-50">
+                        <div class="p-6 text-center border rounded-xl border-slate-200 dark:border-gray-700 bg-slate-50 dark:bg-gray-700">
                             <div class="mb-2 text-4xl">📅</div>
-                            <h4 class="mb-2 text-lg font-semibold text-slate-900">Try Again Tomorrow</h4>
-                            <p class="text-sm text-slate-700">You've already attempted today's trivia question. Come back tomorrow for another chance!</p>
+                            <h4 class="mb-2 text-lg font-semibold text-slate-900 dark:text-slate-100">Try Again Tomorrow</h4>
+                            <p class="text-sm text-slate-700 dark:text-slate-300">You've already attempted today's trivia question. Come back tomorrow for another chance!</p>
                         </div>
                     @endif
                 </div>
@@ -101,8 +101,8 @@
                 <!-- Question -->
                 @if($question)
                     <div class="space-y-4">
-                        <div class="p-4 border rounded-xl border-slate-200 bg-slate-50">
-                            <p class="text-lg font-medium text-slate-900">{{ $question->question }}</p>
+                        <div class="p-4 border rounded-xl border-slate-200 dark:border-gray-700 bg-slate-50 dark:bg-gray-700">
+                            <p class="text-lg font-medium text-slate-900 dark:text-slate-100">{{ $question->question }}</p>
                         </div>
 
                         <div class="space-y-2">
@@ -114,7 +114,7 @@
                                         value="{{ $answer }}"
                                         class="hidden peer"
                                     >
-                                    <div class="p-4 transition border-2 cursor-pointer rounded-xl border-slate-200 hover:border-sky-300 hover:bg-sky-50 peer-checked:border-sky-500 peer-checked:bg-sky-50">
+                                    <div class="p-4 transition border-2 cursor-pointer rounded-xl border-slate-200 dark:border-gray-600 hover:border-sky-300 hover:bg-sky-50 dark:hover:bg-sky-900 peer-checked:border-sky-500 peer-checked:bg-sky-50 dark:peer-checked:bg-sky-900 dark:text-gray-200">
                                         {{ $answer }}
                                     </div>
                                 </label>
@@ -136,8 +136,8 @@
                         </button>
                     </div>
                 @else
-                    <div class="p-6 text-center border rounded-xl border-slate-200 bg-slate-50">
-                        <p class="text-slate-700">No trivia questions available at the moment. Please check back later!</p>
+                    <div class="p-6 text-center border rounded-xl border-slate-200 dark:border-gray-700 bg-slate-50 dark:bg-gray-700">
+                        <p class="text-slate-700 dark:text-slate-300">No trivia questions available at the moment. Please check back later!</p>
                     </div>
                 @endif
             @else
@@ -167,7 +167,7 @@
             @endif
 
             <!-- Info -->
-            <div class="mt-6 text-xs text-center text-slate-500">
+            <div class="mt-6 text-xs text-center text-slate-500 dark:text-slate-400">
                 You can attempt one trivia question per day
             </div>
         </div>

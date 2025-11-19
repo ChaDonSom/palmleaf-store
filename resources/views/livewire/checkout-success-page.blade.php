@@ -1,4 +1,4 @@
-<section class="bg-white">
+<section class="bg-white dark:bg-gray-900">
     <div class="max-w-screen-xl px-4 py-32 mx-auto sm:px-6 lg:px-8 lg:py-48">
         <div class="max-w-xl mx-auto text-center">
             @env('local')
@@ -20,7 +20,7 @@
                 </span>
             </h1>
 
-            <p class="mt-4 font-medium sm:text-lg">
+            <p class="mt-4 font-medium sm:text-lg dark:text-gray-300">
                 Your order reference number is
 
                 <a href="{{ route('orders.show', $order->id) }}">

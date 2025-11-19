@@ -12,11 +12,11 @@
             </x-slot>
             <x-slot name="form">
                 <div class="col-span-12 space-y-4">
-                    <h3 class="font-medium">{{ __('Order Summary') }}</h3>
+                    <h3 class="font-medium dark:text-gray-300">{{ __('Order Summary') }}</h3>
 
-                    <div class="bg-white border border-gray-100 rounded-xl px-6 py-8">
+                    <div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl px-6 py-8">
                     <div class="flow-root">
-                        <div class="-my-4 divide-y divide-gray-100">
+                        <div class="-my-4 divide-y divide-gray-100 dark:divide-gray-700">
                             @foreach ($order->lines->where('purchasable_type', '!=', 'Lunar\\DataTypes\\ShippingOption') as $line)
                                 <div
                                     class="flex items-center py-4"
@@ -28,11 +28,11 @@
                                     />
 
                                     <div class="flex-1 ml-4">
-                                        <p class="text-sm font-medium max-w-[35ch]">
+                                        <p class="text-sm font-medium max-w-[35ch] dark:text-gray-300">
                                             {{ $line->purchasable->getDescription() }}
                                         </p>
 
-                                        <span class="block mt-1 text-xs text-gray-500">
+                                        <span class="block mt-1 text-xs text-gray-500 dark:text-gray-400">
                                             {{ $line->quantity }} @ {{ $line->sub_total->formatted() }}
                                         </span>
                                     </div>
@@ -42,24 +42,24 @@
                     </div>
 
                     <div class="flow-root">
-                        <dl class="-my-4 text-sm divide-y divide-gray-100">
+                        <dl class="-my-4 text-sm divide-y divide-gray-100 dark:divide-gray-700">
                             <div class="flex flex-wrap py-4">
-                                <dt class="w-1/2 font-medium">
+                                <dt class="w-1/2 font-medium dark:text-gray-300">
                                     Sub Total
                                 </dt>
 
-                                <dd class="w-1/2 text-right">
+                                <dd class="w-1/2 text-right dark:text-gray-300">
                                     {{ $order->sub_total->formatted() }}
                                 </dd>
                             </div>
 
                             @if ($shippingLine = $order->lines()->where('purchasable_type', 'Lunar\\DataTypes\\ShippingOption')->first())
                                 <div class="flex flex-wrap py-4">
-                                    <dt class="w-1/2 font-medium">
+                                    <dt class="w-1/2 font-medium dark:text-gray-300">
                                         {{ $shippingLine->description }}
                                     </dt>
 
-                                    <dd class="w-1/2 text-right">
+                                    <dd class="w-1/2 text-right dark:text-gray-300">
                                         {{ $shippingLine->total->formatted }}
                                     </dd>
                                 </div>
@@ -79,22 +79,22 @@
 
                             @foreach ($order->tax_breakdown->amounts as $tax)
                                 <div class="flex flex-wrap py-4">
-                                    <dt class="w-1/2 font-medium">
+                                    <dt class="w-1/2 font-medium dark:text-gray-300">
                                         {{ $tax->description }}
                                     </dt>
 
-                                    <dd class="w-1/2 text-right">
+                                    <dd class="w-1/2 text-right dark:text-gray-300">
                                         {{ $tax->price->formatted() }}
                                     </dd>
                                 </div>
                             @endforeach
 
                             <div class="flex flex-wrap py-4">
-                                <dt class="w-1/2 font-medium">
+                                <dt class="w-1/2 font-medium dark:text-gray-300">
                                     Total
                                 </dt>
 
-                                <dd class="w-1/2 text-right">
+                                <dd class="w-1/2 text-right dark:text-gray-300">
                                     {{ $order->total->formatted() }}
                                 </dd>
                             </div>
@@ -104,13 +104,13 @@
                 </div>
 
                 <div class="col-span-12 space-y-4">
-                    <h3>{{ __('Shipping address') }}</h3>
+                    <h3 class="dark:text-gray-300">{{ __('Shipping address') }}</h3>
                     @include('partials.order.address', [
                         'type' => 'shippingAddress',
                     ])
                 </div>
                 <div class="col-span-12 space-y-4">
-                    <h3>{{ __('Billing address') }}</h3>
+                    <h3 class="dark:text-gray-300">{{ __('Billing address') }}</h3>
                     @include('partials.order.address', [
                         'type' => 'billingAddress',
                     ])
