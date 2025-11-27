@@ -130,19 +130,26 @@ class PaypalPayment extends AbstractPayment
 
         $transactions = [];
 
-        $transactions[] = [
-            'parent_transaction_id' => $transaction->id,
-            'success' => $response->status == 'COMPLETED',
-            'type' => 'capture',
-            'driver' => 'paypal',
-            'amount' => $amount,
-            'reference' => $response->id,
-            'status' => $response->status,
-            'notes' => '',
-            'card_type' => 'paypal',
-            'last_four' => null,
-            'captured_at' => $response->status == 'COMPLETED' ? now() : null,
-        ];
+        try {
+            $transactions[] = [
+                'parent_transaction_id' => $transaction->id,
+                'success' => $response->status == 'COMPLETED',
+                'type' => 'capture',
+                'driver' => 'paypal',
+                'amount' => $amount,
+                'reference' => $response->id,
+                'status' => $response->status,
+                'notes' => '',
+                'card_type' => 'paypal',
+                'last_four' => null,
+                'captured_at' => $response->status == 'COMPLETED' ? now() : null,
+            ];
+        } catch (Exception $e) {
+            Log::error('Error creating capture transaction: ' . $e->getMessage(), [
+                'transaction_id' => $transaction->id,
+                'response' => $response,
+            ]);
+        }
 
         $transaction->order->transactions()->createMany($transactions);
 
