@@ -254,7 +254,10 @@ class CartQuantityBugTest extends TestCase
                 'quantity' => $quantity,
             ]);
 
-            // Important: refresh the cart to reload lines from DB
+            // Important: refresh the cart to reload lines from DB, then force recalculation
+            // We use recalculate() here (not calculate()) because calculate() won't recompute
+            // if the cart has already been calculated in this request. Since we modified
+            // the lines, we need to force a fresh calculation.
             $cart->refresh();
             $cart->recalculate();
 

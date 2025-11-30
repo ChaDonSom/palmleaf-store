@@ -69,8 +69,11 @@ class PaymentForm extends Component
             }
         }
 
-        // Sync the payment intent amount with the current cart total
-        // This ensures any changes to cart contents are reflected in the payment
+        // Sync the payment intent amount with the current cart total.
+        // This is necessary because createIntent() will return an existing intent
+        // without updating its amount if one already exists for this cart.
+        // By calling syncIntent() first, we ensure the amount is correct
+        // regardless of whether createIntent() creates a new intent or returns existing.
         FacadesStripe::syncIntent($this->cart);
 
         $intent = FacadesStripe::createIntent($this->cart);
