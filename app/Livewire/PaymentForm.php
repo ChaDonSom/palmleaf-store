@@ -54,6 +54,10 @@ class PaymentForm extends Component
      */
     public function getClientSecretProperty()
     {
+        // Ensure cart is calculated to have correct totals before creating/syncing payment intent
+        // This is critical to prevent charging incorrect amounts when cart contents change
+        $this->cart->calculate();
+
         // Don't cancel payment intents if we're processing a return from Stripe
         // (indicated by payment_intent in query params)
         if (!request()->has('payment_intent')) {
@@ -64,6 +68,10 @@ class PaymentForm extends Component
                 FacadesStripe::cancelIntent($this->cart, \Lunar\Stripe\Enums\CancellationReason::ABANDONED);
             }
         }
+
+        // Sync the payment intent amount with the current cart total
+        // This ensures any changes to cart contents are reflected in the payment
+        FacadesStripe::syncIntent($this->cart);
 
         $intent = FacadesStripe::createIntent($this->cart);
         return $intent->client_secret;
