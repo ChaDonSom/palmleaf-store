@@ -44,11 +44,11 @@ class PaypalManager
 
         $meta = $cart->meta;
 
-        if ($meta && isset($meta->paypal_order_id)) {
-            $order = $this->fetchOrder($meta->paypal_order_id);
-
-            if ($order) return (object) $order;
-        }
+        // Note: Unlike Stripe, PayPal orders cannot be updated after creation.
+        // We could potentially check if the existing order amount matches the current cart total
+        // and create a new order if they differ, but this could lead to orphaned PayPal orders.
+        // For now, we always create a fresh order to ensure the amount is correct.
+        // The previous order will be abandoned in PayPal's system.
 
         $paypalOrder = $this->buildOrder(
             $cart->total->value,
