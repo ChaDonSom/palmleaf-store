@@ -49,6 +49,11 @@ class ProductVisibilityTest extends TestCase
         ]);
     }
 
+    protected function getDefaultLanguage(): Language
+    {
+        return Language::getDefault();
+    }
+
     /** @test */
     public function draft_products_are_hidden_from_homepage()
     {
@@ -126,7 +131,7 @@ class ProductVisibilityTest extends TestCase
     /** @test */
     public function draft_products_are_hidden_from_collection_page()
     {
-        $language = Language::getDefault();
+        $language = $this->getDefaultLanguage();
         $collection = Collection::factory()->create();
         $collection->urls()->create([
             'slug' => 'test-collection',
@@ -150,7 +155,7 @@ class ProductVisibilityTest extends TestCase
     /** @test */
     public function products_with_disabled_webstore_channel_are_hidden_from_collection_page()
     {
-        $language = Language::getDefault();
+        $language = $this->getDefaultLanguage();
         $collection = Collection::factory()->create();
         $collection->urls()->create([
             'slug' => 'test-collection',
@@ -178,7 +183,7 @@ class ProductVisibilityTest extends TestCase
     /** @test */
     public function products_with_invisible_retail_customer_group_are_hidden_from_collection_page()
     {
-        $language = Language::getDefault();
+        $language = $this->getDefaultLanguage();
         $collection = Collection::factory()->create();
         $collection->urls()->create([
             'slug' => 'test-collection',

@@ -20,6 +20,7 @@ trait FiltersProductVisibility
     protected function filterProductVisibility(Collection $products, ?Channel $channel = null, ?CustomerGroup $customerGroup = null): Collection
     {
         // Get default channel and customer group if not provided
+        // Note: These queries could be cached if performance becomes an issue
         if ($channel === null) {
             $channel = Channel::where('handle', 'webstore')->first();
         }
