@@ -5,7 +5,9 @@ namespace App\Livewire;
 use App\Models\Product;
 use Illuminate\View\View;
 use Livewire\Component;
+use Lunar\Models\Channel;
 use Lunar\Models\Collection;
+use Lunar\Models\CustomerGroup;
 use Lunar\Models\Url;
 
 class Home extends Component
@@ -65,12 +67,40 @@ class Home extends Component
      */
     public function getProductsProperty()
     {
+        // Get default channel and customer group for storefront filtering
+        $channel = Channel::where('handle', 'webstore')->first();
+        $customerGroup = CustomerGroup::where('handle', 'retail')->first();
+
         $productsQuery = Product::with([
             'thumbnail',
             'defaultUrl',
             'variants.basePrices.currency',
             'collections'
-        ]);
+        ])
+        ->where('status', 'published');
+
+        // Apply channel filter if webstore channel exists
+        if ($channel) {
+            $productsQuery->channel($channel);
+        }
+
+        // Apply customer group visibility filter if retail customer group exists
+        // We need to specifically check for 'visible' = true, not just 'enabled'
+        if ($customerGroup) {
+            $now = now();
+            $productsQuery->whereHas('customerGroups', function ($query) use ($customerGroup, $now) {
+                $query->where('customer_group_id', $customerGroup->id)
+                    ->where('visible', true)
+                    ->where(function ($q) use ($now) {
+                        $q->whereNull('starts_at')
+                            ->orWhere('starts_at', '<=', $now);
+                    })
+                    ->where(function ($q) use ($now) {
+                        $q->whereNull('ends_at')
+                            ->orWhere('ends_at', '>=', $now);
+                    });
+            });
+        }
 
         // Filter by category
         if ($this->category !== 'All') {
