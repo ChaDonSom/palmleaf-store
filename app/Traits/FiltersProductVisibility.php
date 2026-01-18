@@ -11,7 +11,7 @@ trait FiltersProductVisibility
 {
     /**
      * Filter products by status, channel, and customer group visibility.
-     * 
+     *
      * @param Collection $products Collection of Product models
      * @param Channel|null $channel Channel to filter by (defaults to 'webstore')
      * @param CustomerGroup|null $customerGroup Customer group to filter by (defaults to 'retail')

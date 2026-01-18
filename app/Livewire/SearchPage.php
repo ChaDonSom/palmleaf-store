@@ -7,7 +7,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Lunar\Models\Product;
+use App\Models\Product;
 
 class SearchPage extends Component
 {
