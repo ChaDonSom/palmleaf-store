@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Traits\FetchesUrls;
+use App\Traits\FiltersProductVisibility;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -13,6 +14,7 @@ use Lunar\Models\CustomerGroup;
 class CollectionPage extends Component
 {
     use FetchesUrls;
+    use FiltersProductVisibility;
 
     public function mount(string $slug): void
     {
@@ -42,60 +44,8 @@ class CollectionPage extends Component
 
         // Filter products to only show published products with enabled webstore channel
         // and visible retail customer group
-        $channel = Channel::where('handle', 'webstore')->first();
-        $customerGroup = CustomerGroup::where('handle', 'retail')->first();
-
-        if ($collection && ($channel || $customerGroup)) {
-            $filteredProducts = $collection->products->filter(function ($product) use ($channel, $customerGroup) {
-                // Check if product is published
-                if ($product->status !== 'published') {
-                    return false;
-                }
-
-                // Check if webstore channel is enabled
-                if ($channel) {
-                    $channelPivot = $product->channels->firstWhere('id', $channel->id);
-                    if (!$channelPivot || !$channelPivot->pivot->enabled) {
-                        return false;
-                    }
-
-                    // Check channel scheduling
-                    $startsAt = $channelPivot->pivot->starts_at;
-                    $endsAt = $channelPivot->pivot->ends_at;
-                    $now = now();
-
-                    if ($startsAt && $startsAt > $now) {
-                        return false;
-                    }
-
-                    if ($endsAt && $endsAt < $now) {
-                        return false;
-                    }
-                }
-
-                // Check if retail customer group is visible
-                if ($customerGroup) {
-                    $customerGroupPivot = $product->customerGroups->firstWhere('id', $customerGroup->id);
-                    if (!$customerGroupPivot || !$customerGroupPivot->pivot->visible) {
-                        return false;
-                    }
-
-                    // Check customer group scheduling
-                    $startsAt = $customerGroupPivot->pivot->starts_at;
-                    $endsAt = $customerGroupPivot->pivot->ends_at;
-                    $now = now();
-
-                    if ($startsAt && $startsAt > $now) {
-                        return false;
-                    }
-
-                    if ($endsAt && $endsAt < $now) {
-                        return false;
-                    }
-                }
-
-                return true;
-            });
+        if ($collection) {
+            $filteredProducts = $this->filterProductVisibility($collection->products);
 
             // Replace the products collection with filtered products
             $collection->setRelation('products', $filteredProducts);
