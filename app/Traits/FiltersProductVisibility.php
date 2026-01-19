@@ -23,10 +23,16 @@ trait FiltersProductVisibility
         // Note: These queries could be cached if performance becomes an issue
         if ($channel === null) {
             $channel = Channel::where('handle', 'webstore')->first();
+            if (!$channel) {
+                \Log::warning('Webstore channel not found. Products may not be filtered correctly.');
+            }
         }
 
         if ($customerGroup === null) {
             $customerGroup = CustomerGroup::where('handle', 'retail')->first();
+            if (!$customerGroup) {
+                \Log::warning('Retail customer group not found. Products may not be filtered correctly.');
+            }
         }
 
         // Cache the current time to avoid multiple calls
@@ -39,6 +45,7 @@ trait FiltersProductVisibility
             }
 
             // Check if webstore channel is enabled
+            // Note: Products must be explicitly attached to the webstore channel to be visible
             if ($channel) {
                 $channelPivot = $product->channels->firstWhere('id', $channel->id);
                 if (!$channelPivot || !$channelPivot->pivot->enabled) {
@@ -59,6 +66,7 @@ trait FiltersProductVisibility
             }
 
             // Check if retail customer group is visible
+            // Note: Products must be explicitly attached to the retail customer group to be visible
             if ($customerGroup) {
                 $customerGroupPivot = $product->customerGroups->firstWhere('id', $customerGroup->id);
                 if (!$customerGroupPivot || !$customerGroupPivot->pivot->visible) {

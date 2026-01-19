@@ -29,9 +29,8 @@ class SearchPage extends Component
     /**
      * Return the search results.
      * 
-     * Note: Post-filtering approach may result in pagination inconsistencies
-     * where pages may have fewer items than the configured per_page value.
-     * This is a limitation of Scout's inability to filter by complex relationships.
+     * Note: Post-filtering approach corrects pagination counts to reflect
+     * only visible items after filtering.
      */
     public function getResultsProperty(): LengthAwarePaginator
     {
@@ -41,13 +40,26 @@ class SearchPage extends Component
         // Get results from search engine
         $results = $query->paginate(50);
 
+        // Eager load relationships required for visibility filtering to avoid N+1 queries
+        $products = $results->getCollection();
+        $products->load(['channels', 'customerGroups']);
+
         // Apply additional filtering for channel and customer group visibility
         // Note: Scout doesn't support complex relationship filtering in the query,
         // so we filter the results after retrieving them
-        $filteredItems = $this->filterProductVisibility($results->getCollection());
-        $results->setCollection($filteredItems);
+        $filteredItems = $this->filterProductVisibility($products);
 
-        return $results;
+        // Rebuild paginator with correct total count to match filtered items
+        return new LengthAwarePaginator(
+            $filteredItems,
+            $filteredItems->count(),
+            $results->perPage(),
+            $results->currentPage(),
+            [
+                'path' => $results->path(),
+                'query' => request()->query(),
+            ]
+        );
     }
 
     public function render(): View

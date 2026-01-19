@@ -68,8 +68,14 @@ class Home extends Component
     public function getProductsProperty()
     {
         // Get default channel and customer group for storefront filtering
-        $channel = Channel::where('handle', 'webstore')->first();
-        $customerGroup = CustomerGroup::where('handle', 'retail')->first();
+        // Cache these lookups as they're core configuration values that rarely change
+        $channel = \Cache::remember('webstore_channel', 3600, function () {
+            return Channel::where('handle', 'webstore')->first();
+        });
+        
+        $customerGroup = \Cache::remember('retail_customer_group', 3600, function () {
+            return CustomerGroup::where('handle', 'retail')->first();
+        });
 
         $productsQuery = Product::with([
             'thumbnail',
