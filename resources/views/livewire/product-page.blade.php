@@ -162,5 +162,17 @@
                 </form>
             </div>
         </div>
+
+        {{-- Suggested Products Section --}}
+        @if ($this->suggestedProducts->isNotEmpty())
+            <div class="mt-16">
+                <h2 class="text-2xl font-bold mb-6">You May Also Like</h2>
+                <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+                    @foreach ($this->suggestedProducts as $suggestedProduct)
+                        <x-product-card :product="$suggestedProduct" wire:key="suggested-{{ $suggestedProduct->id }}" />
+                    @endforeach
+                </div>
+            </div>
+        @endif
     </div>
 </section>

@@ -3,6 +3,8 @@
 namespace App\Livewire;
 
 use App\Traits\FetchesUrls;
+use App\Traits\FiltersProductVisibility;
+use App\Traits\GeneratesSuggestedProducts;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -13,6 +15,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class ProductPage extends Component
 {
     use FetchesUrls;
+    use FiltersProductVisibility;
+    use GeneratesSuggestedProducts;
 
     public ?int $imageId = null;
 
@@ -31,6 +35,7 @@ class ProductPage extends Component
                 'element.variants.basePrices.currency',
                 'element.variants.basePrices.priceable',
                 'element.variants.values.option',
+                'element.collections',
             ]
         );
 
@@ -120,6 +125,14 @@ class ProductPage extends Component
         }
 
         return $this->images->first();
+    }
+
+    /**
+     * Computed property to return suggested products.
+     */
+    public function getSuggestedProductsProperty(): Collection
+    {
+        return $this->generateSuggestedProducts($this->product, 4);
     }
 
     public function render(): View

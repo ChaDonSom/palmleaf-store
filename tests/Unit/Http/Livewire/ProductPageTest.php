@@ -169,4 +169,41 @@ class ProductPageTest extends TestCase
             $component->assertSet('imageId', null);
         }
     }
+
+    /**
+     * Test that suggested products are loaded.
+     *
+     * @return void
+     */
+    public function test_suggested_products_are_loaded()
+    {
+        Language::factory()->create([
+            'default' => true,
+        ]);
+
+        $currency = Currency::factory()->create([
+            'default' => true,
+        ]);
+
+        $product = Product::factory()
+            ->hasUrls(1, [
+                'default' => true,
+            ])->has(ProductVariant::factory()->afterCreating(function ($variant) use ($currency) {
+                $variant->prices()->create(
+                    Price::factory()->make([
+                        'currency_id' => $currency->id,
+                    ])->getAttributes()
+                );
+            }), 'variants')
+            ->create();
+
+        $product->addMedia(UploadedFile::fake()->image('product.jpg'))->toMediaCollection('images');
+
+        $component = Livewire::test(ProductPage::class, ['slug' => $product->defaultUrl->slug])
+            ->assertViewIs('livewire.product-page');
+
+        // Assert that suggestedProducts property exists and is a collection
+        $suggestedProducts = $component->get('suggestedProducts');
+        $this->assertInstanceOf(\Illuminate\Support\Collection::class, $suggestedProducts);
+    }
 }
