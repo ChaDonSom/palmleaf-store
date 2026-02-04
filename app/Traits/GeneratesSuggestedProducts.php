@@ -23,7 +23,8 @@ trait GeneratesSuggestedProducts
             ->with([
                 'defaultUrl',
                 'thumbnail',
-                'variants.basePrices',
+                'variants.basePrices.currency',
+                'variants.basePrices.priceable',
                 'channels',
                 'customerGroups',
             ])
@@ -70,7 +71,8 @@ trait GeneratesSuggestedProducts
             ->with([
                 'defaultUrl',
                 'thumbnail',
-                'variants.basePrices',
+                'variants.basePrices.currency',
+                'variants.basePrices.priceable',
                 'channels',
                 'customerGroups',
             ])

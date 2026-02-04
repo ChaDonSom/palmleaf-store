@@ -94,9 +94,25 @@ class ProductPage extends Component
     /**
      * Computed property to return product.
      */
-    public function getProductProperty(): Product
+    public function getProductProperty(): \App\Models\Product
     {
-        return $this->url->element;
+        // Get the product from the URL
+        $lunarProduct = $this->url->element;
+        
+        // If it's already our App\Models\Product, return it
+        if ($lunarProduct instanceof \App\Models\Product) {
+            return $lunarProduct;
+        }
+        
+        // Otherwise, reload it using our Product model to get access to our custom relationships
+        // We need to reload to get the suggestedProducts relationship which is only in our extended model
+        return \App\Models\Product::with([
+            'media',
+            'variants.basePrices.currency',
+            'variants.basePrices.priceable',
+            'variants.values.option',
+            'collections',
+        ])->find($lunarProduct->id);
     }
 
     /**
