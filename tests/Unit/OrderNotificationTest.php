@@ -25,9 +25,9 @@ class OrderNotificationTest extends TestCase
     }
 
     /**
-     * Test that email is sent when order is placed.
+     * Test that email is sent when order status changes to 'requires-capture'.
      */
-    public function test_sends_email_when_order_is_placed(): void
+    public function test_sends_email_when_order_requires_capture(): void
     {
         Mail::fake();
 
@@ -36,17 +36,18 @@ class OrderNotificationTest extends TestCase
         $channel = Channel::factory()->create();
         $user = User::factory()->create();
 
-        // Create an order without placed_at (not yet placed)
+        // Create an order with initial status (e.g., 'awaiting-payment')
         $order = Order::factory()->create([
+            'status' => 'awaiting-payment',
             'placed_at' => null,
             'user_id' => $user->id,
             'currency_code' => $currency->code,
             'channel_id' => $channel->id,
         ]);
 
-        // Now update the order to mark it as placed
+        // Update the order status to 'requires-capture' (manual capture mode)
         $order->update([
-            'placed_at' => now(),
+            'status' => 'requires-capture',
         ]);
 
         // Assert that the email was sent to the configured admin email
@@ -57,9 +58,9 @@ class OrderNotificationTest extends TestCase
     }
 
     /**
-     * Test that email is not sent when order is updated but not placed.
+     * Test that email is not sent when order is updated to a different status.
      */
-    public function test_does_not_send_email_when_order_updated_but_not_placed(): void
+    public function test_does_not_send_email_for_other_status_updates(): void
     {
         Mail::fake();
 
@@ -68,15 +69,16 @@ class OrderNotificationTest extends TestCase
         $channel = Channel::factory()->create();
         $user = User::factory()->create();
 
-        // Create an order without placed_at
+        // Create an order with initial status
         $order = Order::factory()->create([
+            'status' => 'awaiting-payment',
             'placed_at' => null,
             'user_id' => $user->id,
             'currency_code' => $currency->code,
             'channel_id' => $channel->id,
         ]);
 
-        // Update the order but don't set placed_at
+        // Update the order to a different status (not requires-capture)
         $order->update([
             'status' => 'pending',
         ]);
@@ -86,9 +88,9 @@ class OrderNotificationTest extends TestCase
     }
 
     /**
-     * Test that email is not sent again when order is updated after being placed.
+     * Test that email is not sent again when order is updated after already being in requires-capture status.
      */
-    public function test_does_not_send_email_twice_for_already_placed_order(): void
+    public function test_does_not_send_email_twice_for_already_captured_order(): void
     {
         Mail::fake();
 
@@ -97,20 +99,55 @@ class OrderNotificationTest extends TestCase
         $channel = Channel::factory()->create();
         $user = User::factory()->create();
 
-        // Create an order that is already placed
+        // Create an order that already has requires-capture status
         $order = Order::factory()->create([
-            'placed_at' => now()->subHour(),
+            'status' => 'requires-capture',
+            'placed_at' => null,
             'user_id' => $user->id,
             'currency_code' => $currency->code,
             'channel_id' => $channel->id,
         ]);
 
-        // Update the order's status
+        // Update something else on the order (e.g., notes or other field)
         $order->update([
-            'status' => 'paid',
+            'notes' => 'Some notes',
         ]);
 
         // Assert that no email was sent
+        Mail::assertNotSent(OrderPlacedNotification::class);
+    }
+
+    /**
+     * Test that email is not sent when order transitions from requires-capture to paid.
+     */
+    public function test_does_not_send_email_when_transitioning_to_paid(): void
+    {
+        Mail::fake();
+
+        // Create required dependencies
+        $currency = Currency::factory()->create();
+        $channel = Channel::factory()->create();
+        $user = User::factory()->create();
+
+        // Create an order that has requires-capture status
+        $order = Order::factory()->create([
+            'status' => 'requires-capture',
+            'placed_at' => null,
+            'user_id' => $user->id,
+            'currency_code' => $currency->code,
+            'channel_id' => $channel->id,
+        ]);
+
+        // Clear any emails sent during creation
+        Mail::fake();
+
+        // Update the order status to 'paid' (after manual capture)
+        $order->update([
+            'status' => 'paid',
+            'placed_at' => now(),
+        ]);
+
+        // Assert that no email was sent for this transition
         Mail::assertNotSent(OrderPlacedNotification::class);
     }
 }

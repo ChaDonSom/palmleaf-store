@@ -13,8 +13,9 @@ class OrderObserver
      */
     public function updated(Order $order): void
     {
-        // Check if the order was just placed (placed_at was changed from null to a date)
-        if ($order->isDirty('placed_at') && $order->placed_at !== null && $order->getOriginal('placed_at') === null) {
+        // Check if the order status was changed to 'requires-capture' (for manual capture)
+        // This happens before payment is captured, to notify admin of pending orders
+        if ($order->isDirty('status') && $order->status === 'requires-capture' && $order->getOriginal('status') !== 'requires-capture') {
             $this->sendOrderPlacedNotification($order);
         }
     }
