@@ -21,6 +21,11 @@ class ProductPage extends Component
     public ?int $imageId = null;
 
     /**
+     * Cached product instance to avoid repeated database queries.
+     */
+    protected ?\App\Models\Product $cachedProduct = null;
+
+    /**
      * The selected option values.
      */
     public array $selectedOptionValues = [];
@@ -93,26 +98,40 @@ class ProductPage extends Component
 
     /**
      * Computed property to return product.
+     * 
+     * Note: We reload the product using App\Models\Product instead of using
+     * the Lunar\Models\Product instance from the URL because we need access
+     * to the custom suggestedProducts relationship defined in our extended model.
+     * The URL's morphable element returns the base Lunar model which doesn't
+     * have our custom relationships.
      */
     public function getProductProperty(): \App\Models\Product
     {
+        // Cache the reloaded product to avoid repeated database queries
+        if (isset($this->cachedProduct)) {
+            return $this->cachedProduct;
+        }
+
         // Get the product from the URL
         $lunarProduct = $this->url->element;
         
-        // If it's already our App\Models\Product, return it
+        // If it's already our App\Models\Product, cache and return it
         if ($lunarProduct instanceof \App\Models\Product) {
-            return $lunarProduct;
+            $this->cachedProduct = $lunarProduct;
+            return $this->cachedProduct;
         }
         
         // Otherwise, reload it using our Product model to get access to our custom relationships
         // We need to reload to get the suggestedProducts relationship which is only in our extended model
-        return \App\Models\Product::with([
+        $this->cachedProduct = \App\Models\Product::with([
             'media',
             'variants.basePrices.currency',
             'variants.basePrices.priceable',
             'variants.values.option',
             'collections',
         ])->find($lunarProduct->id);
+
+        return $this->cachedProduct;
     }
 
     /**

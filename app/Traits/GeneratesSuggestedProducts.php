@@ -8,6 +8,19 @@ use Lunar\Models\Product;
 trait GeneratesSuggestedProducts
 {
     /**
+     * Eager load configuration for suggested products.
+     * Ensures products have all necessary relationships loaded for display and pricing.
+     */
+    private const SUGGESTED_PRODUCT_EAGER_LOAD = [
+        'defaultUrl',
+        'thumbnail',
+        'variants.basePrices.currency',
+        'variants.basePrices.priceable',
+        'channels',
+        'customerGroups',
+    ];
+
+    /**
      * Generate suggested products for a given product.
      *
      * @param Product $product The product to find suggestions for
@@ -20,14 +33,7 @@ trait GeneratesSuggestedProducts
 
         // 1. First, try to get manually associated suggested products
         $associatedProducts = $product->suggestedProducts()
-            ->with([
-                'defaultUrl',
-                'thumbnail',
-                'variants.basePrices.currency',
-                'variants.basePrices.priceable',
-                'channels',
-                'customerGroups',
-            ])
+            ->with(self::SUGGESTED_PRODUCT_EAGER_LOAD)
             ->get();
 
         $suggested = $suggested->merge($associatedProducts);
@@ -68,14 +74,7 @@ trait GeneratesSuggestedProducts
             $query->whereIn('collection_id', $collectionIds);
         })
             ->where('id', '!=', $product->id)
-            ->with([
-                'defaultUrl',
-                'thumbnail',
-                'variants.basePrices.currency',
-                'variants.basePrices.priceable',
-                'channels',
-                'customerGroups',
-            ])
+            ->with(self::SUGGESTED_PRODUCT_EAGER_LOAD)
             ->inRandomOrder()
             ->limit($limit)
             ->get();
