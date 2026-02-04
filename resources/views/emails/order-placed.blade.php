@@ -4,7 +4,7 @@
 An order has been placed on Palmleaf Store.
 
 **Order Reference:** {{ $order->reference }}  
-**Order Total:** {{ $order->currency_code }} {{ number_format($order->total / 100, 2) }}  
+**Order Total:** {{ $order->total->formatted }}  
 **Status:** {{ ucfirst($order->status) }}  
 **Placed At:** {{ $order->placed_at->format('F j, Y, g:i a') }}
 

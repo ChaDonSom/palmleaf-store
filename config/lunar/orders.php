@@ -24,6 +24,18 @@ return [
     |
     */
     'draft_status' => 'awaiting-payment',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Admin Notification Staff ID
+    |--------------------------------------------------------------------------
+    |
+    | The Staff ID to receive order placement notifications.
+    | This should be the ID of the admin staff member in the lunar_staff table.
+    |
+    */
+    'admin_staff_id' => env('ORDER_ADMIN_STAFF_ID', 2),
+
     'statuses'     => [
         'awaiting-payment' => [
             'label'         => 'Awaiting Payment',

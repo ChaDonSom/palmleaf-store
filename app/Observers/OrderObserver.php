@@ -25,8 +25,9 @@ class OrderObserver
      */
     protected function sendOrderPlacedNotification(Order $order): void
     {
-        // Get Maria (Lunar Staff ID 2)
-        $admin = Staff::find(2);
+        // Get admin staff ID from config
+        $adminStaffId = config('lunar.orders.admin_staff_id');
+        $admin = Staff::find($adminStaffId);
 
         if ($admin) {
             Mail::to($admin->email)->send(new OrderPlacedNotification($order));
