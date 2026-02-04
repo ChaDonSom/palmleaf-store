@@ -5,7 +5,6 @@ namespace App\Observers;
 use Lunar\Models\Order;
 use App\Mail\OrderPlacedNotification;
 use Illuminate\Support\Facades\Mail;
-use Lunar\Admin\Models\Staff;
 
 class OrderObserver
 {
@@ -25,12 +24,11 @@ class OrderObserver
      */
     protected function sendOrderPlacedNotification(Order $order): void
     {
-        // Get admin staff ID from config
-        $adminStaffId = config('lunar.orders.admin_staff_id');
-        $admin = Staff::find($adminStaffId);
+        // Get admin email from config
+        $adminEmail = config('lunar.orders.admin_email');
 
-        if ($admin) {
-            Mail::to($admin->email)->send(new OrderPlacedNotification($order));
+        if ($adminEmail) {
+            Mail::to($adminEmail)->send(new OrderPlacedNotification($order));
         }
     }
 }

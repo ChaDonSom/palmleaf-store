@@ -27,14 +27,13 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Admin Notification Staff ID
+    | Admin Notification Email
     |--------------------------------------------------------------------------
     |
-    | The Staff ID to receive order placement notifications.
-    | This should be the ID of the admin staff member in the lunar_staff table.
+    | The email address to receive order placement notifications.
     |
     */
-    'admin_staff_id' => env('ORDER_ADMIN_STAFF_ID', 2),
+    'admin_email' => env('ORDER_ADMIN_EMAIL', 'chasesgirl@live.com'),
 
     'statuses'     => [
         'awaiting-payment' => [

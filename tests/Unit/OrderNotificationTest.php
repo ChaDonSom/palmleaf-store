@@ -5,8 +5,8 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Config;
 use App\Mail\OrderPlacedNotification;
-use Lunar\Admin\Models\Staff;
 use Lunar\Models\Order;
 use Lunar\Models\Currency;
 use Lunar\Models\Channel;
@@ -20,9 +20,8 @@ class OrderNotificationTest extends TestCase
     {
         parent::setUp();
 
-        // Create the admin staff member (Maria with ID 2)
-        Staff::factory()->create(['id' => 1, 'email' => 'other@example.com']);
-        Staff::factory()->create(['id' => 2, 'email' => 'maria@example.com', 'firstname' => 'Maria']);
+        // Set the admin email in config
+        Config::set('lunar.orders.admin_email', 'chasesgirl@live.com');
     }
 
     /**
@@ -50,9 +49,9 @@ class OrderNotificationTest extends TestCase
             'placed_at' => now(),
         ]);
 
-        // Assert that the email was sent to Maria
+        // Assert that the email was sent to the configured admin email
         Mail::assertSent(OrderPlacedNotification::class, function ($mail) use ($order) {
-            return $mail->hasTo('maria@example.com') &&
+            return $mail->hasTo('chasesgirl@live.com') &&
                    $mail->order->id === $order->id;
         });
     }
