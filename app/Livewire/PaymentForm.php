@@ -32,8 +32,14 @@ class PaymentForm extends Component
     public $policy;
 
     /**
-     * Cached client secret to prevent multiple API calls.
-     * Keyed by cart total to detect cart changes.
+     * Cached client secret to prevent multiple API calls within a single request.
+     * Keyed by cart total to detect cart changes and invalidate cache.
+     * 
+     * Note: This cache is intentionally in-memory and scoped to the component instance.
+     * It does NOT persist across page refreshes or component recreations, which is
+     * correct behavior for security reasons. The cache only prevents redundant API
+     * calls during a single render cycle (e.g., when the property is accessed multiple
+     * times in the view).
      *
      * @var array{secret: string, total: int}|null
      */
