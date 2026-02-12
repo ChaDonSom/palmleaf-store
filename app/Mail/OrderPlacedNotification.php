@@ -38,7 +38,7 @@ class OrderPlacedNotification extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.order-placed',
+            markdown: 'emails.order-placed',
         );
     }
 
