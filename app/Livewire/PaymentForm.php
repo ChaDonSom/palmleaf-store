@@ -32,6 +32,13 @@ class PaymentForm extends Component
     public $policy;
 
     /**
+     * Cached client secret to prevent multiple API calls.
+     *
+     * @var string|null
+     */
+    protected $cachedClientSecret = null;
+
+    /**
      * {@inheritDoc}
      */
     protected $listeners = [
@@ -54,6 +61,12 @@ class PaymentForm extends Component
      */
     public function getClientSecretProperty()
     {
+        // Return cached client secret if available to prevent multiple API calls
+        // when this property getter is called multiple times (e.g., during Livewire re-renders)
+        if ($this->cachedClientSecret !== null) {
+            return $this->cachedClientSecret;
+        }
+
         // Ensure cart is calculated to have correct totals before creating/syncing payment intent
         // This is critical to prevent charging incorrect amounts when cart contents change
         $this->cart->calculate();
@@ -77,7 +90,11 @@ class PaymentForm extends Component
         FacadesStripe::syncIntent($this->cart);
 
         $intent = FacadesStripe::createIntent($this->cart);
-        return $intent->client_secret;
+        
+        // Cache the client secret to prevent multiple API calls
+        $this->cachedClientSecret = $intent->client_secret;
+        
+        return $this->cachedClientSecret;
     }
 
     /**
