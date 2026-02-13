@@ -16,7 +16,7 @@ An order has been placed on Palmleaf Store and is awaiting payment capture.
 **Customer:** {{ $order->user->name }} ({{ $order->user->email }})
 @endif
 
-@component('mail::button', ['url' => config('app.url') . '/admin'])
+@component('mail::button', ['url' => config('app.url') . '/lunar/orders/' . $order->id . '/edit'])
 Capture Payment in Admin
 @endcomponent
 
