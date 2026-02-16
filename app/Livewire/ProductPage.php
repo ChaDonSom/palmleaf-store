@@ -3,6 +3,8 @@
 namespace App\Livewire;
 
 use App\Traits\FetchesUrls;
+use App\Traits\FiltersProductVisibility;
+use App\Traits\GeneratesSuggestedProducts;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -13,8 +15,15 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class ProductPage extends Component
 {
     use FetchesUrls;
+    use FiltersProductVisibility;
+    use GeneratesSuggestedProducts;
 
     public ?int $imageId = null;
+
+    /**
+     * Cached product instance to avoid repeated database queries.
+     */
+    protected ?\App\Models\Product $cachedProduct = null;
 
     /**
      * The selected option values.
@@ -31,6 +40,7 @@ class ProductPage extends Component
                 'element.variants.basePrices.currency',
                 'element.variants.basePrices.priceable',
                 'element.variants.values.option',
+                'element.collections',
             ]
         );
 
@@ -88,10 +98,40 @@ class ProductPage extends Component
 
     /**
      * Computed property to return product.
+     * 
+     * Note: We reload the product using App\Models\Product instead of using
+     * the Lunar\Models\Product instance from the URL because we need access
+     * to the custom suggestedProducts relationship defined in our extended model.
+     * The URL's morphable element returns the base Lunar model which doesn't
+     * have our custom relationships.
      */
-    public function getProductProperty(): Product
+    public function getProductProperty(): \App\Models\Product
     {
-        return $this->url->element;
+        // Cache the reloaded product to avoid repeated database queries
+        if (isset($this->cachedProduct)) {
+            return $this->cachedProduct;
+        }
+
+        // Get the product from the URL
+        $lunarProduct = $this->url->element;
+        
+        // If it's already our App\Models\Product, cache and return it
+        if ($lunarProduct instanceof \App\Models\Product) {
+            $this->cachedProduct = $lunarProduct;
+            return $this->cachedProduct;
+        }
+        
+        // Otherwise, reload it using our Product model to get access to our custom relationships
+        // We need to reload to get the suggestedProducts relationship which is only in our extended model
+        $this->cachedProduct = \App\Models\Product::with([
+            'media',
+            'variants.basePrices.currency',
+            'variants.basePrices.priceable',
+            'variants.values.option',
+            'collections',
+        ])->find($lunarProduct->id);
+
+        return $this->cachedProduct;
     }
 
     /**
@@ -120,6 +160,14 @@ class ProductPage extends Component
         }
 
         return $this->images->first();
+    }
+
+    /**
+     * Computed property to return suggested products.
+     */
+    public function getSuggestedProductsProperty(): Collection
+    {
+        return $this->generateSuggestedProducts($this->product, 4);
     }
 
     public function render(): View
