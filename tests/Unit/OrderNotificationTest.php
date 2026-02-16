@@ -51,7 +51,7 @@ class OrderNotificationTest extends TestCase
         ]);
 
         // Assert that the email was sent to the configured admin email
-        Mail::assertSent(OrderPlacedNotification::class, function ($mail) use ($order) {
+        Mail::assertQueued(OrderPlacedNotification::class, function ($mail) use ($order) {
             return $mail->hasTo('chasesgirl@live.com') &&
                    $mail->order->id === $order->id;
         });
@@ -84,7 +84,7 @@ class OrderNotificationTest extends TestCase
         ]);
 
         // Assert that no email was sent
-        Mail::assertNotSent(OrderPlacedNotification::class);
+        Mail::assertNotQueued(OrderPlacedNotification::class);
     }
 
     /**
@@ -114,7 +114,7 @@ class OrderNotificationTest extends TestCase
         ]);
 
         // Assert that no email was sent
-        Mail::assertNotSent(OrderPlacedNotification::class);
+        Mail::assertNotQueued(OrderPlacedNotification::class);
     }
 
     /**
@@ -148,6 +148,6 @@ class OrderNotificationTest extends TestCase
         ]);
 
         // Assert that no email was sent for this transition
-        Mail::assertNotSent(OrderPlacedNotification::class);
+        Mail::assertNotQueued(OrderPlacedNotification::class);
     }
 }

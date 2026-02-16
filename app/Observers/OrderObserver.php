@@ -29,7 +29,7 @@ class OrderObserver
         $adminEmail = config('lunar.orders.admin_email');
 
         if ($adminEmail) {
-            Mail::to($adminEmail)->send(new OrderPlacedNotification($order));
+            Mail::to($adminEmail)->queue(new OrderPlacedNotification($order));
         }
     }
 }
