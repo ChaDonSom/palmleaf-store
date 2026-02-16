@@ -32,6 +32,20 @@ class PaymentForm extends Component
     public $policy;
 
     /**
+     * Cached client secret to prevent multiple API calls within a single request.
+     * Keyed by cart total to detect cart changes and invalidate cache.
+     * 
+     * Note: This cache is intentionally in-memory and scoped to the component instance.
+     * It does NOT persist across page refreshes or component recreations, which is
+     * correct behavior for security reasons. The cache only prevents redundant API
+     * calls during a single render cycle (e.g., when the property is accessed multiple
+     * times in the view).
+     *
+     * @var array{secret: string, total: int}|null
+     */
+    protected $cachedClientSecret = null;
+
+    /**
      * {@inheritDoc}
      */
     protected $listeners = [
@@ -58,6 +72,14 @@ class PaymentForm extends Component
         // This is critical to prevent charging incorrect amounts when cart contents change
         $this->cart->calculate();
 
+        // Return cached client secret if available AND cart total hasn't changed
+        // This prevents multiple API calls during Livewire re-renders while ensuring
+        // cart changes invalidate the cache
+        if ($this->cachedClientSecret !== null && 
+            $this->cachedClientSecret['total'] === $this->cart->total->value) {
+            return $this->cachedClientSecret['secret'];
+        }
+
         // Don't cancel payment intents if we're processing a return from Stripe
         // (indicated by payment_intent in query params)
         if (!request()->has('payment_intent')) {
@@ -77,7 +99,14 @@ class PaymentForm extends Component
         FacadesStripe::syncIntent($this->cart);
 
         $intent = FacadesStripe::createIntent($this->cart);
-        return $intent->client_secret;
+        
+        // Cache the client secret along with cart total to invalidate cache if cart changes
+        $this->cachedClientSecret = [
+            'secret' => $intent->client_secret,
+            'total' => $this->cart->total->value,
+        ];
+        
+        return $this->cachedClientSecret['secret'];
     }
 
     /**

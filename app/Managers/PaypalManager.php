@@ -49,6 +49,15 @@ class PaypalManager
         // and create a new order if they differ, but this could lead to orphaned PayPal orders.
         // For now, we always create a fresh order to ensure the amount is correct.
         // The previous order will be abandoned in PayPal's system.
+        //
+        // Implications of this approach:
+        // - Reporting/Reconciliation: Abandoned PayPal orders may appear in PayPal's dashboard and reports,
+        //   which could complicate reconciliation if not filtered out. Only completed orders should be considered for accounting.
+        // - Tracking/Cleanup: There is currently no mechanism to track or clean up abandoned PayPal orders.
+        //   If this becomes a problem (e.g., excessive abandoned orders), consider implementing a cleanup routine or tracking logic.
+        // - API Rate Limits: Creating a new PayPal order for every cart update increases API usage.
+        //   Be aware of PayPal's API rate limits and monitor usage, especially during high-traffic periods.
+        // If requirements change, revisit this logic to balance accuracy, reporting, and API usage.
 
         $paypalOrder = $this->buildOrder(
             $cart->total->value,

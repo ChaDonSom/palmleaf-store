@@ -3,13 +3,11 @@
 namespace Tests\Unit;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Lunar\DataTypes\Price;
 use Lunar\Models\Cart;
 use Lunar\Models\Currency;
 use Lunar\Models\Price as PriceModel;
 use Lunar\Models\ProductVariant;
 use Lunar\Models\TaxClass;
-use Lunar\Models\Channel;
 use Lunar\Models\Language;
 use Lunar\Models\CustomerGroup;
 use Tests\TestCase;
@@ -17,6 +15,13 @@ use Tests\TestCase;
 /**
  * Test to investigate the bug where an order with a single line item
  * with quantity 2 was charged for only 1 item.
+ * 
+ * Note on Cart Calculation Methods:
+ * - calculate(): Computes cart totals if not already calculated in current request.
+ *                If the cart was already calculated, it returns cached values.
+ * - recalculate(): Forces a fresh calculation regardless of cached state.
+ *                  Use this when cart data changes (quantities, items) and you need
+ *                  to ensure totals are recalculated.
  * 
  * @group cart.quantity.bug
  */
