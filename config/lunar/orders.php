@@ -24,6 +24,17 @@ return [
     |
     */
     'draft_status' => 'awaiting-payment',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Admin Notification Email
+    |--------------------------------------------------------------------------
+    |
+    | The email address to receive order placement notifications.
+    |
+    */
+    'admin_email' => env('ORDER_ADMIN_EMAIL', 'chasesgirl@live.com'),
+
     'statuses'     => [
         'awaiting-payment' => [
             'label'         => 'Awaiting Payment',

@@ -23,6 +23,7 @@
         "lunarphp/lunarmono": "^1.2",
         "meilisearch/meilisearch-php": "^1.6",
         "predis/predis": "^2.2",
+        "resend/resend-laravel": "^1.1",
         "srmklive/paypal": "^3.0"
     },
     "require-dev": {

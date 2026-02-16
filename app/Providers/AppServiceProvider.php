@@ -63,5 +63,8 @@ class AppServiceProvider extends ServiceProvider
 
         // Register view composers
         View::composer('components.footer', FooterComposer::class);
+
+        // Register Order observer
+        \Lunar\Models\Order::observe(\App\Observers\OrderObserver::class);
     }
 }
