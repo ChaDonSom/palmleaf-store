@@ -1,7 +1,7 @@
 @component('mail::message')
 # New Order Awaiting Capture
 
-An order has been placed on Palmleaf Store and is awaiting payment capture.
+An order has been placed on Woven in Agape and is awaiting payment capture.
 
 **Order Reference:** {{ $order->reference }}
 **Order Total:** {{ $order->total->formatted }}
